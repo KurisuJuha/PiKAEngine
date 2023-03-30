@@ -1,0 +1,17 @@
+{
+    "name": "jp.juhakurisu.pikaengine.editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:fa613fdc0bc774d1a978f504f7b1a6ae",
+        "GUID:aa894563a352a4744978ac8d47cfe39b"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
