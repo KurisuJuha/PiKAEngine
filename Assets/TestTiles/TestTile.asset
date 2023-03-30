@@ -13,19 +13,8 @@ MonoBehaviour:
   m_Name: TestTile
   m_EditorClassIdentifier: 
   _id: TestTile
-  components:
-  - rid: -2
-  - rid: -2
-  - rid: -2
-  - rid: -2
-  - rid: -2
-  - rid: -2
-  - rid: -2
-  - rid: -2
-  - rid: -2
-  test: 00000000
+  components: []
+  test: 00000000010000000600000006000000130001000400000006000000b1150000060000000600000005000000
   references:
     version: 2
-    RefIds:
-    - rid: -2
-      type: {class: , ns: , asm: }
+    RefIds: []

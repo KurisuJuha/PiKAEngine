@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEditor;
 using UnityEditorInternal;
@@ -42,11 +42,30 @@ namespace JuhaKurisu.PiKAEngine.Editors
             {
                 EditorGUI.LabelField(rect, "Components");
             };
+            reorderableList.onAddDropdownCallback = (rect, target) =>
+            {
+                GenericMenu menu = new();
+                foreach (var type in TypeCache.GetTypesDerivedFrom<TileComponent>())
+                {
+                    menu.AddItem(new GUIContent(type.Name), false, obj =>
+                    {
+                        var t = (Type)obj;
+                        var index = reorderableList.serializedProperty.arraySize;
+                        reorderableList.serializedProperty.arraySize++;
+                        var elementProp = reorderableList.serializedProperty.GetArrayElementAtIndex(index);
+                        elementProp.managedReferenceValue = (TileComponent)Activator.CreateInstance(type);
+                        serializedObject.ApplyModifiedProperties();
+                    }, type);
+                }
+                menu.ShowAsContext();
+            };
         }
 
         public override void OnInspectorGUI()
         {
+            serializedObject.Update();
             reorderableList.DoLayoutList();
+            serializedObject.ApplyModifiedProperties();
         }
     }
 }
