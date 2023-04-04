@@ -6,10 +6,13 @@ namespace JuhaKurisu.PiKAEngine.Logics.TileComponents
     [Serializable]
     public class TestTileComponent : TileComponent
     {
-        [SerializeField] private int testFloat;
+        [SerializeField] public string debugSting;
 
         public override TileComponent Copy() => new TestTileComponent();
 
-        public override void Update() { }
+        public override void Update()
+        {
+            Debug.Log(debugSting);
+        }
     }
 }

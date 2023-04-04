@@ -13,3 +13,20 @@ MonoBehaviour:
   m_Name: EmptyTile
   m_EditorClassIdentifier: 
   _id: EmptyTile
+  components:
+  - rid: 8401689442775990273
+  - rid: 8401689442775990272
+  test: 
+  references:
+    version: 2
+    RefIds:
+    - rid: 8401689442775990272
+      type: {class: TestTileComponent2, ns: JuhaKurisu.PiKAEngine.Logics.TileComponents, asm: jp.juhakurisu.pikaengine.runtime}
+      data:
+        test: 
+        testFloat: 0
+    - rid: 8401689442775990273
+      type: {class: TestTileComponent, ns: JuhaKurisu.PiKAEngine.Logics.TileComponents, asm: jp.juhakurisu.pikaengine.runtime}
+      data:
+        test: 
+        testFloat: 0

@@ -13,8 +13,14 @@ MonoBehaviour:
   m_Name: TestTile
   m_EditorClassIdentifier: 
   _id: TestTile
-  components: []
+  components:
+  - rid: 8401689507725574146
   test: 00000000010000000600000006000000130001000400000006000000b1150000060000000600000005000000
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 8401689507725574146
+      type: {class: TestTileComponent, ns: JuhaKurisu.PiKAEngine.Logics.TileComponents, asm: jp.juhakurisu.pikaengine.runtime}
+      data:
+        isEnable: 1
+        debugSting: 
