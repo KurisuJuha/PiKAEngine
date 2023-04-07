@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using AnnulusGames.LucidTools.Inspector;
 
@@ -10,6 +11,13 @@ namespace JuhaKurisu.PiKAEngine.Logics
         [SerializeField, DisableInPlayMode] private string _id;
         [SerializeField, SerializeReference] private TileComponent[] components;
 
-        public virtual Tile GenerateTile(Position position) => new(id, position, components);
+        public virtual Tile GenerateTile(Position position)
+        {
+            return new Tile(
+                id,
+                position,
+                components.Select(component => component.Copy()).ToArray()
+            );
+        }
     }
 }
