@@ -6,14 +6,12 @@ namespace JuhaKurisu.PiKAEngine.Logics.Items
 {
     public class Item : IDisposable
     {
-        public readonly string id;
         public readonly ReadOnlyCollection<ItemComponent> components;
         public IObservable<Item> onItemChanged => onItemChangedSubject;
         private readonly Subject<Item> onItemChangedSubject;
 
-        public Item(string id, ItemComponent[] components)
+        public Item(ItemComponent[] components)
         {
-            this.id = id;
             this.components = new(components);
 
             foreach (var component in components)
