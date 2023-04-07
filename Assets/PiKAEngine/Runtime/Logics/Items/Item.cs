@@ -2,7 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using UniRx;
 
-namespace JuhaKurisu.PiKAEngine.Logics
+namespace JuhaKurisu.PiKAEngine.Logics.Items
 {
     public class Item : IDisposable
     {
