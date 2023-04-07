@@ -1,6 +1,4 @@
 using System;
-using System.Linq;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UniRx;
 
@@ -8,19 +6,18 @@ namespace JuhaKurisu.PiKAEngine.Logics
 {
     public class Tile : IDisposable
     {
-        public string id { get; private set; }
-        public Position position;
-        public ReadOnlyCollection<TileComponent> components => new(_components);
+        public readonly string id;
+        public readonly Position position;
+        public readonly ReadOnlyCollection<TileComponent> components;
         public IObservable<Tile> onTileChanged => onTileChangedSubject;
         private readonly Subject<Tile> onTileChangedSubject = new();
-        private List<TileComponent> _components = new();
 
         public Tile(string id, Position position, TileComponent[] components)
         {
             this.id = id;
             this.position = position;
-            this._components = components.ToList();
-            foreach (var component in _components)
+            this.components = new(components);
+            foreach (var component in components)
             {
                 component.Initialize(this);
                 component.onTileComponentChanged.Subscribe(_ => onTileChangedSubject.OnNext(this));
