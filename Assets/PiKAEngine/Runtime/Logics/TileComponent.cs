@@ -12,9 +12,10 @@ namespace JuhaKurisu.PiKAEngine.Logics
 
         public void Initialize(Tile tile)
         {
-            if (tile != null) return;
+            if (this.tile != null) return;
             this.tile = tile;
         }
+
         public abstract void Update();
         public abstract TileComponent Copy();
 
