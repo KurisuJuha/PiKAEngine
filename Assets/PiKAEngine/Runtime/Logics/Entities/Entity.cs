@@ -10,6 +10,8 @@ namespace JuhaKurisu.PiKAEngine.Logics.Entities
         public readonly ReadOnlyCollection<EntityComponent> components;
         public IObservable<Entity> onEntityChanged => onEntityChangedSubject;
         private readonly Subject<Entity> onEntityChangedSubject;
+        public IObservable<Entity> onUpdate => onEntityChangedSubject;
+        private readonly Subject<Entity> onUpdateSubject;
 
         public Entity(EntityComponent[] components, EntitySettings entitySettings)
         {
@@ -20,6 +22,11 @@ namespace JuhaKurisu.PiKAEngine.Logics.Entities
                 component.Initialize(this);
                 component.onEntityComponentChanged.Subscribe(_ => onEntityChangedSubject.OnNext(this));
             }
+        }
+
+        public void Update()
+        {
+            onUpdateSubject.OnNext(this);
         }
 
         public void Dispose()
