@@ -1,23 +1,23 @@
 using System.Linq;
-using UnityEngine;
-using AnnulusGames.LucidTools.Inspector;
 
 namespace JuhaKurisu.PiKAEngine.Logics.Entities
 {
-    [HideMonoScript, CreateAssetMenu(menuName = "PiKAEngine/Entity", fileName = "newEntity")]
-    public class EntityContents : ScriptableObject
+    public class EntityContents
     {
-        [SerializeField, SerializeReference] private EntityComponent[] components;
+        private EntityComponent[] components;
+        private EntitySettings entitySettings;
 
-        public EntityContents(EntityComponent[] components)
+        public EntityContents(EntityComponent[] components, EntitySettings entitySettings)
         {
             this.components = components;
+            this.entitySettings = entitySettings;
         }
 
         public Entity GenerateEntity()
         {
             return new Entity(
-                components.Select(component => component.Copy()).ToArray()
+                components.Select(component => component.Copy()).ToArray(),
+                entitySettings
             );
         }
     }
