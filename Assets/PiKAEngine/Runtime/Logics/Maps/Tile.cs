@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.ObjectModel;
 using UniRx;
 
@@ -11,10 +12,11 @@ namespace JuhaKurisu.PiKAEngine.Logics.Maps
         public IObservable<Tile> onTileChanged => onTileChangedSubject;
         private readonly Subject<Tile> onTileChangedSubject = new();
 
-        public Tile(Position position, TileComponent[] components)
+        public Tile(Position position, TileComponent[] components, TileSettings tileSettings)
         {
             this.position = position;
-            this.components = new(components);
+            this.components = new(components.Concat(tileSettings.baseComponents).ToArray());
+
             foreach (var component in components)
             {
                 component.Initialize(this);
