@@ -11,7 +11,13 @@ namespace JuhaKurisu.PiKAEngine.Logics
         [SerializeField, DisableInPlayMode] private string _id;
         [SerializeField, SerializeReference] private TileComponent[] components;
 
-        public virtual Tile GenerateTile(Position position)
+        public TileContents(string id, TileComponent[] components)
+        {
+            this._id = id;
+            this.components = components;
+        }
+
+        public Tile GenerateTile(Position position)
         {
             return new Tile(
                 id,
