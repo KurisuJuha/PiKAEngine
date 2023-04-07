@@ -1,4 +1,4 @@
-namespace JuhaKurisu.PiKAEngine.Logics
+namespace JuhaKurisu.PiKAEngine.Logics.Maps
 {
     public struct Position
     {

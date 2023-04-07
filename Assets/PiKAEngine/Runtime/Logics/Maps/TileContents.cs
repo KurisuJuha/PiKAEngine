@@ -2,7 +2,7 @@ using System.Linq;
 using UnityEngine;
 using AnnulusGames.LucidTools.Inspector;
 
-namespace JuhaKurisu.PiKAEngine.Logics
+namespace JuhaKurisu.PiKAEngine.Logics.Maps
 {
     [HideMonoScript, CreateAssetMenu(menuName = "PiKAEngine/Tile", fileName = "newTile")]
     public class TileContents : ScriptableObject

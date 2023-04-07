@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using UnityEngine;
 using AnnulusGames.LucidTools.Inspector;
+using JuhaKurisu.PiKAEngine.Logics.Maps;
 
 namespace JuhaKurisu.PiKAEngine.Logics
 {
