@@ -33,12 +33,18 @@ namespace JuhaKurisu.PiKAEngine.Logics
             return tiles[x, y];
         }
 
+        public Tile GetTile(TilePosition tilePosition)
+            => GetTile(tilePosition.x, tilePosition.y);
+
         public void SetTile(int x, int y, TileContents tileContents)
         {
             tiles[x, y] = tileContents.GenerateTile(
                 new Position(position, new TilePosition(x, y))
             );
         }
+
+        public void SetTile(TilePosition tilePosition, TileContents tileContents)
+            => SetTile(tilePosition.x, tilePosition.y, tileContents);
 
         public void Dispose()
         {
