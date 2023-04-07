@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.ObjectModel;
 using UniRx;
 
@@ -10,9 +11,9 @@ namespace JuhaKurisu.PiKAEngine.Logics.Items
         public IObservable<Item> onItemChanged => onItemChangedSubject;
         private readonly Subject<Item> onItemChangedSubject;
 
-        public Item(ItemComponent[] components)
+        public Item(ItemComponent[] components, ItemSettings settings)
         {
-            this.components = new(components);
+            this.components = new(components.Concat(settings.baseComponents.Select(component => component.Copy())).ToArray());
 
             foreach (var component in components)
             {
