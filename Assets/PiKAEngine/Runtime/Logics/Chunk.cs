@@ -3,11 +3,13 @@ using UniRx;
 
 namespace JuhaKurisu.PiKAEngine.Logics
 {
-    public class Chunk
+    public class Chunk : IDisposable
     {
         public readonly ChunkPosition position;
         private readonly GameSettings settings;
         private Tile[,] tiles;
+        public IObservable<Tile> onTileChanged => onTileChangedSubject;
+        private readonly Subject<Tile> onTileChangedSubject = new();
 
         public Chunk(ChunkPosition position, GameSettings settings)
         {
@@ -20,6 +22,8 @@ namespace JuhaKurisu.PiKAEngine.Logics
                 for (int x = 0; x < settings.chunkSize.x; x++)
                 {
                     tiles[x, y] = settings.emptyTile.GenerateTile(new(position, x, y));
+                    tiles[x, y].onTileChanged
+                        .Subscribe(tile => onTileChangedSubject.OnNext(tile));
                 }
             }
         }
@@ -34,6 +38,17 @@ namespace JuhaKurisu.PiKAEngine.Logics
             tiles[x, y] = tileContents.GenerateTile(
                 new Position(position, new TilePosition(x, y))
             );
+        }
+
+        public void Dispose()
+        {
+            for (int y = 0; y < settings.chunkSize.y; y++)
+            {
+                for (int x = 0; x < settings.chunkSize.x; x++)
+                {
+                    tiles[x, y].Dispose();
+                }
+            }
         }
     }
 }
