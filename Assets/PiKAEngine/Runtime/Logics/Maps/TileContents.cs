@@ -5,12 +5,12 @@ namespace JuhaKurisu.PiKAEngine.Logics.Maps
     public class TileContents
     {
         private TileComponent[] components;
-        private TileSettings tileSettings;
+        private Map map;
 
-        public TileContents(TileComponent[] components, TileSettings tileSettings)
+        public TileContents(TileComponent[] components, Map map)
         {
             this.components = components;
-            this.tileSettings = tileSettings;
+            this.map = map;
         }
 
         public Tile GenerateTile(Position position)
@@ -18,7 +18,7 @@ namespace JuhaKurisu.PiKAEngine.Logics.Maps
             return new Tile(
                 position,
                 components.Select(component => component.Copy()).ToArray(),
-                tileSettings
+                map
             );
         }
     }
