@@ -7,15 +7,18 @@ namespace JuhaKurisu.PiKAEngine.Logics.Entities
 {
     public class Entity : IDisposable
     {
+        public readonly EntityManager entityManager;
         public readonly ReadOnlyCollection<EntityComponent> components;
         public IObservable<Entity> onEntityChanged => onEntityChangedSubject;
         private readonly Subject<Entity> onEntityChangedSubject;
         public IObservable<Entity> onUpdate => onEntityChangedSubject;
         private readonly Subject<Entity> onUpdateSubject;
+        private IDisposable entityUpdateDispose;
 
-        public Entity(EntityComponent[] components, EntitySettings entitySettings)
+        public Entity(EntityManager entityManager, params EntityComponent[] components)
         {
-            this.components = new(components.Concat(entitySettings.baseComponents.Select(component => component.Copy())).ToArray());
+            this.entityManager = entityManager;
+            this.components = new(components.Concat(entityManager.baseComponents.Select(component => component.Copy())).ToArray());
 
             foreach (var component in components)
             {
@@ -24,7 +27,17 @@ namespace JuhaKurisu.PiKAEngine.Logics.Entities
             }
         }
 
-        public void Update()
+        public void SubscribeEntityUpdate()
+        {
+            entityUpdateDispose = entityManager.onUpdate.Subscribe(_ => EntityUpdate());
+        }
+
+        public void UnsubscribeEntityUpdate()
+        {
+            entityUpdateDispose?.Dispose();
+        }
+
+        private void EntityUpdate()
         {
             onUpdateSubject.OnNext(this);
         }

@@ -9,6 +9,7 @@ namespace JuhaKurisu.PiKAEngine.Logics.Entities
         public IObservable<EntityComponent> onEntityComponentChanged => onEntityComponentChangedSubject;
         private readonly Subject<EntityComponent> onEntityComponentChangedSubject = new();
         private Entity entity;
+        private IDisposable componentUpdateDispose;
 
         public void Initialize(Entity entity)
         {
@@ -16,7 +17,17 @@ namespace JuhaKurisu.PiKAEngine.Logics.Entities
             this.entity = entity;
         }
 
-        public abstract void Update();
+        public void SubscribeComponentUpdate()
+        {
+            componentUpdateDispose = entity.onUpdate.Subscribe(_ => ComponentUpdate());
+        }
+
+        public void UnsubscribeComponentUpdate()
+        {
+            componentUpdateDispose?.Dispose();
+        }
+
+        protected abstract void ComponentUpdate();
         public abstract EntityComponent Copy();
 
         public void Dispose()

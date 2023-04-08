@@ -5,19 +5,19 @@ namespace JuhaKurisu.PiKAEngine.Logics.Entities
     public class EntityContents
     {
         private EntityComponent[] components;
-        private EntitySettings entitySettings;
+        private EntityManager entityManager;
 
-        public EntityContents(EntityComponent[] components, EntitySettings entitySettings)
+        public EntityContents(EntityComponent[] components, EntityManager entityManager)
         {
             this.components = components;
-            this.entitySettings = entitySettings;
+            this.entityManager = entityManager;
         }
 
         public Entity GenerateEntity()
         {
             return new Entity(
-                components.Select(component => component.Copy()).ToArray(),
-                entitySettings
+                entityManager,
+                components.Select(component => component.Copy()).ToArray()
             );
         }
     }
