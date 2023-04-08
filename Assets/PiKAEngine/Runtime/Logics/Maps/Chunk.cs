@@ -6,22 +6,22 @@ namespace JuhaKurisu.PiKAEngine.Logics.Maps
     public class Chunk : IDisposable
     {
         public readonly ChunkPosition position;
-        private readonly GameSettings settings;
+        private readonly Map map;
         private Tile[,] tiles;
         public IObservable<Tile> onTileChanged => onTileChangedSubject;
         private readonly Subject<Tile> onTileChangedSubject = new();
 
-        public Chunk(ChunkPosition position, GameSettings settings)
+        public Chunk(ChunkPosition position, Map map)
         {
             this.position = position;
-            this.settings = settings;
+            this.map = map;
 
-            tiles = new Tile[settings.chunkSize.x, settings.chunkSize.y];
-            for (int y = 0; y < settings.chunkSize.y; y++)
+            tiles = new Tile[map.chunkSize.x, map.chunkSize.y];
+            for (int y = 0; y < map.chunkSize.y; y++)
             {
-                for (int x = 0; x < settings.chunkSize.x; x++)
+                for (int x = 0; x < map.chunkSize.x; x++)
                 {
-                    tiles[x, y] = settings.emptyTile.GenerateTile(new(position, x, y));
+                    tiles[x, y] = map.emptyTile.GenerateTile(new(position, x, y));
                     tiles[x, y].onTileChanged
                         .Subscribe(tile => onTileChangedSubject.OnNext(tile));
                 }
@@ -48,9 +48,9 @@ namespace JuhaKurisu.PiKAEngine.Logics.Maps
 
         public void Dispose()
         {
-            for (int y = 0; y < settings.chunkSize.y; y++)
+            for (int y = 0; y < map.chunkSize.y; y++)
             {
-                for (int x = 0; x < settings.chunkSize.x; x++)
+                for (int x = 0; x < map.chunkSize.x; x++)
                 {
                     tiles[x, y].Dispose();
                 }
