@@ -7,13 +7,15 @@ namespace JuhaKurisu.PiKAEngine.Logics.Items
 {
     public class Item : IDisposable
     {
+        public readonly ItemManager itemManager;
         public readonly ReadOnlyCollection<ItemComponent> components;
         public IObservable<Item> onItemChanged => onItemChangedSubject;
         private readonly Subject<Item> onItemChangedSubject;
 
-        public Item(ItemComponent[] components, ItemSettings settings)
+        public Item(ItemManager itemManager, params ItemComponent[] components)
         {
-            this.components = new(components.Concat(settings.baseComponents.Select(component => component.Copy())).ToArray());
+            this.itemManager = itemManager;
+            this.components = new(components.Concat(itemManager.baseComponents.Select(component => component.Copy())).ToArray());
 
             foreach (var component in components)
             {

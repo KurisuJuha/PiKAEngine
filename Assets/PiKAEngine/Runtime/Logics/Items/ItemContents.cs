@@ -5,19 +5,19 @@ namespace JuhaKurisu.PiKAEngine.Logics.Items
     public class ItemContents
     {
         private ItemComponent[] components;
-        private ItemSettings itemSettings;
+        private ItemManager itemManager;
 
-        public ItemContents(ItemComponent[] components, ItemSettings itemSettings)
+        public ItemContents(ItemComponent[] components, ItemManager itemManager)
         {
             this.components = components;
-            this.itemSettings = itemSettings;
+            this.itemManager = itemManager;
         }
 
         public Item GenerateItem()
         {
             return new Item(
-                components.Select(component => component.Copy()).ToArray(),
-                itemSettings
+                itemManager,
+                components.Select(component => component.Copy()).ToArray()
             );
         }
     }
