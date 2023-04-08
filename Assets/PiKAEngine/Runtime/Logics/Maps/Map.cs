@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using UnityEngine;
 using UniRx;
 
 namespace JuhaKurisu.PiKAEngine.Logics.Maps
@@ -9,12 +10,25 @@ namespace JuhaKurisu.PiKAEngine.Logics.Maps
     {
         public ReadOnlyDictionary<ChunkPosition, Chunk> chunks => new(_chunks);
         private readonly Dictionary<ChunkPosition, Chunk> _chunks;
+        public readonly ReadOnlyCollection<TileComponent> baseComponents;
         private IObservable<Tile> onTileChanged => onTileChangedSubject;
         public readonly Subject<Tile> onTileChangedSubject = new();
+        public IObservable<Unit> onUpdate => onUpdateSubject;
+        private readonly Subject<Unit> onUpdateSubject = new();
+        public readonly Vector2Int chunkSize;
+        public readonly TileContents emptyTile;
 
-        public Map()
+        public Map(Vector2Int chunkSize, TileContents emptyTile, TileComponent[] baseComponents)
         {
+            this.chunkSize = chunkSize;
+            this.emptyTile = emptyTile;
+            this.baseComponents = new(baseComponents);
             _chunks = new();
+        }
+
+        public void Update()
+        {
+            onUpdateSubject.OnNext(Unit.Default);
         }
 
         public bool TryAddChunk(Chunk chunk)
