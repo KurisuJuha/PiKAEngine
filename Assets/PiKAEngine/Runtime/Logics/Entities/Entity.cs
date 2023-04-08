@@ -13,7 +13,7 @@ namespace JuhaKurisu.PiKAEngine.Logics.Entities
         private readonly Subject<Entity> onEntityChangedSubject;
         public IObservable<Entity> onUpdate => onEntityChangedSubject;
         private readonly Subject<Entity> onUpdateSubject;
-        private IDisposable entityUpdateDispose;
+        private IDisposable entityUpdateDisposable;
 
         public Entity(EntityManager entityManager, params EntityComponent[] components)
         {
@@ -29,12 +29,12 @@ namespace JuhaKurisu.PiKAEngine.Logics.Entities
 
         public void SubscribeEntityUpdate()
         {
-            entityUpdateDispose = entityManager.onUpdate.Subscribe(_ => EntityUpdate());
+            entityUpdateDisposable = entityManager.onUpdate.Subscribe(_ => EntityUpdate());
         }
 
         public void UnsubscribeEntityUpdate()
         {
-            entityUpdateDispose?.Dispose();
+            entityUpdateDisposable?.Dispose();
         }
 
         private void EntityUpdate()
