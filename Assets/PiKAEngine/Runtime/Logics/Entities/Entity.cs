@@ -29,6 +29,7 @@ namespace JuhaKurisu.PiKAEngine.Logics.Entities
 
         public void SubscribeEntityUpdate()
         {
+            if (entityUpdateDisposable is not null) return;
             entityUpdateDisposable = entityManager.onUpdate.Subscribe(_ => EntityUpdate());
         }
 
