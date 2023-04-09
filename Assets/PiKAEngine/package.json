@@ -3,6 +3,7 @@
     "displayName": "PiKAEngine",
     "version": "0.0.0",
     "dependencies": {
+        "jp.juhakurisu.popodeterministic": "0.0.0",
         "jp.juhakurisu.popoinventory": "1.3.1",
         "jp.juhakurisu.popomarkup": "1.0.0",
         "jp.juhakurisu.popoutility": "2.0.0"
