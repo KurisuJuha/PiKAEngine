@@ -16,7 +16,11 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Items
         {
             if (this.item != null) return;
             this.item = item;
-            componentStartDisposable = item.onStart.Subscribe(_ => ComponentStart());
+            componentStartDisposable = item.onStart.Subscribe(_ =>
+            {
+                ComponentStart();
+                componentStartDisposable.Dispose();
+            });
         }
 
         public void SubscribeComponentUpdate()
