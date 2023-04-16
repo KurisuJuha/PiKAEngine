@@ -16,7 +16,7 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Entities
         private List<Entity> addingEntities = new();
         private List<Entity> removingEntities = new();
 
-        public EntityManager(EntityComponent[] baseComponents)
+        public EntityManager(params EntityComponent[] baseComponents)
         {
             this.baseComponents = new(baseComponents);
         }
