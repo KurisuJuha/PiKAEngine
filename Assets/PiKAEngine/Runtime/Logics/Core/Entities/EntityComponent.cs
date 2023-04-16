@@ -8,7 +8,7 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Entities
     {
         public IObservable<EntityComponent> onEntityComponentChanged => onEntityComponentChangedSubject;
         private readonly Subject<EntityComponent> onEntityComponentChangedSubject = new();
-        private Entity entity;
+        protected Entity entity { get; private set; }
         private IDisposable componentUpdateDisposable;
         private IDisposable componentStartDisposable;
 

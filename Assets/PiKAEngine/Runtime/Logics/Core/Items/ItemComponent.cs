@@ -8,7 +8,7 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Items
     {
         public IObservable<ItemComponent> onItemComponentChanged => onItemComponentChangedSubject;
         private readonly Subject<ItemComponent> onItemComponentChangedSubject = new();
-        private Item item;
+        protected Item item { get; private set; }
 
         public void Initialize(Item item)
         {

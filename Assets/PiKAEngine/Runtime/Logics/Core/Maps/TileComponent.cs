@@ -8,7 +8,7 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Maps
     {
         public IObservable<TileComponent> onTileComponentChanged => onTileComponentChangedSubject;
         private readonly Subject<TileComponent> onTileComponentChangedSubject = new();
-        private Tile tile;
+        protected Tile tile { get; private set; }
 
         public void Initialize(Tile tile)
         {
