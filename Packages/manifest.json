@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.annulusgames.lucid-editor": "https://github.com/AnnulusGames/LucidEditor.git?path=/Assets/LucidEditor",
+    "com.annulusgames.lucid-editor": "file:C:/Users/KurisuJuha/Documents/GitHub/LucidEditor/Assets/LucidEditor",
     "com.unity.collab-proxy": "2.0.1",
     "com.unity.feature.2d": "1.0.0",
     "com.unity.ide.rider": "3.0.18",
@@ -12,10 +12,11 @@
     "com.unity.timeline": "1.6.4",
     "com.unity.ugui": "1.0.0",
     "com.unity.visualscripting": "1.8.0",
+    "jp.juhakurisu.popocollider": "file:C:/Users/KurisuJuha/Documents/GitHub/popoCollider/Assets/popoCollider",
     "jp.juhakurisu.popodeterministic": "file:C:/Users/KurisuJuha/Documents/GitHub/popoDeterministic/Assets/popoDeterministic",
-    "jp.juhakurisu.popoinventory": "1.3.1",
-    "jp.juhakurisu.popomarkup": "1.0.0",
-    "jp.juhakurisu.popoutility": "2.0.0",
+    "jp.juhakurisu.popoinventory": "file:C:/Users/KurisuJuha/Documents/GitHub/popoInventory/Assets/popoInventory",
+    "jp.juhakurisu.popomarkup": "file:C:/Users/KurisuJuha/Documents/GitHub/popoMarkup/Assets/popoMarkup",
+    "jp.juhakurisu.popoutility": "file:C:/Users/KurisuJuha/Documents/GitHub/popoUtility/Assets/popoUtility",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
