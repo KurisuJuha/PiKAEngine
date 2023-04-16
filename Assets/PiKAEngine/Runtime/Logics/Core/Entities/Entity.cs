@@ -10,11 +10,11 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Entities
         public readonly EntityManager entityManager;
         public readonly ReadOnlyCollection<EntityComponent> components;
         public IObservable<Entity> onEntityChanged => onEntityChangedSubject;
-        private readonly Subject<Entity> onEntityChangedSubject;
+        private readonly Subject<Entity> onEntityChangedSubject = new();
         public IObservable<Entity> onUpdate => onEntityChangedSubject;
-        private readonly Subject<Entity> onUpdateSubject;
+        private readonly Subject<Entity> onUpdateSubject = new();
         public IObservable<Entity> onStart => onStartSubject;
-        private readonly Subject<Entity> onStartSubject;
+        private readonly Subject<Entity> onStartSubject = new();
         private IDisposable entityUpdateDisposable;
         private IDisposable entityStartDisposable;
 

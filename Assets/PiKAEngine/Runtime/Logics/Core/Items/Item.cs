@@ -10,11 +10,11 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Items
         public readonly ItemManager itemManager;
         public readonly ReadOnlyCollection<ItemComponent> components;
         public IObservable<Item> onItemChanged => onItemChangedSubject;
-        private readonly Subject<Item> onItemChangedSubject;
+        private readonly Subject<Item> onItemChangedSubject = new();
         public IObservable<Item> onUpdate => onUpdateSubject;
-        private readonly Subject<Item> onUpdateSubject;
+        private readonly Subject<Item> onUpdateSubject = new();
         public IObservable<Item> onStart => onStartSubject;
-        private readonly Subject<Item> onStartSubject;
+        private readonly Subject<Item> onStartSubject = new();
         private IDisposable itemUpdateDisposable;
         private IDisposable itemStartDisposable;
 
