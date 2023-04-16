@@ -13,7 +13,10 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Items
         private readonly Subject<Item> onItemChangedSubject;
         public IObservable<Item> onUpdate => onUpdateSubject;
         private readonly Subject<Item> onUpdateSubject;
+        public IObservable<Item> onStart => onStartSubject;
+        private readonly Subject<Item> onStartSubject;
         private IDisposable itemUpdateDisposable;
+        private IDisposable itemStartDisposable;
 
         public Item(ItemManager itemManager, params ItemComponent[] components)
         {
@@ -25,6 +28,12 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Items
                 component.Initialize(this);
                 component.onItemComponentChanged.Subscribe(_ => onItemChangedSubject.OnNext(this));
             }
+
+            itemStartDisposable = itemManager.onUpdate.Subscribe(_ =>
+            {
+                ItemStart();
+                itemStartDisposable.Dispose();
+            });
         }
 
         public void SubscribeItemUpdate()
@@ -38,6 +47,11 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Items
             itemUpdateDisposable?.Dispose();
         }
 
+        private void ItemStart()
+        {
+            onStartSubject.OnNext(this);
+        }
+
         private void ItemUpdate()
         {
             onUpdateSubject.OnNext(this);
@@ -49,6 +63,8 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Items
             {
                 component.Dispose();
             }
+            itemUpdateDisposable?.Dispose();
+            itemStartDisposable?.Dispose();
             onItemChangedSubject.Dispose();
         }
     }
