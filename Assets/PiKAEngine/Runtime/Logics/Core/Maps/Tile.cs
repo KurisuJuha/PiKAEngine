@@ -25,7 +25,7 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Maps
             this.components = new(components.Concat(map.baseComponents).ToArray());
             this.map = map;
 
-            foreach (var component in components)
+            foreach (var component in this.components)
             {
                 component.Initialize(this);
                 component.onTileComponentChanged.Subscribe(_ => onTileChangedSubject.OnNext(this));

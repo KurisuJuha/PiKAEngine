@@ -23,7 +23,7 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Items
             this.itemManager = itemManager;
             this.components = new(components.Concat(itemManager.baseComponents.Select(component => component.Copy())).ToArray());
 
-            foreach (var component in components)
+            foreach (var component in this.components)
             {
                 component.Initialize(this);
                 component.onItemComponentChanged.Subscribe(_ => onItemChangedSubject.OnNext(this));

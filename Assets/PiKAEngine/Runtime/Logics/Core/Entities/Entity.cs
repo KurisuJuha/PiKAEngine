@@ -23,7 +23,7 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Entities
             this.entityManager = entityManager;
             this.components = new(components.Concat(entityManager.baseComponents.Select(component => component.Copy())).ToArray());
 
-            foreach (var component in components)
+            foreach (var component in this.components)
             {
                 component.Initialize(this);
                 component.onEntityComponentChanged.Subscribe(_ => onEntityChangedSubject.OnNext(this));
