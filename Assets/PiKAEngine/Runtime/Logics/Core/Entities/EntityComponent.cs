@@ -16,7 +16,11 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Entities
         {
             if (this.entity != null) return;
             this.entity = entity;
-            componentStartDisposable = entity.onStart.Subscribe(_ => ComponentStart());
+            componentStartDisposable = entity.onStart.Subscribe(_ =>
+            {
+                ComponentStart();
+                componentStartDisposable.Dispose();
+            });
         }
 
         public void SubscribeComponentUpdate()
