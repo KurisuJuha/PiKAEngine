@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace JuhaKurisu.PiKAEngine.Logics.Maps
+namespace JuhaKurisu.PiKAEngine.Logics.Core.Maps
 {
     public class TileContents
     {

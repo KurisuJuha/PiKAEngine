@@ -3,7 +3,7 @@ using System.Linq;
 using System.Collections.ObjectModel;
 using UniRx;
 
-namespace JuhaKurisu.PiKAEngine.Logics.Entities
+namespace JuhaKurisu.PiKAEngine.Logics.Core.Entities
 {
     public class Entity : IDisposable
     {

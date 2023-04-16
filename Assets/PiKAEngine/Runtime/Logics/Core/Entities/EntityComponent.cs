@@ -1,7 +1,7 @@
 using System;
 using UniRx;
 
-namespace JuhaKurisu.PiKAEngine.Logics.Entities
+namespace JuhaKurisu.PiKAEngine.Logics.Core.Entities
 {
     [Serializable]
     public abstract class EntityComponent : IDisposable

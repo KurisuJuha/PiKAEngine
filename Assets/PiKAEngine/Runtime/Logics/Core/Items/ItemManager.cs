@@ -2,7 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using UniRx;
 
-namespace JuhaKurisu.PiKAEngine.Logics.Items
+namespace JuhaKurisu.PiKAEngine.Logics.Core.Items
 {
     public class ItemManager
     {

@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace JuhaKurisu.PiKAEngine.Logics.Items
+namespace JuhaKurisu.PiKAEngine.Logics.Core.Items
 {
     public class ItemContents
     {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UniRx;
 
-namespace JuhaKurisu.PiKAEngine.Logics.Entities
+namespace JuhaKurisu.PiKAEngine.Logics.Core.Entities
 {
     public class EntityManager
     {

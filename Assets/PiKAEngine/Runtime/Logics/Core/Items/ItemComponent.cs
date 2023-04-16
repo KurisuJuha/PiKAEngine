@@ -1,7 +1,7 @@
 using System;
 using UniRx;
 
-namespace JuhaKurisu.PiKAEngine.Logics.Items
+namespace JuhaKurisu.PiKAEngine.Logics.Core.Items
 {
     [Serializable]
     public abstract class ItemComponent : IDisposable

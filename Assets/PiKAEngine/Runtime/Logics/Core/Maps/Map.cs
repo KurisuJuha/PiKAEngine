@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using UnityEngine;
 using UniRx;
 
-namespace JuhaKurisu.PiKAEngine.Logics.Maps
+namespace JuhaKurisu.PiKAEngine.Logics.Core.Maps
 {
     public class Map : IDisposable
     {

@@ -1,4 +1,4 @@
-namespace JuhaKurisu.PiKAEngine.Logics.Maps
+namespace JuhaKurisu.PiKAEngine.Logics.Core.Maps
 {
     public struct TilePosition
     {

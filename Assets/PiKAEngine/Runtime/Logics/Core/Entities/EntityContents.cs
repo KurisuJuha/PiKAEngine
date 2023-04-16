@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace JuhaKurisu.PiKAEngine.Logics.Entities
+namespace JuhaKurisu.PiKAEngine.Logics.Core.Entities
 {
     public class EntityContents
     {

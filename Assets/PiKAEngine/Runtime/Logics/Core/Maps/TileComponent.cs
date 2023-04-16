@@ -1,7 +1,7 @@
 using System;
 using UniRx;
 
-namespace JuhaKurisu.PiKAEngine.Logics.Maps
+namespace JuhaKurisu.PiKAEngine.Logics.Core.Maps
 {
     [Serializable]
     public abstract class TileComponent : IDisposable
