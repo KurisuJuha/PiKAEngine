@@ -248,26 +248,8 @@
       },
       "url": "https://packages.unity.com"
     },
-    "jp.juhakurisu.popocollider": {
-      "version": "file:C:/Users/KurisuJuha/Documents/GitHub/popoCollider/Assets/popoCollider",
-      "depth": 0,
-      "source": "local",
-      "dependencies": {}
-    },
     "jp.juhakurisu.popodeterministic": {
       "version": "file:C:/Users/KurisuJuha/Documents/GitHub/popoDeterministic/Assets/popoDeterministic",
-      "depth": 0,
-      "source": "local",
-      "dependencies": {}
-    },
-    "jp.juhakurisu.popoinventory": {
-      "version": "file:C:/Users/KurisuJuha/Documents/GitHub/popoInventory/Assets/popoInventory",
-      "depth": 0,
-      "source": "local",
-      "dependencies": {}
-    },
-    "jp.juhakurisu.popomarkup": {
-      "version": "file:C:/Users/KurisuJuha/Documents/GitHub/popoMarkup/Assets/popoMarkup",
       "depth": 0,
       "source": "local",
       "dependencies": {}
