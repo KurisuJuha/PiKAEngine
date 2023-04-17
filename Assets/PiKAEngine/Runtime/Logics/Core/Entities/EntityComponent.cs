@@ -33,6 +33,11 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Entities
             componentUpdateDisposable?.Dispose();
         }
 
+        public void NotifyChanged()
+        {
+            onEntityComponentChangedSubject.OnNext(this);
+        }
+
         protected virtual void ComponentStart() { }
         protected virtual void ComponentUpdate() { }
         public abstract EntityComponent Copy();
