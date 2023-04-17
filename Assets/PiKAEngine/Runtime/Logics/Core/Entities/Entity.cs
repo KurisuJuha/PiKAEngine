@@ -11,7 +11,7 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Entities
         public readonly ReadOnlyCollection<EntityComponent> components;
         public IObservable<Entity> onEntityChanged => onEntityChangedSubject;
         private readonly Subject<Entity> onEntityChangedSubject = new();
-        public IObservable<Entity> onUpdate => onEntityChangedSubject;
+        public IObservable<Entity> onUpdate => onUpdateSubject;
         private readonly Subject<Entity> onUpdateSubject = new();
         public IObservable<Entity> onStart => onStartSubject;
         private readonly Subject<Entity> onStartSubject = new();
