@@ -4,7 +4,7 @@ using UniRx;
 
 namespace JuhaKurisu.PiKAEngine.Logics.Core.Items
 {
-    public class ItemManager
+    public class ItemManager : IDisposable
     {
         public readonly ReadOnlyCollection<ItemComponent> baseComponents;
         public IObservable<Unit> onUpdate => onUpdateSubject;
@@ -18,6 +18,11 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Items
         public void Update()
         {
             onUpdateSubject.OnNext(Unit.Default);
+        }
+
+        public void Dispose()
+        {
+            onUpdateSubject.Dispose();
         }
     }
 }
