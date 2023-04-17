@@ -43,6 +43,7 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Maps
         public void Dispose()
         {
             onTileChangedSubject.Dispose();
+            onUpdateSubject.Dispose();
             foreach (var chunk in chunks.Values)
             {
                 chunk.Dispose();
