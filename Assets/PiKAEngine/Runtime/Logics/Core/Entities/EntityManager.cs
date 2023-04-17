@@ -4,7 +4,7 @@ using UniRx;
 
 namespace JuhaKurisu.PiKAEngine.Logics.Core.Entities
 {
-    public class EntityManager
+    public class EntityManager : IDisposable
     {
         public readonly ReadOnlyCollection<EntityComponent> baseComponents;
         public IObservable<Unit> onUpdate => onUpdateSubject;
@@ -18,6 +18,11 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Entities
         public void Update()
         {
             onUpdateSubject.OnNext(Unit.Default);
+        }
+
+        public void Dispose()
+        {
+            onUpdateSubject.Dispose();
         }
     }
 }
