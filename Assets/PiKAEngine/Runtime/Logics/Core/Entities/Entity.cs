@@ -47,12 +47,12 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Entities
             entityUpdateDisposable?.Dispose();
         }
 
-        public T[] GetComponents<T>() where T : EntityComponent
+        public EntityComponent[] GetComponents<T>()
         {
-            return (T[])components.Where(component => component is T).ToArray();
+            return components.Where(component => component is T).ToArray();
         }
 
-        public T GetComponentFirst<T>() where T : EntityComponent
+        public EntityComponent GetComponentFirst<T>() where T : EntityComponent
             => GetComponents<T>().First();
 
         private void EntityStart()
