@@ -8,7 +8,7 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Maps
     public class Tile : IDisposable
     {
         public readonly Position position;
-        public readonly ReadOnlyCollection<TileComponent> components;
+        public ReadOnlyCollection<TileComponent> components { get; private set; }
         public IObservable<Tile> onTileChanged => onTileChangedSubject;
         private readonly Subject<Tile> onTileChangedSubject = new();
         public IObservable<Tile> onUpdate => onUpdateSubject;
@@ -24,7 +24,15 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Maps
             this.position = position;
             this.components = new(components.Concat(map.baseComponents).ToArray());
             this.map = map;
+        }
 
+        private Tile(Map map)
+        {
+            this.map = map;
+        }
+
+        private void Initialize()
+        {
             foreach (var component in this.components)
             {
                 component.Initialize(this);
@@ -68,6 +76,15 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Maps
             tileUpdateDisposable?.Dispose();
             tileStartDisposable?.Dispose();
             onTileChangedSubject.Dispose();
+        }
+
+        public Tile Copy()
+        {
+            Tile copy = new Tile(map);
+            copy.components = new(components.Select(component => component.Copy()).ToArray());
+
+            copy.Initialize();
+            return copy;
         }
     }
 }
