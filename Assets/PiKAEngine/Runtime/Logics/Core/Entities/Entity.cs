@@ -18,10 +18,10 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Entities
         private IDisposable entityUpdateDisposable;
         private IDisposable entityStartDisposable;
 
-        public Entity(EntityManager entityManager, params EntityComponent[] componentsNotIncludingBaseComponents)
+        public Entity(EntityManager entityManager, params EntityComponent[] uniqueComponents)
         {
             this.entityManager = entityManager;
-            this.components = new(componentsNotIncludingBaseComponents.Concat(entityManager.baseComponents.Select(component => component.Copy())).ToArray());
+            this.components = new(uniqueComponents.Concat(entityManager.baseComponents.Select(component => component.Copy())).ToArray());
             Initialize();
         }
 
