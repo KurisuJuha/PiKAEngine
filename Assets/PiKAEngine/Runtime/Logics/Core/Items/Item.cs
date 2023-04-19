@@ -8,7 +8,7 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Items
     public class Item : IDisposable
     {
         public readonly ItemManager itemManager;
-        public readonly ReadOnlyCollection<ItemComponent> components;
+        public ReadOnlyCollection<ItemComponent> components { get; private set; }
         public IObservable<Item> onItemChanged => onItemChangedSubject;
         private readonly Subject<Item> onItemChangedSubject = new();
         public IObservable<Item> onUpdate => onUpdateSubject;
@@ -18,11 +18,20 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Items
         private IDisposable itemUpdateDisposable;
         private IDisposable itemStartDisposable;
 
-        public Item(ItemManager itemManager, params ItemComponent[] components)
+        public Item(ItemManager itemManager, params ItemComponent[] uniqueComponents)
         {
             this.itemManager = itemManager;
-            this.components = new(components.Concat(itemManager.baseComponents.Select(component => component.Copy())).ToArray());
+            this.components = new(uniqueComponents.Concat(itemManager.baseComponents.Select(component => component.Copy())).ToArray());
+            Initialize();
+        }
 
+        private Item(ItemManager itemManager)
+        {
+            this.itemManager = itemManager;
+        }
+
+        private void Initialize()
+        {
             foreach (var component in this.components)
             {
                 component.Initialize(this);
@@ -66,6 +75,15 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Items
             itemUpdateDisposable?.Dispose();
             itemStartDisposable?.Dispose();
             onItemChangedSubject.Dispose();
+        }
+
+        public Item Copy()
+        {
+            Item copy = new Item(itemManager);
+            copy.components = new(components.Select(component => component.Copy()).ToArray());
+
+            copy.Initialize();
+            return copy;
         }
     }
 }
