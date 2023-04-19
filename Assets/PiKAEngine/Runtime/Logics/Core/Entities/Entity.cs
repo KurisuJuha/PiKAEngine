@@ -8,7 +8,7 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Entities
     public class Entity : IDisposable
     {
         public readonly EntityManager entityManager;
-        public readonly ReadOnlyCollection<EntityComponent> components;
+        public ReadOnlyCollection<EntityComponent> components { get; private set; }
         public IObservable<Entity> onEntityChanged => onEntityChangedSubject;
         private readonly Subject<Entity> onEntityChangedSubject = new();
         public IObservable<Entity> onUpdate => onUpdateSubject;
@@ -18,11 +18,20 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Entities
         private IDisposable entityUpdateDisposable;
         private IDisposable entityStartDisposable;
 
-        public Entity(EntityManager entityManager, params EntityComponent[] components)
+        public Entity(EntityManager entityManager, params EntityComponent[] componentsNotIncludingBaseComponents)
         {
             this.entityManager = entityManager;
-            this.components = new(components.Concat(entityManager.baseComponents.Select(component => component.Copy())).ToArray());
+            this.components = new(componentsNotIncludingBaseComponents.Concat(entityManager.baseComponents.Select(component => component.Copy())).ToArray());
+            Initialize();
+        }
 
+        private Entity(EntityManager entityManager)
+        {
+            this.entityManager = entityManager;
+        }
+
+        private void Initialize()
+        {
             foreach (var component in this.components)
             {
                 component.Initialize(this);
@@ -52,7 +61,7 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Entities
             return components.Where(component => component is T).ToArray();
         }
 
-        public EntityComponent GetComponentFirst<T>() where T : EntityComponent
+        public EntityComponent GetComponentFirst<T>()
             => GetComponents<T>().First();
 
         private void EntityStart()
@@ -74,6 +83,15 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Entities
             entityUpdateDisposable?.Dispose();
             entityStartDisposable?.Dispose();
             onEntityChangedSubject.Dispose();
+        }
+
+        public Entity Copy()
+        {
+            Entity copy = new Entity(entityManager);
+            copy.components = new(components.Select(component => component.Copy()).ToArray());
+
+            copy.Initialize();
+            return copy;
         }
     }
 }
