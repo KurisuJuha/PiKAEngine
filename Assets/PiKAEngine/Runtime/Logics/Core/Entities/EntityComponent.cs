@@ -1,52 +1,32 @@
 using System;
-using UniRx;
+using JuhaKurisu.PopoTools.ComponentSystem;
 
 namespace JuhaKurisu.PiKAEngine.Logics.Core.Entities
 {
-    [Serializable]
-    public abstract class EntityComponent : IDisposable
+    public abstract class EntityComponent : IComponent
     {
-        public IObservable<EntityComponent> onEntityComponentChanged => onEntityComponentChangedSubject;
-        private readonly Subject<EntityComponent> onEntityComponentChangedSubject = new();
-        protected Entity entity { get; private set; }
-        private IDisposable componentUpdateDisposable;
-        private IDisposable componentStartDisposable;
+        private readonly ComponentBase componentBase = new();
+        public IObservable<IComponent> onStarted => componentBase.onStarted;
+        public IObservable<IComponent> onUpdated => componentBase.onUpdated;
+        public IObservable<IComponent> onChanged => componentBase.onChanged;
+        public IEntity entity => componentBase.entity;
 
-        public void Initialize(Entity entity)
-        {
-            if (this.entity != null) return;
-            this.entity = entity;
-            componentStartDisposable = entity.onStart.Subscribe(_ =>
-            {
-                ComponentStart();
-                componentStartDisposable.Dispose();
-            });
-        }
-
-        public void SubscribeComponentUpdate()
-        {
-            componentUpdateDisposable = entity.onUpdate.Subscribe(_ => ComponentUpdate());
-        }
-
-        public void UnsubscribeComponentUpdate()
-        {
-            componentUpdateDisposable?.Dispose();
-        }
-
-        public void NotifyChanged()
-        {
-            onEntityComponentChangedSubject.OnNext(this);
-        }
-
-        protected virtual void ComponentStart() { }
-        protected virtual void ComponentUpdate() { }
-        public abstract EntityComponent Copy();
+        public virtual IComponent Copy()
+            => componentBase.Copy();
 
         public void Dispose()
-        {
-            onEntityComponentChangedSubject.Dispose();
-            componentUpdateDisposable?.Dispose();
-            componentStartDisposable?.Dispose();
-        }
+            => componentBase.Dispose();
+
+        public void Initialize(IEntity entity)
+            => componentBase.Initialize(entity);
+
+        public void NotifyChanged()
+            => componentBase.NotifyChanged();
+
+        public void SubscribeUpdate()
+            => componentBase.SubscribeUpdate();
+
+        public void UnsubscribeUpdate()
+            => componentBase.UnsubscribeUpdate();
     }
 }
