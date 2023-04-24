@@ -1,24 +1,35 @@
 using System;
+using UniRx;
 using JuhaKurisu.PopoTools.ComponentSystem;
 
 namespace JuhaKurisu.PiKAEngine.Logics.Core.Entities
 {
-    public abstract class EntityComponent : IComponent
+    public abstract class EntityComponent : IComponent<Entity, EntityComponent>
     {
-        private readonly ComponentBase componentBase = new();
-        public IObservable<IComponent> onStarted => componentBase.onStarted;
-        public IObservable<IComponent> onUpdated => componentBase.onUpdated;
-        public IObservable<IComponent> onChanged => componentBase.onChanged;
-        public IEntity entity => componentBase.entity;
+        private readonly ComponentBase<Entity, EntityComponent> componentBase;
+        public IObservable<EntityComponent> onStarted => componentBase.onStarted;
+        public IObservable<EntityComponent> onUpdated => componentBase.onUpdated;
+        public IObservable<EntityComponent> onChanged => componentBase.onChanged;
+        public Entity entity => componentBase.entity;
 
-        public virtual IComponent Copy()
-            => componentBase.Copy();
+        public EntityComponent()
+        {
+            componentBase = new(this);
+        }
+
+        public abstract EntityComponent Copy();
 
         public void Dispose()
             => componentBase.Dispose();
 
-        public void Initialize(IEntity entity)
-            => componentBase.Initialize(entity);
+        public void Initialize(Entity entity)
+        {
+            componentBase.Initialize(entity);
+            onStarted.Subscribe(_ => ComponentStart());
+        }
+
+        protected virtual void ComponentStart() { }
+        protected virtual void ComponentUpdate() { }
 
         public void NotifyChanged()
             => componentBase.NotifyChanged();

@@ -1,47 +1,38 @@
 using System;
-using UniRx;
+using JuhaKurisu.PopoTools.ComponentSystem;
 
 namespace JuhaKurisu.PiKAEngine.Logics.Core.Maps
 {
     [Serializable]
-    public abstract class TileComponent : IDisposable
+    public abstract class TileComponent : IComponent<Tile, TileComponent>
     {
-        public IObservable<TileComponent> onTileComponentChanged => onTileComponentChangedSubject;
-        private readonly Subject<TileComponent> onTileComponentChangedSubject = new();
-        protected Tile tile { get; private set; }
-        private IDisposable componentUpdateDisposable;
-        private IDisposable componentStartDisposable;
+        private readonly ComponentBase<Tile, TileComponent> componentBase;
+        public IObservable<TileComponent> onStarted => componentBase.onStarted;
+        public IObservable<TileComponent> onUpdated => componentBase.onUpdated;
+        public IObservable<TileComponent> onChanged => componentBase.onChanged;
 
-        public void Initialize(Tile tile)
+        public Tile entity => componentBase.entity;
+
+        public TileComponent()
         {
-            if (this.tile != null) return;
-            this.tile = tile;
-            componentStartDisposable = tile.onStart.Subscribe(_ =>
-            {
-                ComponentStart();
-                componentStartDisposable.Dispose();
-            });
+            componentBase = new(this);
         }
 
-        public void SubscribeComponentUpdate()
-        {
-            componentUpdateDisposable = tile.onUpdate.Subscribe(_ => ComponentUpdate());
-        }
-
-        public void UnsubscribeComponentUpdate()
-        {
-            componentUpdateDisposable?.Dispose();
-        }
-
-        protected virtual void ComponentStart() { }
-        protected virtual void ComponentUpdate() { }
         public abstract TileComponent Copy();
 
         public void Dispose()
-        {
-            onTileComponentChangedSubject.Dispose();
-            componentUpdateDisposable?.Dispose();
-            componentStartDisposable?.Dispose();
-        }
+            => componentBase.Dispose();
+
+        public void Initialize(Tile entity)
+            => componentBase.Initialize(entity);
+
+        public void NotifyChanged()
+            => componentBase.NotifyChanged();
+
+        public void SubscribeUpdate()
+            => componentBase.SubscribeUpdate();
+
+        public void UnsubscribeUpdate()
+            => componentBase.UnsubscribeUpdate();
     }
 }

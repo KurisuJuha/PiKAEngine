@@ -21,9 +21,9 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Maps
             {
                 for (int x = 0; x < map.chunkSize.x; x++)
                 {
-                    tiles[x, y] = map.emptyTile.GenerateTile(new(position, x, y));
-                    tiles[x, y].onTileChanged
-                        .Subscribe(tile => onTileChangedSubject.OnNext(tile));
+                    tiles[x, y] = map.emptyTile.Copy() as Tile;
+                    tiles[x, y].onChanged
+                        .Subscribe(tile => onTileChangedSubject.OnNext(tile as Tile));
                 }
             }
         }
@@ -36,15 +36,13 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Maps
         public Tile GetTile(TilePosition tilePosition)
             => GetTile(tilePosition.x, tilePosition.y);
 
-        public void SetTile(int x, int y, TileContents tileContents)
+        public void SetTile(int x, int y, Tile tile)
         {
-            tiles[x, y] = tileContents.GenerateTile(
-                new Position(position, new TilePosition(x, y))
-            );
+            tiles[x, y] = tile.Copy() as Tile;
         }
 
-        public void SetTile(TilePosition tilePosition, TileContents tileContents)
-            => SetTile(tilePosition.x, tilePosition.y, tileContents);
+        public void SetTile(TilePosition tilePosition, Tile tile)
+            => SetTile(tilePosition.x, tilePosition.y, tile);
 
         public void Dispose()
         {

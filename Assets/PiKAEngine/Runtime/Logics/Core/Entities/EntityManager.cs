@@ -3,16 +3,16 @@ using JuhaKurisu.PopoTools.ComponentSystem;
 
 namespace JuhaKurisu.PiKAEngine.Logics.Core.Entities
 {
-    public class EntityManager : IEntityManager
+    public class EntityManager : IEntityManager<EntityManager, Entity, EntityComponent>
     {
-        private readonly EntityManagerBase entityManagerBase;
+        private readonly EntityManagerBase<EntityManager, Entity, EntityComponent> entityManagerBase;
 
-        public IComponent[] baseComponents => entityManagerBase.baseComponents;
-        public IObservable<IEntityManager> onUpdated => entityManagerBase.onUpdated;
+        public EntityComponent[] baseComponents => entityManagerBase.baseComponents;
+        public IObservable<EntityManager> onUpdated => entityManagerBase.onUpdated;
 
-        public EntityManager(params IComponent[] baseComponents)
+        public EntityManager(params EntityComponent[] baseComponents)
         {
-            entityManagerBase = new EntityManagerBase(baseComponents);
+            entityManagerBase = new(this, baseComponents);
         }
 
         public void Dispose()

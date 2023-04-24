@@ -1,29 +1,39 @@
 using System;
+using System.Linq;
 using JuhaKurisu.PopoTools.ComponentSystem;
 
 namespace JuhaKurisu.PiKAEngine.Logics.Core.Entities
 {
-    public class Entity : IEntity
+    public class Entity : IEntity<Entity, EntityComponent>
     {
-        private readonly EntityBase entityBase;
+        private readonly EntityBase<EntityManager, Entity, EntityComponent> entityBase;
 
-        public IObservable<IEntity> onChanged => entityBase.onChanged;
-        public IObservable<IEntity> onUpdated => entityBase.onUpdated;
-        public IObservable<IEntity> onStarted => entityBase.onStarted;
+        public IObservable<Entity> onChanged => entityBase.onChanged;
+        public IObservable<Entity> onUpdated => entityBase.onUpdated;
+        public IObservable<Entity> onStarted => entityBase.onStarted;
 
-        public Entity(IEntityManager entityManager, params IComponent[] uniqueComponents)
+        public Entity(EntityManager entityManager, bool inheritBaseComponents = true, params EntityComponent[] uniqueComponents)
         {
-            entityBase = new(entityManager, uniqueComponents);
+            entityBase = new(this, entityManager, inheritBaseComponents, uniqueComponents);
         }
 
-        public IEntity Copy()
-            => entityBase.Copy();
+        public Entity Copy()
+            => new Entity(
+                entityBase.entityManager,
+                false,
+                entityBase.components.Select(
+                    component => component as EntityComponent
+                ).ToArray()
+            );
 
         public void Dispose()
             => entityBase.Dispose();
 
-        public IComponent[] GetComponents<T>()
+        public EntityComponent[] GetComponents<T>()
             => entityBase.GetComponents<T>();
+
+        public EntityComponent GetComponent<T>()
+            => entityBase.GetComponents<T>()[0];
 
         public void Initialize()
             => entityBase.Initialize();

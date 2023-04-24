@@ -3,32 +3,34 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UnityEngine;
 using UniRx;
+using JuhaKurisu.PopoTools.ComponentSystem;
 
 namespace JuhaKurisu.PiKAEngine.Logics.Core.Maps
 {
-    public class Map : IDisposable
+    public class Map : IEntityManager<Map, Tile, TileComponent>
     {
         public ReadOnlyDictionary<ChunkPosition, Chunk> chunks => new(_chunks);
         private readonly Dictionary<ChunkPosition, Chunk> _chunks;
-        public readonly ReadOnlyCollection<TileComponent> baseComponents;
+        public TileComponent[] baseComponents => _baseComponents;
+        private readonly TileComponent[] _baseComponents;
         private IObservable<Tile> onTileChanged => onTileChangedSubject;
         public readonly Subject<Tile> onTileChangedSubject = new();
-        public IObservable<Unit> onUpdate => onUpdateSubject;
-        private readonly Subject<Unit> onUpdateSubject = new();
+        public IObservable<Map> onUpdated => onUpdatedSubject;
+        private readonly Subject<Map> onUpdatedSubject = new();
         public readonly Vector2Int chunkSize;
-        public readonly TileContents emptyTile;
+        public readonly Tile emptyTile;
 
-        public Map(Vector2Int chunkSize, TileContents emptyTile, TileComponent[] baseComponents)
+        public Map(Vector2Int chunkSize, Tile emptyTile, TileComponent[] baseComponents)
         {
             this.chunkSize = chunkSize;
             this.emptyTile = emptyTile;
-            this.baseComponents = new(baseComponents);
+            this._baseComponents = baseComponents;
             _chunks = new();
         }
 
         public void Update()
         {
-            onUpdateSubject.OnNext(Unit.Default);
+            onUpdatedSubject.OnNext(this);
         }
 
         public bool TryAddChunk(Chunk chunk)
@@ -43,7 +45,7 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Maps
         public void Dispose()
         {
             onTileChangedSubject.Dispose();
-            onUpdateSubject.Dispose();
+            onUpdatedSubject.Dispose();
             foreach (var chunk in chunks.Values)
             {
                 chunk.Dispose();

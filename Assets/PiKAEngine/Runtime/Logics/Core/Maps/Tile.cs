@@ -1,90 +1,55 @@
 using System;
 using System.Linq;
 using System.Collections.ObjectModel;
-using UniRx;
+using JuhaKurisu.PopoTools.ComponentSystem;
 
 namespace JuhaKurisu.PiKAEngine.Logics.Core.Maps
 {
-    public class Tile : IDisposable
+    public class Tile : IEntity<Tile, TileComponent>
     {
+        private readonly EntityBase<Map, Tile, TileComponent> entityBase;
+
         public readonly Position position;
-        public ReadOnlyCollection<TileComponent> components { get; private set; }
-        public IObservable<Tile> onTileChanged => onTileChangedSubject;
-        private readonly Subject<Tile> onTileChangedSubject = new();
-        public IObservable<Tile> onUpdate => onUpdateSubject;
-        private readonly Subject<Tile> onUpdateSubject = new();
-        public IObservable<Tile> onStart => onStartSubject;
-        private readonly Subject<Tile> onStartSubject = new();
-        private readonly Map map;
+        public ReadOnlyCollection<TileComponent> components => entityBase.components;
+        public IObservable<Tile> onChanged => entityBase.onChanged;
+        public IObservable<Tile> onUpdated => entityBase.onUpdated;
+        public IObservable<Tile> onStarted => entityBase.onStarted;
+        private Map map => entityBase.entityManager as Map;
         private IDisposable tileUpdateDisposable;
         private IDisposable tileStartDisposable;
 
-        public Tile(Position position, TileComponent[] components, Map map)
+        public Tile(Map map, Position position, bool inheritBaseComponents = true, params TileComponent[] components)
         {
             this.position = position;
-            this.components = new(components.Concat(map.baseComponents).ToArray());
-            this.map = map;
+            entityBase = new(this, map, inheritBaseComponents, components);
         }
 
-        private Tile(Map map)
-        {
-            this.map = map;
-        }
+        public void Initialize()
+            => entityBase.Initialize();
 
-        private void Initialize()
-        {
-            foreach (var component in this.components)
-            {
-                component.Initialize(this);
-                component.onTileComponentChanged.Subscribe(_ => onTileChangedSubject.OnNext(this));
-            }
+        public void SubscribeUpdate()
+            => entityBase.SubscribeUpdate();
 
-            tileStartDisposable = map.onUpdate.Subscribe(_ =>
-            {
-                TileStart();
-                tileStartDisposable.Dispose();
-            });
-        }
+        public void UnsubscribeUpdate()
+            => entityBase.UnsubscribeUpdate();
 
-        public void SubscribeTileUpdate()
-        {
-            if (tileUpdateDisposable is not null) return;
-            tileUpdateDisposable = map.onUpdate.Subscribe(_ => TileUpdate());
-        }
+        public TileComponent[] GetComponents<T>()
+            => entityBase.GetComponents<T>();
 
-        public void UnsubscribeTileUpdate()
-        {
-            tileUpdateDisposable?.Dispose();
-        }
-
-        private void TileStart()
-        {
-            onStartSubject.OnNext(this);
-        }
-
-        private void TileUpdate()
-        {
-            onUpdateSubject.OnNext(this);
-        }
-
-        public void Dispose()
-        {
-            foreach (var component in components)
-            {
-                component.Dispose();
-            }
-            tileUpdateDisposable?.Dispose();
-            tileStartDisposable?.Dispose();
-            onTileChangedSubject.Dispose();
-        }
+        public TileComponent GetComponent<T>()
+            => entityBase.GetComponents<T>().First();
 
         public Tile Copy()
-        {
-            Tile copy = new Tile(map);
-            copy.components = new(components.Select(component => component.Copy()).ToArray());
+            => new(
+                map,
+                position,
+                false,
+                components.Select(
+                    component => component as TileComponent
+                ).ToArray()
+            );
 
-            copy.Initialize();
-            return copy;
-        }
+        public void Dispose()
+            => entityBase.Dispose();
     }
 }
