@@ -14,7 +14,7 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Maps
         public IObservable<Tile> onChanged => entityBase.onChanged;
         public IObservable<Tile> onUpdated => entityBase.onUpdated;
         public IObservable<Tile> onStarted => entityBase.onStarted;
-        private Map map => entityBase.entityManager as Map;
+        private Map map => entityBase.entityManager;
         private IDisposable tileUpdateDisposable;
         private IDisposable tileStartDisposable;
 
@@ -44,9 +44,7 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Maps
                 map,
                 position,
                 false,
-                components.Select(
-                    component => component as TileComponent
-                ).ToArray()
+                components.ToArray()
             );
 
         public void Dispose()

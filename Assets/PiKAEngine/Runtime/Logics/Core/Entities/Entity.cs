@@ -14,11 +14,16 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Entities
 
         public Entity(EntityManager entityManager, bool inheritBaseComponents = true, params EntityComponent[] uniqueComponents)
         {
-            entityBase = new(this, entityManager, inheritBaseComponents, uniqueComponents);
+            entityBase = new(
+                this,
+                entityManager,
+                inheritBaseComponents,
+                uniqueComponents
+            );
         }
 
         public Entity Copy()
-            => new Entity(
+            => new(
                 entityBase.entityManager,
                 false,
                 entityBase.components.Select(
@@ -33,7 +38,7 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Entities
             => entityBase.GetComponents<T>();
 
         public EntityComponent GetComponent<T>()
-            => entityBase.GetComponents<T>()[0];
+            => entityBase.GetComponents<T>().First();
 
         public void Initialize()
             => entityBase.Initialize();

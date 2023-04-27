@@ -1,28 +1,24 @@
 using System;
-using System.Collections.ObjectModel;
-using UniRx;
+using JuhaKurisu.PopoTools.ComponentSystem;
 
 namespace JuhaKurisu.PiKAEngine.Logics.Core.Items
 {
-    public class ItemManager : IDisposable
+    public class ItemManager : IEntityManager<ItemManager, Item, ItemComponent>
     {
-        public readonly ReadOnlyCollection<ItemComponent> baseComponents;
-        public IObservable<Unit> onUpdate => onUpdateSubject;
-        private readonly Subject<Unit> onUpdateSubject = new();
+        private readonly EntityManagerBase<ItemManager, Item, ItemComponent> entityManagerBase;
 
-        public ItemManager(ItemComponent[] baseComponents)
-        {
-            this.baseComponents = new(baseComponents);
-        }
+        public ItemComponent[] baseComponents => entityManagerBase.baseComponents;
+        public IObservable<ItemManager> onUpdated => entityManagerBase.onUpdated;
 
-        public void Update()
+        public ItemManager(params ItemComponent[] baseComponents)
         {
-            onUpdateSubject.OnNext(Unit.Default);
+            entityManagerBase = new(this, baseComponents);
         }
 
         public void Dispose()
-        {
-            onUpdateSubject.Dispose();
-        }
+            => entityManagerBase.Dispose();
+
+        public void Update()
+            => entityManagerBase.Update();
     }
 }

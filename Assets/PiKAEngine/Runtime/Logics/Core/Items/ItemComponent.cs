@@ -1,47 +1,38 @@
 using System;
-using UniRx;
+using JuhaKurisu.PopoTools.ComponentSystem;
 
 namespace JuhaKurisu.PiKAEngine.Logics.Core.Items
 {
     [Serializable]
-    public abstract class ItemComponent : IDisposable
+    public abstract class ItemComponent : IComponent<Item, ItemComponent>
     {
-        public IObservable<ItemComponent> onItemComponentChanged => onItemComponentChangedSubject;
-        private readonly Subject<ItemComponent> onItemComponentChangedSubject = new();
-        protected Item item { get; private set; }
-        private IDisposable componentUpdateDisposable;
-        private IDisposable componentStartDisposable;
+        private readonly ComponentBase<Item, ItemComponent> componentBase;
+        public IObservable<ItemComponent> onStarted => componentBase.onStarted;
+        public IObservable<ItemComponent> onUpdated => componentBase.onUpdated;
+        public IObservable<ItemComponent> onChanged => componentBase.onChanged;
 
-        public void Initialize(Item item)
+        public Item entity => componentBase.entity;
+
+        public ItemComponent()
         {
-            if (this.item != null) return;
-            this.item = item;
-            componentStartDisposable = item.onStart.Subscribe(_ =>
-            {
-                ComponentStart();
-                componentStartDisposable.Dispose();
-            });
+            componentBase = new(this);
         }
 
-        public void SubscribeComponentUpdate()
-        {
-            componentUpdateDisposable = item.onUpdate.Subscribe(_ => ComponentUpdate());
-        }
-
-        public void UnsubscribeComponentUpdate()
-        {
-            componentUpdateDisposable?.Dispose();
-        }
-
-        protected virtual void ComponentStart() { }
-        protected virtual void ComponentUpdate() { }
         public abstract ItemComponent Copy();
 
+        public void Initialize(Item item)
+            => componentBase.Initialize(item);
+
+        public void SubscribeUpdate()
+            => componentBase.SubscribeUpdate();
+
+        public void UnsubscribeUpdate()
+            => componentBase.UnsubscribeUpdate();
+
+        public void NotifyChanged()
+            => componentBase.NotifyChanged();
+
         public void Dispose()
-        {
-            onItemComponentChangedSubject.Dispose();
-            componentUpdateDisposable?.Dispose();
-            componentStartDisposable?.Dispose();
-        }
+            => componentBase.Dispose();
     }
 }

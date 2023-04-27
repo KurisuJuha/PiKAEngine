@@ -1,89 +1,52 @@
 using System;
 using System.Linq;
-using System.Collections.ObjectModel;
-using UniRx;
+using JuhaKurisu.PopoTools.ComponentSystem;
 
 namespace JuhaKurisu.PiKAEngine.Logics.Core.Items
 {
-    public class Item : IDisposable
+    public class Item : IEntity<Item, ItemComponent>
     {
-        public readonly ItemManager itemManager;
-        public ReadOnlyCollection<ItemComponent> components { get; private set; }
-        public IObservable<Item> onItemChanged => onItemChangedSubject;
-        private readonly Subject<Item> onItemChangedSubject = new();
-        public IObservable<Item> onUpdate => onUpdateSubject;
-        private readonly Subject<Item> onUpdateSubject = new();
-        public IObservable<Item> onStart => onStartSubject;
-        private readonly Subject<Item> onStartSubject = new();
-        private IDisposable itemUpdateDisposable;
-        private IDisposable itemStartDisposable;
+        private readonly EntityBase<ItemManager, Item, ItemComponent> entityBase;
 
-        public Item(ItemManager itemManager, params ItemComponent[] uniqueComponents)
+        public IObservable<Item> onChanged => entityBase.onChanged;
+        public IObservable<Item> onUpdated => entityBase.onUpdated;
+        public IObservable<Item> onStarted => entityBase.onStarted;
+
+        public Item(ItemManager itemManager, bool inheritBaseComponents = true, params ItemComponent[] uniqueComponents)
         {
-            this.itemManager = itemManager;
-            this.components = new(uniqueComponents.Concat(itemManager.baseComponents.Select(component => component.Copy())).ToArray());
-            Initialize();
+            entityBase = new(
+                this,
+                itemManager,
+                inheritBaseComponents,
+                uniqueComponents
+            );
         }
 
-        private Item(ItemManager itemManager)
-        {
-            this.itemManager = itemManager;
-        }
+        public void Initialize()
+            => entityBase.Initialize();
 
-        private void Initialize()
-        {
-            foreach (var component in this.components)
-            {
-                component.Initialize(this);
-                component.onItemComponentChanged.Subscribe(_ => onItemChangedSubject.OnNext(this));
-            }
+        public void SubscribeUpdate()
+            => entityBase.SubscribeUpdate();
 
-            itemStartDisposable = itemManager.onUpdate.Subscribe(_ =>
-            {
-                ItemStart();
-                itemStartDisposable.Dispose();
-            });
-        }
+        public void UnsubscribeUpdate()
+            => entityBase.UnsubscribeUpdate();
 
-        public void SubscribeItemUpdate()
-        {
-            if (itemUpdateDisposable is not null) return;
-            itemUpdateDisposable = itemManager.onUpdate.Subscribe(_ => ItemUpdate());
-        }
+        public ItemComponent[] GetComponents<T>()
+            => entityBase.GetComponents<T>();
 
-        public void UnsubscribeEntityUpdate()
-        {
-            itemUpdateDisposable?.Dispose();
-        }
-
-        private void ItemStart()
-        {
-            onStartSubject.OnNext(this);
-        }
-
-        private void ItemUpdate()
-        {
-            onUpdateSubject.OnNext(this);
-        }
+        public ItemComponent GetComponent<T>()
+            => entityBase.GetComponents<T>().First();
 
         public void Dispose()
-        {
-            foreach (var component in components)
-            {
-                component.Dispose();
-            }
-            itemUpdateDisposable?.Dispose();
-            itemStartDisposable?.Dispose();
-            onItemChangedSubject.Dispose();
-        }
+            => entityBase.Dispose();
 
         public Item Copy()
-        {
-            Item copy = new Item(itemManager);
-            copy.components = new(components.Select(component => component.Copy()).ToArray());
-
-            copy.Initialize();
-            return copy;
-        }
+            => new(
+                entityBase.entityManager,
+                false,
+                entityBase.components.Select(
+                    component => component as ItemComponent
+                ).ToArray()
+            );
     }
 }
