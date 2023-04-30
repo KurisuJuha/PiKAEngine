@@ -20,13 +20,18 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Entities
         public abstract EntityComponent Copy();
 
         public void Dispose()
-            => componentBase.Dispose();
+        {
+            DisposeComponent();
+            componentBase.Dispose();
+        }
 
         public void Initialize(Entity entity)
         {
             componentBase.Initialize(entity);
             onStarted.Subscribe(_ => ComponentStart());
         }
+
+        protected abstract void DisposeComponent();
 
         protected virtual void ComponentStart() { }
         protected virtual void ComponentUpdate() { }

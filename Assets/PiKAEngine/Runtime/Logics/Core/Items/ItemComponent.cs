@@ -33,6 +33,11 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Items
             => componentBase.NotifyChanged();
 
         public void Dispose()
-            => componentBase.Dispose();
+        {
+            DisposeComponent();
+            componentBase.Dispose();
+        }
+
+        protected abstract void DisposeComponent();
     }
 }

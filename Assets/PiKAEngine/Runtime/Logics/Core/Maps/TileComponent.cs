@@ -21,7 +21,12 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Maps
         public abstract TileComponent Copy();
 
         public void Dispose()
-            => componentBase.Dispose();
+        {
+            DisposeComponent();
+            componentBase.Dispose();
+        }
+
+        protected abstract void DisposeComponent();
 
         public void Initialize(Tile entity)
             => componentBase.Initialize(entity);
