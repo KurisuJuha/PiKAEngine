@@ -12,11 +12,28 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Maps
         public IObservable<TileComponent> onChanged => componentBase.onChanged;
 
         public Tile entity => componentBase.entity;
+        public bool isActive { get; set; }
 
         public TileComponent()
         {
             componentBase = new(this);
         }
+
+        public void Start()
+        {
+            componentBase.Start();
+            ComponentStart();
+        }
+
+        protected virtual void ComponentStart() { }
+
+        public void Update()
+        {
+            componentBase.Update();
+            ComponentUpdate();
+        }
+
+        protected virtual void ComponentUpdate() { }
 
         public abstract TileComponent Copy();
 
@@ -33,11 +50,5 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Maps
 
         public void NotifyChanged()
             => componentBase.NotifyChanged();
-
-        public void SubscribeUpdate()
-            => componentBase.SubscribeUpdate();
-
-        public void UnsubscribeUpdate()
-            => componentBase.UnsubscribeUpdate();
     }
 }

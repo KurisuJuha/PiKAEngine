@@ -12,6 +12,7 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Items
         public IObservable<ItemComponent> onChanged => componentBase.onChanged;
 
         public Item entity => componentBase.entity;
+        public bool isActive { get; set; }
 
         public ItemComponent()
         {
@@ -23,11 +24,21 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Items
         public void Initialize(Item item)
             => componentBase.Initialize(item);
 
-        public void SubscribeUpdate()
-            => componentBase.SubscribeUpdate();
+        public void Start()
+        {
+            componentBase.Start();
+            ComponentStart();
+        }
 
-        public void UnsubscribeUpdate()
-            => componentBase.UnsubscribeUpdate();
+        protected virtual void ComponentStart() { }
+
+        public void Update()
+        {
+            componentBase.Update();
+            ComponentUpdate();
+        }
+
+        protected virtual void ComponentUpdate() { }
 
         public void NotifyChanged()
             => componentBase.NotifyChanged();
