@@ -27,10 +27,7 @@ namespace JuhaKurisu.PiKAEngine.Logics.Core.Entities
         }
 
         public void Initialize(Entity entity)
-        {
-            componentBase.Initialize(entity);
-            onStarted.Subscribe(_ => ComponentStart());
-        }
+            => componentBase.Initialize(entity);
 
         public void Start()
         {
