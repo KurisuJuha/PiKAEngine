@@ -248,12 +248,6 @@
       },
       "url": "https://packages.unity.com"
     },
-    "jp.juhakurisu.popocomponentsystem": {
-      "version": "file:C:/Users/KurisuJuha/Documents/GitHub/popoComponentSystem/Assets/popoComponentSystem",
-      "depth": 0,
-      "source": "local",
-      "dependencies": {}
-    },
     "jp.juhakurisu.popodeterministic": {
       "version": "file:C:/Users/KurisuJuha/Documents/GitHub/popoDeterministic/Assets/popoDeterministic",
       "depth": 0,
