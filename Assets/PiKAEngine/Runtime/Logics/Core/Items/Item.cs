@@ -1,6 +1,7 @@
 namespace PiKAEngine.Logics.Core.Items
 {
-    public abstract class Item
+    public abstract class Item<T>
+        where T : Item<T>
     {
         public readonly IItemManager itemManager;
 
