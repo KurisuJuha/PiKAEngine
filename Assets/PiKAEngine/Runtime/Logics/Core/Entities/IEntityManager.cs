@@ -1,10 +1,11 @@
 namespace PiKAEngine.Logics.Core.Entities
 {
-    public interface IEntityManager
+    public interface IEntityManager<T>
+        where T : Entity<T>
     {
-        void AddEntityOnNextFrame(Entity entity);
-        void RemoveEntityOnNextFrame(Entity entity);
-        void ActivateEntity(Entity entity);
-        void DeactivateEntity(Entity entity);
+        void AddEntityOnNextFrame(T entity);
+        void RemoveEntityOnNextFrame(T entity);
+        void ActivateEntity(T entity);
+        void DeactivateEntity(T entity);
     }
 }

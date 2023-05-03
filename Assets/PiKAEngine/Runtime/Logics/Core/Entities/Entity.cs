@@ -1,10 +1,11 @@
 namespace PiKAEngine.Logics.Core.Entities
 {
-    public abstract class Entity
+    public abstract class Entity<T>
+        where T : Entity<T>
     {
-        public readonly IEntityManager entityManager;
+        public readonly IEntityManager<T> entityManager;
 
-        public Entity(IEntityManager entityManager)
+        public Entity(IEntityManager<T> entityManager)
         {
             this.entityManager = entityManager;
         }
