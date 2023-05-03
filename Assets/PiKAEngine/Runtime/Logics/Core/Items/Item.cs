@@ -3,9 +3,9 @@ namespace PiKAEngine.Logics.Core.Items
     public abstract class Item<T>
         where T : Item<T>
     {
-        public readonly IItemManager itemManager;
+        public readonly IItemManager<T> itemManager;
 
-        public Item(IItemManager itemManager)
+        public Item(IItemManager<T> itemManager)
         {
             this.itemManager = itemManager;
         }
