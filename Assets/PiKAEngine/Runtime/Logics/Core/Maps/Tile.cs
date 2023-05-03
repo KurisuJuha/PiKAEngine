@@ -1,12 +1,12 @@
 namespace PiKAEngine.Logics.Core.TileMap
 {
-    public abstract class Tile
+    public abstract class Tile<T> where T : Tile<T>
     {
-        public readonly TileManager tileManager;
-        public Chunk chunk { get; private set; }
+        public readonly TileManager<T> tileManager;
+        public Chunk<T> chunk { get; private set; }
         public MapPosition position { get; private set; }
 
-        public Tile(TileManager tileManager)
+        public Tile(TileManager<T> tileManager)
         {
             this.tileManager = tileManager;
         }
