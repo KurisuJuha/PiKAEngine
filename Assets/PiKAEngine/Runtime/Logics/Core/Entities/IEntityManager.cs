@@ -4,6 +4,7 @@ namespace PiKAEngine.Logics.Core.Entities
         where T : Entity<T>
     {
         FindType[] FindEntities<FindType>() where FindType : T;
+        bool TryFindEntity<FindType>(out FindType entity) where FindType : T;
         void AddEntityOnNextFrame(T entity);
         void RemoveEntityOnNextFrame(T entity);
         void ActivateEntity(T entity);

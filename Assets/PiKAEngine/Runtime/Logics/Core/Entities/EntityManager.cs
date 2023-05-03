@@ -32,6 +32,21 @@ namespace PiKAEngine.Logics.Core.Entities
             return ret.ToArray();
         }
 
+        public bool TryFindEntity<FindType>(out FindType value) where FindType : T
+        {
+            foreach (var entity in entities)
+            {
+                if (entity is FindType)
+                {
+                    value = entity as FindType;
+                    return true;
+                }
+            }
+
+            value = null;
+            return false;
+        }
+
         public void AddEntityOnNextFrame(T entity)
             => addingEntities.Add(entity);
 
