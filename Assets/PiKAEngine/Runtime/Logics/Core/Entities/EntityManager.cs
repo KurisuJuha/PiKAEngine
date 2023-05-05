@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections.Generic;
 
 namespace PiKAEngine.Logics.Core.Entities
@@ -22,30 +23,23 @@ namespace PiKAEngine.Logics.Core.Entities
 
         public FindType[] FindEntities<FindType>()
         {
-            List<FindType> ret = new List<FindType>();
-
-            foreach (var entity in entities)
-            {
-                switch (entity)
+            return entities.Where(x => x is FindType)
+                .Select(x =>
                 {
-                    case FindType find:
-                        ret.Add(find);
-                        break;
-                }
-            }
-
-            return ret.ToArray();
+                    if (x is FindType y) return y;
+                    return default;
+                })
+                .ToArray();
         }
 
         public bool TryFindEntity<FindType>(out FindType value)
         {
             foreach (var entity in entities)
             {
-                switch (entity)
+                if (entity is FindType findValue)
                 {
-                    case FindType find:
-                        value = find;
-                        return true;
+                    value = findValue;
+                    return true;
                 }
             }
 
