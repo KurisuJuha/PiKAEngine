@@ -1,38 +1,38 @@
+using System;
 using System.Collections.Generic;
 
 namespace PiKAEngine.Logics.Core.Items
 {
-    public class ItemManager<T> : IItemManager<T>
-        where T : Item<T>
+    public class ItemManager : IItemManager, IDisposable
     {
-        private readonly HashSet<T> items;
-        private readonly HashSet<T> activeItems;
-        private readonly List<T> addingItems;
-        private readonly List<T> removingItems;
-        private readonly List<T> initializingItems;
+        private readonly HashSet<Item> items;
+        private readonly HashSet<Item> activeItems;
+        private readonly List<Item> addingItems;
+        private readonly List<Item> removingItems;
+        private readonly List<Item> initializingItems;
 
         public ItemManager()
         {
-            items = new HashSet<T>();
-            activeItems = new HashSet<T>();
-            addingItems = new List<T>();
-            removingItems = new List<T>();
-            initializingItems = new List<T>();
+            items = new HashSet<Item>();
+            activeItems = new HashSet<Item>();
+            addingItems = new List<Item>();
+            removingItems = new List<Item>();
+            initializingItems = new List<Item>();
         }
 
-        public void AddItemOnNextFrame(T item)
+        public void AddItemOnNextFrame(Item item)
             => addingItems.Add(item);
 
-        public void RemoveItemOnNextFrame(T item)
+        public void RemoveItemOnNextFrame(Item item)
             => removingItems.Add(item);
 
-        public void ActivateItem(T item)
+        public void ActivateItem(Item item)
         {
             if (!items.Contains(item)) AddItemOnNextFrame(item);
             activeItems.Add(item);
         }
 
-        public void DeactivateItem(T item)
+        public void DeactivateItem(Item item)
             => activeItems.Remove(item);
 
         public void Update()
@@ -68,6 +68,14 @@ namespace PiKAEngine.Logics.Core.Items
             addingItems.Clear();
             removingItems.Clear();
             initializingItems.Clear();
+        }
+
+        public void Dispose()
+        {
+            foreach (var item in items)
+            {
+                item.Dispose();
+            }
         }
     }
 }

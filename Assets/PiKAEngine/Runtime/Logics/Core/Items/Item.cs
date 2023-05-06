@@ -1,11 +1,12 @@
+using System;
+
 namespace PiKAEngine.Logics.Core.Items
 {
-    public abstract class Item<T>
-        where T : Item<T>
+    public abstract class Item : IDisposable
     {
-        public readonly IItemManager<T> itemManager;
+        public readonly IItemManager itemManager;
 
-        public Item(IItemManager<T> itemManager)
+        public Item(IItemManager itemManager)
         {
             this.itemManager = itemManager;
         }
@@ -13,5 +14,6 @@ namespace PiKAEngine.Logics.Core.Items
         public abstract void Initialize();
         public abstract void Start();
         public abstract void Update();
+        public abstract void Dispose();
     }
 }

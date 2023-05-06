@@ -1,11 +1,12 @@
+using System;
+
 namespace PiKAEngine.Logics.Core.Items
 {
-    public interface IItemManager<T>
-        where T : Item<T>
+    public interface IItemManager : IDisposable
     {
-        void AddItemOnNextFrame(T entity);
-        void RemoveItemOnNextFrame(T entity);
-        void ActivateItem(T entity);
-        void DeactivateItem(T entity);
+        void AddItemOnNextFrame(Item entity);
+        void RemoveItemOnNextFrame(Item entity);
+        void ActivateItem(Item entity);
+        void DeactivateItem(Item entity);
     }
 }
