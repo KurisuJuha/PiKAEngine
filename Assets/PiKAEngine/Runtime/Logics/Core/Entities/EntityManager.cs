@@ -3,22 +3,21 @@ using System.Collections.Generic;
 
 namespace PiKAEngine.Logics.Core.Entities
 {
-    public class EntityManager<T> : IEntityManager<T>
-        where T : Entity<T>
+    public class EntityManager : IEntityManager
     {
-        private readonly HashSet<T> entities;
-        private readonly HashSet<T> activeEntities;
-        private readonly List<T> addingEntities;
-        private readonly List<T> removingEntities;
-        private readonly List<T> initializingEntities;
+        private readonly HashSet<Entity> entities;
+        private readonly HashSet<Entity> activeEntities;
+        private readonly List<Entity> addingEntities;
+        private readonly List<Entity> removingEntities;
+        private readonly List<Entity> initializingEntities;
 
         public EntityManager()
         {
-            entities = new HashSet<T>();
-            activeEntities = new HashSet<T>();
-            addingEntities = new List<T>();
-            removingEntities = new List<T>();
-            initializingEntities = new List<T>();
+            entities = new HashSet<Entity>();
+            activeEntities = new HashSet<Entity>();
+            addingEntities = new List<Entity>();
+            removingEntities = new List<Entity>();
+            initializingEntities = new List<Entity>();
         }
 
         public FindType[] FindEntities<FindType>()
@@ -47,19 +46,19 @@ namespace PiKAEngine.Logics.Core.Entities
             return false;
         }
 
-        public void AddEntityOnNextFrame(T entity)
+        public void AddEntityOnNextFrame(Entity entity)
             => addingEntities.Add(entity);
 
-        public void RemoveEntityOnNextFrame(T entity)
+        public void RemoveEntityOnNextFrame(Entity entity)
             => removingEntities.Add(entity);
 
-        public void ActivateEntity(T entity)
+        public void ActivateEntity(Entity entity)
         {
             if (!entities.Contains(entity)) AddEntityOnNextFrame(entity);
             activeEntities.Add(entity);
         }
 
-        public void DeactivateEntity(T entity)
+        public void DeactivateEntity(Entity entity)
             => activeEntities.Remove(entity);
 
         public void Update()
@@ -95,6 +94,14 @@ namespace PiKAEngine.Logics.Core.Entities
             addingEntities.Clear();
             removingEntities.Clear();
             initializingEntities.Clear();
+        }
+
+        public void Dispose()
+        {
+            foreach (var entity in entities)
+            {
+                entity.Dispose();
+            }
         }
     }
 }

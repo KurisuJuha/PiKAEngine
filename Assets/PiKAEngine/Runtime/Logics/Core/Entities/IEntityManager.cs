@@ -1,13 +1,14 @@
+using System;
+
 namespace PiKAEngine.Logics.Core.Entities
 {
-    public interface IEntityManager<T>
-        where T : Entity<T>
+    public interface IEntityManager : IDisposable
     {
         FindType[] FindEntities<FindType>();
         bool TryFindEntity<FindType>(out FindType entity);
-        void AddEntityOnNextFrame(T entity);
-        void RemoveEntityOnNextFrame(T entity);
-        void ActivateEntity(T entity);
-        void DeactivateEntity(T entity);
+        void AddEntityOnNextFrame(Entity entity);
+        void RemoveEntityOnNextFrame(Entity entity);
+        void ActivateEntity(Entity entity);
+        void DeactivateEntity(Entity entity);
     }
 }

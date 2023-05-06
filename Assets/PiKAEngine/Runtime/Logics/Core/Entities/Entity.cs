@@ -1,11 +1,12 @@
+using System;
+
 namespace PiKAEngine.Logics.Core.Entities
 {
-    public abstract class Entity<T>
-        where T : Entity<T>
+    public abstract class Entity : IDisposable
     {
-        public readonly IEntityManager<T> entityManager;
+        public readonly IEntityManager entityManager;
 
-        public Entity(IEntityManager<T> entityManager)
+        public Entity(IEntityManager entityManager)
         {
             this.entityManager = entityManager;
         }
@@ -13,5 +14,6 @@ namespace PiKAEngine.Logics.Core.Entities
         public abstract void Initialize();
         public abstract void Start();
         public abstract void Update();
+        public abstract void Dispose();
     }
 }
