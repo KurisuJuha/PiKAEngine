@@ -1,6 +1,8 @@
+using System;
+
 namespace PiKAEngine.Logics.Core.TileMap
 {
-    public abstract class Tile
+    public abstract class Tile : IDisposable
     {
         public readonly TileManager tileManager;
         public Chunk chunk { get; private set; }
@@ -20,5 +22,6 @@ namespace PiKAEngine.Logics.Core.TileMap
         public abstract void Initialize();
         public abstract void Start();
         public abstract void Update();
+        public abstract void Dispose();
     }
 }

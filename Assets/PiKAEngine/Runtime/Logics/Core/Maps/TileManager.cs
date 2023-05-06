@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 
 namespace PiKAEngine.Logics.Core.TileMap
 {
-    public class TileManager
+    public class TileManager : IDisposable
     {
         public readonly int chunkSize;
         public readonly Func<Tile> getEmptyTile;
@@ -83,6 +83,14 @@ namespace PiKAEngine.Logics.Core.TileMap
             addingTiles.Clear();
             removingTiles.Clear();
             initializingTiles.Clear();
+        }
+
+        public void Dispose()
+        {
+            foreach (var chunk in chunks.Values)
+            {
+                chunk.Dispose();
+            }
         }
     }
 }

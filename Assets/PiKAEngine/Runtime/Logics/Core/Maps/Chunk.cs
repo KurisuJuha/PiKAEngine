@@ -1,8 +1,9 @@
+using System;
 using System.Collections.ObjectModel;
 
 namespace PiKAEngine.Logics.Core.TileMap
 {
-    public class Chunk
+    public class Chunk : IDisposable
     {
         public readonly TileManager tileManager;
         public readonly ChunkPosition position;
@@ -39,6 +40,14 @@ namespace PiKAEngine.Logics.Core.TileMap
                 {
                     tiles[y * tileManager.chunkSize + x].InitializeBase(new MapPosition(position, x, y));
                 }
+            }
+        }
+
+        public void Dispose()
+        {
+            foreach (var tile in tiles)
+            {
+                tile.Dispose();
             }
         }
     }
