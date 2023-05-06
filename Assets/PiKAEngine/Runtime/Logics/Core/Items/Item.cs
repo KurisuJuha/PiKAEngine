@@ -4,9 +4,9 @@ namespace PiKAEngine.Logics.Core.Items
 {
     public abstract class Item : IDisposable
     {
-        public readonly IItemManager itemManager;
+        public readonly ItemManager itemManager;
 
-        public Item(IItemManager itemManager)
+        public Item(ItemManager itemManager)
         {
             this.itemManager = itemManager;
         }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PiKAEngine.Logics.Core.Items
 {
-    public class ItemManager : IItemManager, IDisposable
+    public class ItemManager : IDisposable
     {
         private readonly HashSet<Item> items;
         private readonly HashSet<Item> activeItems;

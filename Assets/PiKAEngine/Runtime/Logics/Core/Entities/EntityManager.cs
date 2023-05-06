@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PiKAEngine.Logics.Core.Entities
 {
-    public class EntityManager : IEntityManager
+    public class EntityManager
     {
         private readonly HashSet<Entity> entities;
         private readonly HashSet<Entity> activeEntities;

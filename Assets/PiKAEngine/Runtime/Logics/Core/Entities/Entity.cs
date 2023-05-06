@@ -4,9 +4,9 @@ namespace PiKAEngine.Logics.Core.Entities
 {
     public abstract class Entity : IDisposable
     {
-        public readonly IEntityManager entityManager;
+        public readonly EntityManager entityManager;
 
-        public Entity(IEntityManager entityManager)
+        public Entity(EntityManager entityManager)
         {
             this.entityManager = entityManager;
         }
