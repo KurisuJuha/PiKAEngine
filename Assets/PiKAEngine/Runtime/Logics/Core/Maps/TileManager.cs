@@ -4,32 +4,32 @@ using System.Collections.ObjectModel;
 
 namespace PiKAEngine.Logics.Core.TileMap
 {
-    public class TileManager<T> where T : Tile<T>
+    public class TileManager
     {
         public readonly int chunkSize;
-        public readonly Func<T> getEmptyTile;
+        public readonly Func<Tile> getEmptyTile;
 
-        public ReadOnlyDictionary<ChunkPosition, Chunk<T>> chunkDictionary => new(chunks);
-        private readonly Dictionary<ChunkPosition, Chunk<T>> chunks;
+        public ReadOnlyDictionary<ChunkPosition, Chunk> chunkDictionary => new(chunks);
+        private readonly Dictionary<ChunkPosition, Chunk> chunks;
 
-        private readonly HashSet<T> activeTiles;
-        private readonly List<T> addingTiles;
-        private readonly List<T> removingTiles;
-        private readonly List<T> initializingTiles;
+        private readonly HashSet<Tile> activeTiles;
+        private readonly List<Tile> addingTiles;
+        private readonly List<Tile> removingTiles;
+        private readonly List<Tile> initializingTiles;
 
-        public TileManager(int chunkSize, Func<T> getEmptyTile)
+        public TileManager(int chunkSize, Func<Tile> getEmptyTile)
         {
             this.chunkSize = chunkSize;
             this.getEmptyTile = getEmptyTile;
-            this.chunks = new Dictionary<ChunkPosition, Chunk<T>>();
+            this.chunks = new Dictionary<ChunkPosition, Chunk>();
 
-            activeTiles = new HashSet<T>();
-            addingTiles = new List<T>();
-            removingTiles = new List<T>();
-            initializingTiles = new List<T>();
+            activeTiles = new HashSet<Tile>();
+            addingTiles = new List<Tile>();
+            removingTiles = new List<Tile>();
+            initializingTiles = new List<Tile>();
         }
 
-        public bool TryAddChunk(Chunk<T> chunk)
+        public bool TryAddChunk(Chunk chunk)
         {
             bool ret = chunks.TryAdd(chunk.position, chunk);
 
@@ -41,10 +41,10 @@ namespace PiKAEngine.Logics.Core.TileMap
             return ret;
         }
 
-        public bool TryChangeTile(T tile, MapPosition position)
+        public bool TryChangeTile(Tile tile, MapPosition position)
         {
             if (!(position.tilePosition.x < chunkSize && position.tilePosition.y < chunkSize)) return false;
-            if (!chunks.TryGetValue(position.chunkPosition, out Chunk<T> chunk)) return false;
+            if (!chunks.TryGetValue(position.chunkPosition, out Chunk chunk)) return false;
 
             tile.InitializeBase(position);
             addingTiles.Add(tile);

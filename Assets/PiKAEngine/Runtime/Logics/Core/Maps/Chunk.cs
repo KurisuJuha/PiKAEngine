@@ -2,14 +2,14 @@ using System.Collections.ObjectModel;
 
 namespace PiKAEngine.Logics.Core.TileMap
 {
-    public class Chunk<T> where T : Tile<T>
+    public class Chunk
     {
-        public readonly TileManager<T> tileManager;
+        public readonly TileManager tileManager;
         public readonly ChunkPosition position;
-        public ReadOnlyCollection<T> tileList => new ReadOnlyCollection<T>(tiles);
-        private T[] tiles;
+        public ReadOnlyCollection<Tile> tileList => new ReadOnlyCollection<Tile>(tiles);
+        private Tile[] tiles;
 
-        public Chunk(TileManager<T> tileManager, ChunkPosition position, T[] tiles)
+        public Chunk(TileManager tileManager, ChunkPosition position, Tile[] tiles)
         {
             if (tiles.Length != tileManager.chunkSize * tileManager.chunkSize) throw new System.Exception("sizeが設定と異なっています");
             this.tileManager = tileManager;
@@ -17,16 +17,16 @@ namespace PiKAEngine.Logics.Core.TileMap
             this.tiles = tiles;
         }
 
-        public Chunk(TileManager<T> tileManager, ChunkPosition position)
+        public Chunk(TileManager tileManager, ChunkPosition position)
         {
             this.tileManager = tileManager;
             this.position = position;
-            tiles = new T[tileManager.chunkSize * tileManager.chunkSize];
+            tiles = new Tile[tileManager.chunkSize * tileManager.chunkSize];
             for (int i = 0; i < tiles.Length; i++)
                 tiles[i] = tileManager.getEmptyTile();
         }
 
-        internal void SetTile(T tile, TilePosition position)
+        internal void SetTile(Tile tile, TilePosition position)
         {
             tiles[position.y * tileManager.chunkSize + position.x] = tile;
         }
