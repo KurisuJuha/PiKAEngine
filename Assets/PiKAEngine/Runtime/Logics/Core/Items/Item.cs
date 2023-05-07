@@ -9,6 +9,7 @@ namespace PiKAEngine.Logics.Core.Items
         public Item(ItemManager itemManager)
         {
             this.itemManager = itemManager;
+            itemManager.AddItemOnNextFrame(this);
         }
 
         public abstract void Initialize();

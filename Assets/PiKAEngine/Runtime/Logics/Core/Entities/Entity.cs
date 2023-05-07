@@ -9,6 +9,7 @@ namespace PiKAEngine.Logics.Core.Entities
         public Entity(EntityManager entityManager)
         {
             this.entityManager = entityManager;
+            entityManager.AddEntityOnNextFrame(this);
         }
 
         public abstract void Initialize();

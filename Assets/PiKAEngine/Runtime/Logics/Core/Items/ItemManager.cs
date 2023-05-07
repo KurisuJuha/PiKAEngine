@@ -38,14 +38,18 @@ namespace PiKAEngine.Logics.Core.Items
         public void Update()
         {
             // アイテムの追加処理
-            foreach (var item in addingItems)
+            List<Item> _addingItems = new List<Item>(addingItems);
+            addingItems.Clear();
+            foreach (var item in _addingItems)
             {
                 items.Add(item);
                 initializingItems.Add(item);
             }
 
             // アイテムの削除処理
-            foreach (var item in removingItems)
+            List<Item> _removingItems = new List<Item>(removingItems);
+            removingItems.Clear();
+            foreach (var item in _removingItems)
             {
                 items.Remove(item);
                 activeItems.Remove(item);
@@ -53,21 +57,18 @@ namespace PiKAEngine.Logics.Core.Items
             }
 
             // アイテムのinitialize処理
-            foreach (var item in initializingItems)
+            List<Item> _initializingItems = new List<Item>(initializingItems);
+            initializingItems.Clear();
+            foreach (var item in _initializingItems)
                 item.Initialize();
 
             // アイテムのstart処理
-            foreach (var item in initializingItems)
+            foreach (var item in _initializingItems)
                 item.Start();
 
             // アイテムのupdate処理
             foreach (var item in activeItems)
                 item.Update();
-
-            // 作業用のリストたちの登録解除
-            addingItems.Clear();
-            removingItems.Clear();
-            initializingItems.Clear();
         }
 
         public void Dispose()

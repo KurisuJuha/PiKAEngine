@@ -64,14 +64,18 @@ namespace PiKAEngine.Logics.Core.Entities
         public void Update()
         {
             // エンティティの追加処理
-            foreach (var entity in addingEntities)
+            List<Entity> _addingEntities = new List<Entity>(addingEntities);
+            addingEntities.Clear();
+            foreach (var entity in _addingEntities)
             {
                 entities.Add(entity);
                 initializingEntities.Add(entity);
             }
 
             // エンティティの削除処理
-            foreach (var entity in removingEntities)
+            List<Entity> _removingEntities = new List<Entity>(removingEntities);
+            removingEntities.Clear();
+            foreach (var entity in _removingEntities)
             {
                 entities.Remove(entity);
                 activeEntities.Remove(entity);
@@ -79,21 +83,18 @@ namespace PiKAEngine.Logics.Core.Entities
             }
 
             // エンティティのinitialize処理
-            foreach (var entity in initializingEntities)
+            List<Entity> _initializingEntities = new List<Entity>(initializingEntities);
+            initializingEntities.Clear();
+            foreach (var entity in _initializingEntities)
                 entity.Initialize();
 
             // エンティティのstart処理
-            foreach (var entity in initializingEntities)
+            foreach (var entity in _initializingEntities)
                 entity.Start();
 
             // エンティティのupdate処理
             foreach (var entity in activeEntities)
                 entity.Update();
-
-            // 作業用のリストたちの登録解除
-            addingEntities.Clear();
-            removingEntities.Clear();
-            initializingEntities.Clear();
         }
 
         public void Dispose()
