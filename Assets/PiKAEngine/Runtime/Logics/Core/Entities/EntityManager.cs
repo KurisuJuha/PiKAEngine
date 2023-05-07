@@ -1,10 +1,12 @@
 using System.Linq;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace PiKAEngine.Logics.Core.Entities
 {
     public class EntityManager
     {
+        public ReadOnlyCollection<Entity> entitiesList => new(entities.ToArray());
         private readonly HashSet<Entity> entities;
         private readonly HashSet<Entity> activeEntities;
         private readonly List<Entity> addingEntities;
