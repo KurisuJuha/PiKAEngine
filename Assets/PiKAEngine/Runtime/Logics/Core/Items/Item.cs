@@ -15,6 +15,8 @@ namespace PiKAEngine.Logics.Core.Items
         public abstract void Initialize();
         public abstract void Start();
         public abstract void Update();
+        public abstract void OnDestory();
+
         public abstract void Dispose();
     }
 }

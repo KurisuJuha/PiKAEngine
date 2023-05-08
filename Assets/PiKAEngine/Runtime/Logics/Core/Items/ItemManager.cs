@@ -51,6 +51,7 @@ namespace PiKAEngine.Logics.Core.Items
             removingItems.Clear();
             foreach (var item in _removingItems)
             {
+                item.OnDestory();
                 items.Remove(item);
                 activeItems.Remove(item);
                 initializingItems.Remove(item);

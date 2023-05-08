@@ -15,6 +15,8 @@ namespace PiKAEngine.Logics.Core.Entities
         public abstract void Initialize();
         public abstract void Start();
         public abstract void Update();
+        public abstract void OnDestroy();
+
         public abstract void Dispose();
     }
 }

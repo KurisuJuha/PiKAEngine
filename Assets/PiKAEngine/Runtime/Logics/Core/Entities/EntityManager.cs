@@ -79,6 +79,7 @@ namespace PiKAEngine.Logics.Core.Entities
             removingEntities.Clear();
             foreach (var entity in _removingEntities)
             {
+                entity.OnDestroy();
                 entities.Remove(entity);
                 activeEntities.Remove(entity);
                 initializingEntities.Remove(entity);
