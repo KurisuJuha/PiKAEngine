@@ -64,6 +64,7 @@ namespace PiKAEngine.Logics.Core.TileMap
             foreach (var tile in removingTiles)
             {
                 activeTiles.Remove(tile);
+                tile.Dispose();
                 initializingTiles.Remove(tile);
             }
 
