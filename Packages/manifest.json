@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.annulusgames.lucid-editor": "file:C:/Users/KurisuJuha/Documents/GitHub/LucidEditor/Assets/LucidEditor",
+    "com.annulusgames.lucid-editor": "https://github.com/AnnulusGames/LucidEditor.git?path=/Assets/LucidEditor",
     "com.unity.collab-proxy": "2.0.1",
     "com.unity.feature.2d": "1.0.0",
     "com.unity.ide.rider": "3.0.18",
@@ -12,8 +12,8 @@
     "com.unity.timeline": "1.6.4",
     "com.unity.ugui": "1.0.0",
     "com.unity.visualscripting": "1.8.0",
-    "jp.juhakurisu.popodeterministic": "file:C:/Users/KurisuJuha/Documents/GitHub/popoDeterministic/Assets/popoDeterministic",
-    "jp.juhakurisu.popoutility": "file:C:/Users/KurisuJuha/Documents/GitHub/popoUtility/Assets/popoUtility",
+    "jp.juhakurisu.popodeterministic": "https://github.com/KurisuJuha/popoDeterministic.git?path=/Assets/popoDeterministic",
+    "jp.juhakurisu.popoutility": "https://github.com/KurisuJuha/popoUtility.git?path=/Assets/popoUtility",
     "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.androidjni": "1.0.0",
     "com.unity.modules.animation": "1.0.0",

@@ -1,10 +1,11 @@
 {
   "dependencies": {
     "com.annulusgames.lucid-editor": {
-      "version": "file:C:/Users/KurisuJuha/Documents/GitHub/LucidEditor/Assets/LucidEditor",
+      "version": "https://github.com/AnnulusGames/LucidEditor.git?path=/Assets/LucidEditor",
       "depth": 0,
-      "source": "local",
-      "dependencies": {}
+      "source": "git",
+      "dependencies": {},
+      "hash": "9bd3f06036b558863c13fa4954268b05eed120d7"
     },
     "com.unity.2d.animation": {
       "version": "7.0.10",
@@ -249,16 +250,18 @@
       "url": "https://packages.unity.com"
     },
     "jp.juhakurisu.popodeterministic": {
-      "version": "file:C:/Users/KurisuJuha/Documents/GitHub/popoDeterministic/Assets/popoDeterministic",
+      "version": "https://github.com/KurisuJuha/popoDeterministic.git?path=/Assets/popoDeterministic",
       "depth": 0,
-      "source": "local",
-      "dependencies": {}
+      "source": "git",
+      "dependencies": {},
+      "hash": "f8a91acd4cab8695ade89f073fc57e5630c4dac1"
     },
     "jp.juhakurisu.popoutility": {
-      "version": "file:C:/Users/KurisuJuha/Documents/GitHub/popoUtility/Assets/popoUtility",
+      "version": "https://github.com/KurisuJuha/popoUtility.git?path=/Assets/popoUtility",
       "depth": 0,
-      "source": "local",
-      "dependencies": {}
+      "source": "git",
+      "dependencies": {},
+      "hash": "0404d3b46e646c276cf30dd4b88eadab6a304437"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",
