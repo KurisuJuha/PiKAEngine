@@ -35,9 +35,9 @@ namespace PiKAEngine.Core.Maps
 
         private void InitializeTileBase()
         {
-            for (int y = 0; y < tileManager.chunkSize; y++)
+            for (var y = 0; y < tileManager.chunkSize; y++)
             {
-                for (int x = 0; x < tileManager.chunkSize; x++)
+                for (var x = 0; x < tileManager.chunkSize; x++)
                 {
                     tiles[y * tileManager.chunkSize + x].InitializeBase(new MapPosition(position, x, y));
                 }
