@@ -27,15 +27,13 @@ namespace PiKAEngine.Core.Entities
                 .ToArray();
         }
 
-        public bool TryFindEntity<TFind>(out TFind value)
+        public bool TryFindEntity<TFind>(out TFind? value)
         {
             foreach (var entity in entities)
             {
-                if (entity is TFind findValue)
-                {
-                    value = findValue;
-                    return true;
-                }
+                if (entity is not TFind findValue) continue;
+                value = findValue;
+                return true;
             }
 
             value = default(TFind);
