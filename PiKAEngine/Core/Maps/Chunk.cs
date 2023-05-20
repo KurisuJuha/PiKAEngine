@@ -1,7 +1,6 @@
-using System;
 using System.Collections.ObjectModel;
 
-namespace PiKAEngine.Logics.Core.TileMap
+namespace PiKAEngine.Core.Maps
 {
     public class Chunk : IDisposable
     {
