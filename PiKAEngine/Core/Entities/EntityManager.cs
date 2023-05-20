@@ -1,8 +1,6 @@
-using System.Linq;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace PiKAEngine.Logics.Core.Entities
+namespace PiKAEngine.Core.Entities
 {
     public class EntityManager
     {

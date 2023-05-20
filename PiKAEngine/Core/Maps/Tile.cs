@@ -1,6 +1,4 @@
-using System;
-
-namespace PiKAEngine.Logics.Core.TileMap
+namespace PiKAEngine.Core.Maps
 {
     public abstract class Tile : IDisposable
     {

@@ -1,4 +1,4 @@
-namespace PiKAEngine.Logics.Core.TileMap
+namespace PiKAEngine.Core.Maps
 {
     public struct ChunkPosition
     {
