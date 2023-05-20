@@ -1,6 +1,4 @@
-using System;
-
-namespace PiKAEngine.Logics.Core.Entities
+namespace PiKAEngine.Core.Entities
 {
     public abstract class Entity : IDisposable
     {
