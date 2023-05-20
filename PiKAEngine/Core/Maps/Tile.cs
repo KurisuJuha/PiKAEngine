@@ -12,10 +12,10 @@ namespace PiKAEngine.Core.Maps
             this.tileManager = tileManager;
         }
 
-        public void InitializeBase(MapPosition position)
+        public void InitializeBase(MapPosition mapPosition)
         {
-            this.position = position;
-            chunk = tileManager.chunkDictionary[position.chunkPosition];
+            this.position = mapPosition;
+            chunk = tileManager.chunkDictionary[mapPosition.chunkPosition];
         }
 
         public abstract void Initialize();
