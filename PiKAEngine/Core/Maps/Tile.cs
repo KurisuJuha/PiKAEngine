@@ -7,10 +7,9 @@ namespace PiKAEngine.Core.Maps
         public Chunk chunk { get; private set; }
         public MapPosition position { get; private set; }
 
-        protected Tile(TileManager tileManager, Chunk chunk)
+        protected Tile(TileManager tileManager)
         {
             this.tileManager = tileManager;
-            this.chunk = chunk;
         }
 
         public void InitializeBase(MapPosition position)
