@@ -4,7 +4,7 @@ namespace PiKAEngine.Core.Entities
     {
         public readonly EntityManager entityManager;
 
-        public Entity(EntityManager entityManager)
+        protected Entity(EntityManager entityManager)
         {
             this.entityManager = entityManager;
             entityManager.AddEntityOnNextFrame(this);
