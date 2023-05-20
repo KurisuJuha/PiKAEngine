@@ -9,7 +9,7 @@ namespace PiKAEngine.Core.Maps
         public readonly TileManager tileManager;
         public readonly ChunkPosition position;
         public ReadOnlyCollection<Tile> tileList => new ReadOnlyCollection<Tile>(tiles);
-        private Tile[] tiles;
+        private readonly Tile[] tiles;
 
         public Chunk(TileManager tileManager, ChunkPosition position, Tile[] tiles)
         {
