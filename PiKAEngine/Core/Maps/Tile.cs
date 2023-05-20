@@ -7,7 +7,7 @@ namespace PiKAEngine.Core.Maps
         public Chunk chunk { get; private set; }
         public MapPosition position { get; private set; }
 
-        public Tile(TileManager tileManager)
+        protected Tile(TileManager tileManager)
         {
             this.tileManager = tileManager;
         }
