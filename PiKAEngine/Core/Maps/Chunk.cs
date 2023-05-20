@@ -5,6 +5,7 @@ namespace PiKAEngine.Core.Maps
     // ReSharper disable once ClassNeverInstantiated.Global
     public class Chunk : IDisposable
     {
+        // ReSharper disable once MemberCanBePrivate.Global
         public readonly TileManager tileManager;
         public readonly ChunkPosition position;
         public ReadOnlyCollection<Tile> tileList => new ReadOnlyCollection<Tile>(tiles);
