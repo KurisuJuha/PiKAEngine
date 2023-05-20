@@ -36,7 +36,7 @@ namespace PiKAEngine.Core.Items
         public void Update()
         {
             // アイテムの追加処理
-            List<Item> addingItemsCache = new List<Item>(addingItems);
+            var addingItemsCache = new List<Item>(addingItems);
             addingItems.Clear();
             foreach (var item in addingItemsCache)
             {
@@ -45,7 +45,7 @@ namespace PiKAEngine.Core.Items
             }
 
             // アイテムの削除処理
-            List<Item> removingItemsCache = new List<Item>(removingItems);
+            var removingItemsCache = new List<Item>(removingItems);
             removingItems.Clear();
             foreach (var item in removingItemsCache)
             {
@@ -57,7 +57,7 @@ namespace PiKAEngine.Core.Items
             }
 
             // アイテムのinitialize処理
-            List<Item> initializingItemsCache = new List<Item>(initializingItems);
+            var initializingItemsCache = new List<Item>(initializingItems);
             initializingItems.Clear();
             foreach (var item in initializingItemsCache)
                 item.Initialize();
