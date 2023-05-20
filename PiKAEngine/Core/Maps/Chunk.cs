@@ -24,7 +24,7 @@ namespace PiKAEngine.Core.Maps
             this.tileManager = tileManager;
             this.position = position;
             tiles = new Tile[tileManager.chunkSize * tileManager.chunkSize];
-            for (int i = 0; i < tiles.Length; i++)
+            for (var i = 0; i < tiles.Length; i++)
                 tiles[i] = tileManager.getEmptyTile();
         }
 
