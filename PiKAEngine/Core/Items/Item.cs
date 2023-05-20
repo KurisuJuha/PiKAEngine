@@ -4,7 +4,7 @@ namespace PiKAEngine.Core.Items
     {
         public readonly ItemManager itemManager;
 
-        public Item(ItemManager itemManager)
+        protected Item(ItemManager itemManager)
         {
             this.itemManager = itemManager;
             itemManager.AddItemOnNextFrame(this);
