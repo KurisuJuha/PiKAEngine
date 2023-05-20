@@ -23,11 +23,7 @@ namespace PiKAEngine.Core.Entities
         public FindType[] FindEntities<FindType>()
         {
             return entities.Where(x => x is FindType)
-                .Select(x =>
-                {
-                    if (x is FindType y) return y;
-                    return default;
-                })
+                .OfType<FindType>()
                 .ToArray();
         }
 
