@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-
-namespace PiKAEngine.Logics.Core.Items
+namespace PiKAEngine.Core.Items
 {
     public class ItemManager : IDisposable
     {
