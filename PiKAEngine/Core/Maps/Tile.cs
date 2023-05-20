@@ -2,6 +2,7 @@ namespace PiKAEngine.Core.Maps
 {
     public abstract class Tile : IDisposable
     {
+        // ReSharper disable once MemberCanBePrivate.Global
         public readonly TileManager tileManager;
         public Chunk chunk { get; private set; }
         public MapPosition position { get; private set; }
