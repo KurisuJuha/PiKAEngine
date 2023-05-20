@@ -20,25 +20,25 @@ namespace PiKAEngine.Core.Entities
             initializingEntities = new List<Entity>();
         }
 
-        public FindType[] FindEntities<FindType>()
+        public TFind[] FindEntities<TFind>()
         {
-            return entities.Where(x => x is FindType)
-                .OfType<FindType>()
+            return entities.Where(x => x is TFind)
+                .OfType<TFind>()
                 .ToArray();
         }
 
-        public bool TryFindEntity<FindType>(out FindType value)
+        public bool TryFindEntity<TFind>(out TFind value)
         {
             foreach (var entity in entities)
             {
-                if (entity is FindType findValue)
+                if (entity is TFind findValue)
                 {
                     value = findValue;
                     return true;
                 }
             }
 
-            value = default(FindType);
+            value = default(TFind);
             return false;
         }
 
