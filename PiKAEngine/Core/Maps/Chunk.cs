@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 
 namespace PiKAEngine.Core.Maps
 {
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class Chunk : IDisposable
     {
         public readonly TileManager tileManager;
