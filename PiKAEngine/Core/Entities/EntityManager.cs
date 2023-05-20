@@ -58,7 +58,7 @@ namespace PiKAEngine.Core.Entities
         public void Update()
         {
             // エンティティの追加処理
-            List<Entity> _addingEntities = new List<Entity>(addingEntities);
+            var _addingEntities = new List<Entity>(addingEntities);
             addingEntities.Clear();
             foreach (var entity in _addingEntities)
             {
@@ -67,7 +67,7 @@ namespace PiKAEngine.Core.Entities
             }
 
             // エンティティの削除処理
-            List<Entity> _removingEntities = new List<Entity>(removingEntities);
+            var _removingEntities = new List<Entity>(removingEntities);
             removingEntities.Clear();
             foreach (var entity in _removingEntities)
             {
@@ -79,7 +79,7 @@ namespace PiKAEngine.Core.Entities
             }
 
             // エンティティのinitialize処理
-            List<Entity> _initializingEntities = new List<Entity>(initializingEntities);
+            var _initializingEntities = new List<Entity>(initializingEntities);
             initializingEntities.Clear();
             foreach (var entity in _initializingEntities)
                 entity.Initialize();
