@@ -2,6 +2,7 @@ using System.Collections.ObjectModel;
 
 namespace PiKAEngine.Core.Entities;
 
+// ReSharper disable once ClassNeverInstantiated.Global
 public class EntityManager
 {
     private readonly HashSet<Entity> activeEntities;
