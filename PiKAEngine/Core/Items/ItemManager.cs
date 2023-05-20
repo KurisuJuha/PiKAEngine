@@ -1,5 +1,6 @@
 namespace PiKAEngine.Core.Items
 {
+    // ReSharper disable once ClassNeverInstantiated.Global
     public class ItemManager : IDisposable
     {
         private readonly HashSet<Item> items;
