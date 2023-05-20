@@ -28,9 +28,9 @@ namespace PiKAEngine.Core.Maps
                 tiles[i] = tileManager.getEmptyTile();
         }
 
-        internal void SetTile(Tile tile, TilePosition position)
+        internal void SetTile(Tile tile, TilePosition tilePosition)
         {
-            tiles[position.y * tileManager.chunkSize + position.x] = tile;
+            tiles[tilePosition.y * tileManager.chunkSize + tilePosition.x] = tile;
         }
 
         private void InitializeTileBase()
