@@ -1,20 +1,19 @@
-namespace PiKAEngine.Core.Items
+namespace PiKAEngine.Core.Items;
+
+public abstract class Item : IDisposable
 {
-    public abstract class Item : IDisposable
+    public readonly ItemManager itemManager;
+
+    protected Item(ItemManager itemManager)
     {
-        public readonly ItemManager itemManager;
-
-        protected Item(ItemManager itemManager)
-        {
-            this.itemManager = itemManager;
-            itemManager.AddItemOnNextFrame(this);
-        }
-
-        public abstract void Initialize();
-        public abstract void Start();
-        public abstract void Update();
-        public abstract void OnDestory();
-
-        public abstract void Dispose();
+        this.itemManager = itemManager;
+        itemManager.AddItemOnNextFrame(this);
     }
+
+    public abstract void Dispose();
+
+    public abstract void Initialize();
+    public abstract void Start();
+    public abstract void Update();
+    public abstract void OnDestory();
 }
