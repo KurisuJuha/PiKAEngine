@@ -13,7 +13,7 @@ namespace PiKAEngine.Core.Maps
 
         public Chunk(TileManager tileManager, ChunkPosition position, Tile[] tiles)
         {
-            if (tiles.Length != tileManager.chunkSize * tileManager.chunkSize) throw new System.Exception("sizeが設定と異なっています");
+            if (tiles.Length != tileManager.chunkSize * tileManager.chunkSize) throw new Exception("sizeが設定と異なっています");
             this.tileManager = tileManager;
             this.position = position;
             this.tiles = tiles;
