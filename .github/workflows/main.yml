@@ -6,7 +6,7 @@ jobs:
     
     defaults:
       run:
-        working-directory: ./
+        working-directory: ./ 
     steps:
       - uses: actions/checkout@main
       - name: debug
