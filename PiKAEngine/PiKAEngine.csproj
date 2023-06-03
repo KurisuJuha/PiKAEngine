@@ -6,6 +6,7 @@
         <Nullable>enable</Nullable>
         <LangVersion>11</LangVersion>
         <Version>1.0.2</Version>
+        <RootNamespace>PiKATools.Engine</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

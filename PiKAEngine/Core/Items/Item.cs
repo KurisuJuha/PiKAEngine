@@ -1,4 +1,4 @@
-namespace PiKAEngine.Core.Items;
+namespace PiKATools.Engine.Core.Items;
 
 public abstract class Item : IDisposable
 {

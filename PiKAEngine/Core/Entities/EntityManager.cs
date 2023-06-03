@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 
-namespace PiKAEngine.Core.Entities;
+namespace PiKATools.Engine.Core.Entities;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 public class EntityManager

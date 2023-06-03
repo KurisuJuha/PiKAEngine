@@ -1,4 +1,4 @@
-namespace PiKAEngine.Core.Items;
+namespace PiKATools.Engine.Core.Items;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 public class ItemManager : IDisposable
