@@ -5,6 +5,11 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>11</LangVersion>
+        <RootNamespace>PiKATools.DebugSystem</RootNamespace>
     </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="System.Reactive" Version="6.0.0" />
+    </ItemGroup>
 
 </Project>
