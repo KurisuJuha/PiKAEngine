@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using PiKATools.DebugSystem;
 
 namespace PiKATools.Engine.Core.Entities;
 
@@ -9,10 +10,12 @@ public class EntityManager
     private readonly List<Entity> addingEntities;
     private readonly HashSet<Entity> entities;
     private readonly List<Entity> initializingEntities;
+    public readonly Kettle kettle;
     private readonly List<Entity> removingEntities;
 
-    public EntityManager()
+    public EntityManager(Kettle kettle)
     {
+        this.kettle = kettle;
         entities = new HashSet<Entity>();
         activeEntities = new HashSet<Entity>();
         addingEntities = new List<Entity>();

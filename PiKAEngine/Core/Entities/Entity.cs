@@ -1,14 +1,18 @@
+using PiKATools.DebugSystem;
+
 namespace PiKATools.Engine.Core.Entities;
 
 public abstract class Entity : IDisposable
 {
-    public readonly EntityManager entityManager;
+    private readonly EntityManager entityManager;
 
     protected Entity(EntityManager entityManager)
     {
         this.entityManager = entityManager;
         entityManager.AddEntityOnNextFrame(this);
     }
+
+    public Kettle kettle => entityManager.kettle;
 
     public abstract void Dispose();
 
