@@ -1,3 +1,5 @@
+using PiKATools.DebugSystem;
+
 namespace PiKATools.Engine.Core.Items;
 
 // ReSharper disable once ClassNeverInstantiated.Global
@@ -7,10 +9,12 @@ public class ItemManager : IDisposable
     private readonly List<Item> addingItems;
     private readonly List<Item> initializingItems;
     private readonly HashSet<Item> items;
+    public readonly Kettle kettle;
     private readonly List<Item> removingItems;
 
-    public ItemManager()
+    public ItemManager(Kettle kettle)
     {
+        this.kettle = kettle;
         items = new HashSet<Item>();
         activeItems = new HashSet<Item>();
         addingItems = new List<Item>();

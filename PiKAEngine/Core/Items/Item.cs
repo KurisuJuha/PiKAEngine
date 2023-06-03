@@ -1,14 +1,18 @@
+using PiKATools.DebugSystem;
+
 namespace PiKATools.Engine.Core.Items;
 
 public abstract class Item : IDisposable
 {
-    public readonly ItemManager itemManager;
+    private readonly ItemManager itemManager;
 
     protected Item(ItemManager itemManager)
     {
         this.itemManager = itemManager;
         itemManager.AddItemOnNextFrame(this);
     }
+
+    public Kettle kettle => itemManager.kettle;
 
     public abstract void Dispose();
 
