@@ -5,11 +5,6 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>11</LangVersion>
-        <Version>1.0.2</Version>
     </PropertyGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\Kettle\Kettle.csproj" />
-    </ItemGroup>
 
 </Project>
