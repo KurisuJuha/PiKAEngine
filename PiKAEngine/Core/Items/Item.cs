@@ -19,5 +19,4 @@ public abstract class Item : IDisposable
     public abstract void Initialize();
     public abstract void Start();
     public abstract void Update();
-    public abstract void OnDestory();
 }
