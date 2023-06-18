@@ -7,25 +7,18 @@ namespace PiKATools.Engine.Core.Entities;
 // ReSharper disable once ClassNeverInstantiated.Global
 public class EntityManager
 {
-    private readonly HashSet<Entity> _activeEntities;
-    private readonly List<Entity> _addingEntities;
-    private readonly HashSet<Entity> _entities;
-    private readonly List<Entity> _initializingEntities;
-    private readonly Subject<Entity> _onEntityAdded;
-    private readonly Subject<Entity> _onEntityRemoved;
-    private readonly List<Entity> _removingEntities;
+    private readonly HashSet<Entity> _activeEntities = new();
+    private readonly List<Entity> _addingEntities = new();
+    private readonly HashSet<Entity> _entities = new();
+    private readonly List<Entity> _initializingEntities = new();
+    private readonly Subject<Entity> _onEntityAdded = new();
+    private readonly Subject<Entity> _onEntityRemoved = new();
+    private readonly List<Entity> _removingEntities = new();
     public readonly Kettle Kettle;
 
     public EntityManager(Kettle kettle)
     {
         Kettle = kettle;
-        _entities = new HashSet<Entity>();
-        _activeEntities = new HashSet<Entity>();
-        _addingEntities = new List<Entity>();
-        _removingEntities = new List<Entity>();
-        _initializingEntities = new List<Entity>();
-        _onEntityAdded = new Subject<Entity>();
-        _onEntityRemoved = new Subject<Entity>();
     }
 
     public ReadOnlyCollection<Entity> Entities => new(_entities.ToArray());

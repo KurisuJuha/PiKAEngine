@@ -6,25 +6,18 @@ namespace PiKATools.Engine.Core.Items;
 // ReSharper disable once ClassNeverInstantiated.Global
 public class ItemManager : IDisposable
 {
-    private readonly HashSet<Item> _activeItems;
-    private readonly List<Item> _addingItems;
-    private readonly List<Item> _initializingItems;
-    private readonly HashSet<Item> _items;
-    private readonly Subject<Item> _onItemAdded;
-    private readonly Subject<Item> _onItemRemoved;
-    private readonly List<Item> _removingItems;
+    private readonly HashSet<Item> _activeItems = new();
+    private readonly List<Item> _addingItems = new();
+    private readonly List<Item> _initializingItems = new();
+    private readonly HashSet<Item> _items = new();
+    private readonly Subject<Item> _onItemAdded = new();
+    private readonly Subject<Item> _onItemRemoved = new();
+    private readonly List<Item> _removingItems = new();
     public readonly Kettle Kettle;
 
     public ItemManager(Kettle kettle)
     {
         Kettle = kettle;
-        _items = new HashSet<Item>();
-        _activeItems = new HashSet<Item>();
-        _addingItems = new List<Item>();
-        _removingItems = new List<Item>();
-        _initializingItems = new List<Item>();
-        _onItemAdded = new Subject<Item>();
-        _onItemRemoved = new Subject<Item>();
     }
 
     public IObservable<Item> OnItemRemoved => _onItemRemoved;
