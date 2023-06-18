@@ -23,7 +23,7 @@ public class EntityManager
         _initializingEntities = new List<Entity>();
     }
 
-    public ReadOnlyCollection<Entity> EntitiesList => new(_entities.ToArray());
+    public ReadOnlyCollection<Entity> Entities => new(_entities.ToArray());
 
     public TFind[] FindEntities<TFind>()
     {
