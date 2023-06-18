@@ -1,3 +1,4 @@
+using System.Reactive.Subjects;
 using PiKATools.DebugSystem;
 
 namespace PiKATools.Engine.Core.Items;
@@ -9,6 +10,8 @@ public class ItemManager : IDisposable
     private readonly List<Item> _addingItems;
     private readonly List<Item> _initializingItems;
     private readonly HashSet<Item> _items;
+    private readonly Subject<Item> _onItemAdded;
+    private readonly Subject<Item> _onItemRemoved;
     private readonly List<Item> _removingItems;
     public readonly Kettle Kettle;
 
@@ -20,11 +23,18 @@ public class ItemManager : IDisposable
         _addingItems = new List<Item>();
         _removingItems = new List<Item>();
         _initializingItems = new List<Item>();
+        _onItemAdded = new Subject<Item>();
+        _onItemRemoved = new Subject<Item>();
     }
+
+    public IObservable<Item> OnItemRemoved => _onItemRemoved;
+    public IObservable<Item> OnItemAdded => _onItemAdded;
 
     public void Dispose()
     {
         foreach (var item in _items) item.Dispose();
+        _onItemRemoved.Dispose();
+        _onItemAdded.Dispose();
     }
 
     public void AddItemOnNextFrame(Item item)
@@ -64,7 +74,7 @@ public class ItemManager : IDisposable
         _removingItems.Clear();
         foreach (var item in removingItemsCache)
         {
-            item.OnDestory();
+            _onItemRemoved.OnNext(item);
             item.Dispose();
             _items.Remove(item);
             _activeItems.Remove(item);
@@ -75,7 +85,10 @@ public class ItemManager : IDisposable
         var initializingItemsCache = new List<Item>(_initializingItems);
         _initializingItems.Clear();
         foreach (var item in initializingItemsCache)
+        {
             item.Initialize();
+            _onItemAdded.OnNext(item);
+        }
 
         // アイテムのstart処理
         foreach (var item in initializingItemsCache)
