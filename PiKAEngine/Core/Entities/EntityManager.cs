@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Reactive.Subjects;
 using PiKATools.DebugSystem;
 
 namespace PiKATools.Engine.Core.Entities;
@@ -10,6 +11,8 @@ public class EntityManager
     private readonly List<Entity> _addingEntities;
     private readonly HashSet<Entity> _entities;
     private readonly List<Entity> _initializingEntities;
+    private readonly Subject<Entity> _onEntityAdded;
+    private readonly Subject<Entity> _onEntityRemoved;
     private readonly List<Entity> _removingEntities;
     public readonly Kettle Kettle;
 
@@ -21,9 +24,13 @@ public class EntityManager
         _addingEntities = new List<Entity>();
         _removingEntities = new List<Entity>();
         _initializingEntities = new List<Entity>();
+        _onEntityAdded = new Subject<Entity>();
+        _onEntityRemoved = new Subject<Entity>();
     }
 
     public ReadOnlyCollection<Entity> Entities => new(_entities.ToArray());
+    public IObservable<Entity> OnEntityAdded => _onEntityAdded;
+    public IObservable<Entity> OnEntityRemoved => _onEntityRemoved;
 
     public TFind[] FindEntities<TFind>()
     {
@@ -82,7 +89,7 @@ public class EntityManager
         _removingEntities.Clear();
         foreach (var entity in removingEntitiesCache)
         {
-            entity.OnDestroy();
+            _onEntityRemoved.OnNext(entity);
             entity.Dispose();
             _entities.Remove(entity);
             _activeEntities.Remove(entity);
@@ -93,7 +100,10 @@ public class EntityManager
         var initializingEntitiesCache = new List<Entity>(_initializingEntities);
         _initializingEntities.Clear();
         foreach (var entity in initializingEntitiesCache)
+        {
             entity.Initialize();
+            _onEntityAdded.OnNext(entity);
+        }
 
         // エンティティのstart処理
         foreach (var entity in initializingEntitiesCache)
@@ -107,5 +117,7 @@ public class EntityManager
     public void Dispose()
     {
         foreach (var entity in _entities) entity.Dispose();
+        _onEntityAdded.Dispose();
+        _onEntityRemoved.Dispose();
     }
 }
