@@ -4,17 +4,17 @@ namespace PiKATools.DebugSystem;
 
 public class Kettle
 {
-    private readonly Subject<string> onLoggedSubject;
+    private readonly Subject<string> _onLoggedSubject;
 
     public Kettle()
     {
-        onLoggedSubject = new Subject<string>();
+        _onLoggedSubject = new Subject<string>();
     }
 
-    public IObservable<string> onLogged => onLoggedSubject;
+    public IObservable<string> OnLogged => _onLoggedSubject;
 
     public void Log(string debugString)
     {
-        onLoggedSubject.OnNext(debugString);
+        _onLoggedSubject.OnNext(debugString);
     }
 }
