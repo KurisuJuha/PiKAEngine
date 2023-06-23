@@ -2,6 +2,7 @@ using PiKATools.DebugSystem;
 
 namespace PiKATools.Engine.Core.Items;
 
+[Obsolete]
 public abstract class Item : IDisposable
 {
     private readonly ItemManager _itemManager;

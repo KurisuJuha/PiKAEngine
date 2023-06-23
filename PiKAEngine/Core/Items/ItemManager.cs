@@ -3,6 +3,7 @@ using PiKATools.DebugSystem;
 
 namespace PiKATools.Engine.Core.Items;
 
+[Obsolete]
 // ReSharper disable once ClassNeverInstantiated.Global
 public class ItemManager : IDisposable
 {
