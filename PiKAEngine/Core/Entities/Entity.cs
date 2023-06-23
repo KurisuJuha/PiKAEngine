@@ -7,11 +7,12 @@ public abstract class Entity : IDisposable
     private readonly EntityManager _entityManager;
     public readonly Guid Id;
 
-    protected Entity(EntityManager entityManager)
+    protected Entity(EntityManager entityManager, bool registerEntityManager = true)
     {
         _entityManager = entityManager;
-        entityManager.AddEntityOnNextFrame(this);
         Id = new Guid();
+
+        if (registerEntityManager) entityManager.AddEntityOnNextFrame(this);
     }
 
     public Kettle Kettle => _entityManager.Kettle;
