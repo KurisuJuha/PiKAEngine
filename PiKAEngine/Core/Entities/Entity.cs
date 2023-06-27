@@ -19,6 +19,16 @@ public abstract class Entity : IDisposable
 
     public abstract void Dispose();
 
+    protected void Activate()
+    {
+        _entityManager.ActivateEntity(this);
+    }
+
+    protected void Deactivate()
+    {
+        _entityManager.DeactivateEntity(this);
+    }
+
     public abstract void Initialize();
     public abstract void Start();
     public abstract void Update();
