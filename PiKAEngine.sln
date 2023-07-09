@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiKAEngine.Core", "PiKAEngi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kettle", "Kettle\Kettle.csproj", "{B431B9A4-3367-4AAC-8EA6-342C28E34123}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiKAEngine.Rendering", "PiKAEngine.Rendering\PiKAEngine.Rendering.csproj", "{EA8CAC31-DE00-46A4-B565-9680F092DF53}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{B431B9A4-3367-4AAC-8EA6-342C28E34123}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B431B9A4-3367-4AAC-8EA6-342C28E34123}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B431B9A4-3367-4AAC-8EA6-342C28E34123}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA8CAC31-DE00-46A4-B565-9680F092DF53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA8CAC31-DE00-46A4-B565-9680F092DF53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA8CAC31-DE00-46A4-B565-9680F092DF53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA8CAC31-DE00-46A4-B565-9680F092DF53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
