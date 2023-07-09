@@ -5,8 +5,9 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>11</LangVersion>
-        <Version>4.0.0</Version>
-        <RootNamespace>PiKATools.Engine</RootNamespace>
+        <Version>5.0.0</Version>
+        <RootNamespace>PiKATools.Engine.Core</RootNamespace>
+        <AssemblyName>PiKAEngine.Core</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>
