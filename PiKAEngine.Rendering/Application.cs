@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 
+namespace PiKATools.Engine.Rendering;
+
 public class Application : Game
 {
     private readonly GraphicsDeviceManager _graphics;
