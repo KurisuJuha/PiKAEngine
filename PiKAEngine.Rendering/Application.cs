@@ -1,11 +1,13 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace PiKATools.Engine.Rendering;
 
 public class Application : Game
 {
     private readonly GraphicsDeviceManager _graphics;
-    private long _tick;
+    private SpriteBatch _spriteBatch;
+    private Texture2D _whiteRectangle;
 
     public Application()
     {
@@ -21,19 +23,26 @@ public class Application : Game
     protected override void LoadContent()
     {
         base.LoadContent();
+
+        _spriteBatch = new SpriteBatch(GraphicsDevice);
+        _whiteRectangle = new Texture2D(GraphicsDevice, 1, 1);
+        _whiteRectangle.SetData(new[] { Color.White });
     }
 
     protected override void Update(GameTime gameTime)
     {
         base.Update(gameTime);
-
-        _tick += 1;
     }
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(_tick / 5 % 2 == 0 ? Color.Red : Color.Blue);
-
         base.Draw(gameTime);
+        GraphicsDevice.Clear(Color.MediumAquamarine);
+
+        _spriteBatch.Begin();
+
+        _spriteBatch.Draw(_whiteRectangle, new Rectangle(10, 20, 30, 40), Color.White);
+
+        _spriteBatch.End();
     }
 }
