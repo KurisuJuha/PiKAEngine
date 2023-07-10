@@ -5,15 +5,16 @@ using PiKATools.DebugSystem;
 namespace PiKATools.Engine.Core.Entities;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public class EntityManager
+public abstract class EntityManager<TEntity>
+    where TEntity : Entity<TEntity>
 {
-    private readonly HashSet<Entity> _activeEntities = new();
-    private readonly List<Entity> _addingEntities = new();
-    private readonly HashSet<Entity> _entities = new();
-    private readonly List<Entity> _initializingEntities = new();
-    private readonly Subject<Entity> _onEntityAdded = new();
-    private readonly Subject<Entity> _onEntityRemoved = new();
-    private readonly List<Entity> _removingEntities = new();
+    private readonly HashSet<TEntity> _activeEntities = new();
+    private readonly List<TEntity> _addingEntities = new();
+    private readonly HashSet<TEntity> _entities = new();
+    private readonly List<TEntity> _initializingEntities = new();
+    private readonly Subject<TEntity> _onEntityAdded = new();
+    private readonly Subject<TEntity> _onEntityRemoved = new();
+    private readonly List<TEntity> _removingEntities = new();
     public readonly Kettle Kettle;
 
     public EntityManager(Kettle kettle)
@@ -21,9 +22,9 @@ public class EntityManager
         Kettle = kettle;
     }
 
-    public ReadOnlyCollection<Entity> Entities => new(_entities.ToArray());
-    public IObservable<Entity> OnEntityAdded => _onEntityAdded;
-    public IObservable<Entity> OnEntityRemoved => _onEntityRemoved;
+    public ReadOnlyCollection<TEntity> Entities => new(_entities.ToArray());
+    public IObservable<TEntity> OnEntityAdded => _onEntityAdded;
+    public IObservable<TEntity> OnEntityRemoved => _onEntityRemoved;
 
     public TFind[] FindEntities<TFind>()
     {
@@ -45,23 +46,23 @@ public class EntityManager
         return false;
     }
 
-    public void AddEntityOnNextFrame(Entity entity)
+    public void AddEntityOnNextFrame(TEntity entity)
     {
         _addingEntities.Add(entity);
     }
 
-    public void RemoveEntityOnNextFrame(Entity entity)
+    public void RemoveEntityOnNextFrame(TEntity entity)
     {
         _removingEntities.Add(entity);
     }
 
-    public void ActivateEntity(Entity entity)
+    public void ActivateEntity(TEntity entity)
     {
         if (!_entities.Contains(entity)) AddEntityOnNextFrame(entity);
         _activeEntities.Add(entity);
     }
 
-    public void DeactivateEntity(Entity entity)
+    public void DeactivateEntity(TEntity entity)
     {
         _activeEntities.Remove(entity);
     }
@@ -69,7 +70,7 @@ public class EntityManager
     public void Update()
     {
         // エンティティの追加処理
-        var addingEntitiesCache = new List<Entity>(_addingEntities);
+        var addingEntitiesCache = new List<TEntity>(_addingEntities);
         _addingEntities.Clear();
         foreach (var entity in addingEntitiesCache)
         {
@@ -78,7 +79,7 @@ public class EntityManager
         }
 
         // エンティティの削除処理
-        var removingEntitiesCache = new List<Entity>(_removingEntities);
+        var removingEntitiesCache = new List<TEntity>(_removingEntities);
         _removingEntities.Clear();
         foreach (var entity in removingEntitiesCache)
         {
@@ -90,7 +91,7 @@ public class EntityManager
         }
 
         // エンティティのinitialize処理
-        var initializingEntitiesCache = new List<Entity>(_initializingEntities);
+        var initializingEntitiesCache = new List<TEntity>(_initializingEntities);
         _initializingEntities.Clear();
         foreach (var entity in initializingEntitiesCache)
         {
