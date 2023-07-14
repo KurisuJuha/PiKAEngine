@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Reactive.Subjects;
-using PiKATools.DebugSystem;
+using PiKATools.Engine.Core.DebugSystem;
 
 namespace PiKATools.Engine.Core.Entities;
 

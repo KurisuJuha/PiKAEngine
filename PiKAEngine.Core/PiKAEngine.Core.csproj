@@ -11,10 +11,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Kettle\Kettle.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="System.Reactive" Version="6.0.0" />
     </ItemGroup>
 

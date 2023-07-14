@@ -1,6 +1,6 @@
 ﻿using System.Reactive.Subjects;
 
-namespace PiKATools.DebugSystem;
+namespace PiKATools.Engine.Core.DebugSystem;
 
 public class Kettle
 {
