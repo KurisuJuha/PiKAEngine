@@ -13,6 +13,7 @@ public class Application : Game
     {
         _graphics = new GraphicsDeviceManager(this);
         IsMouseVisible = true;
+        TargetElapsedTime = TimeSpan.FromSeconds(1d / 60);
     }
 
     protected override void Initialize()
