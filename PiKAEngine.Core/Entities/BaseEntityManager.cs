@@ -5,8 +5,8 @@ using PiKATools.Engine.Core.DebugSystem;
 namespace PiKATools.Engine.Core.Entities;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public abstract class EntityManager<TEntity>
-    where TEntity : Entity<TEntity>
+public abstract class BaseEntityManager<TEntity>
+    where TEntity : BaseEntity<TEntity>
 {
     private readonly HashSet<TEntity> _activeEntities = new();
     private readonly List<TEntity> _addingEntities = new();
@@ -17,7 +17,7 @@ public abstract class EntityManager<TEntity>
     private readonly List<TEntity> _removingEntities = new();
     public readonly Kettle Kettle;
 
-    public EntityManager(Kettle kettle)
+    public BaseEntityManager(Kettle kettle)
     {
         Kettle = kettle;
     }
