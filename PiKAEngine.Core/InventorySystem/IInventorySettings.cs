@@ -1,6 +1,7 @@
 ﻿namespace PiKATools.Engine.Core.InventorySystem;
 
-public interface IInventorySettings
+public interface IInventorySettings<T>
 {
-    int GetMaxItemAmount { get; }
+    int GetMaxItemAmount(T item);
+    bool AreSameItems(T item1, T item2);
 }
