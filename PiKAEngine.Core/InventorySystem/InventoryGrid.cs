@@ -33,5 +33,22 @@ public abstract class InventoryGrid<T> : IInventoryGrid<T>
         return true;
     }
 
+    private bool IsSubtractable()
+    {
+        // 数量が0ならアウト
+        if (_items.Count == 0) return false;
+
+        return true;
+    }
+
+    public bool TrySubtract(out T? item)
+    {
+        item = default;
+        if (!IsSubtractable()) return false;
+
+        item = _items.Last();
+        _items.RemoveAt(_items.Count - 1);
+
+        return true;
     }
 }
