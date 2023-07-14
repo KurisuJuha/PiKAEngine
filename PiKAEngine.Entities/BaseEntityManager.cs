@@ -1,8 +1,8 @@
 using System.Collections.ObjectModel;
 using System.Reactive.Subjects;
-using PiKATools.Engine.Core.DebugSystem;
+using PiKAEngine.DebugSystem;
 
-namespace PiKATools.Engine.Core.Entities;
+namespace PiKAEngine.Entities;
 
 // ReSharper disable once ClassNeverInstantiated.Global
 public abstract class BaseEntityManager<TEntity>

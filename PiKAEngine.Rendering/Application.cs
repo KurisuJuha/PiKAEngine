@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace PiKATools.Engine.Rendering;
+namespace PiKAEngine.Rendering;
 
 public class Application : Game
 {

@@ -1,6 +1,6 @@
-using PiKATools.Engine.Core.DebugSystem;
+using PiKAEngine.DebugSystem;
 
-namespace PiKATools.Engine.Core.Entities;
+namespace PiKAEngine.Entities;
 
 public abstract class BaseEntity<TEntity> : IDisposable
     where TEntity : BaseEntity<TEntity>

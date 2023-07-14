@@ -1,4 +1,4 @@
-﻿namespace PiKATools.Engine.Core.InventorySystem;
+﻿namespace PiKAEngine.InventorySystem;
 
 public abstract class InventoryGrid<T> : IInventoryGrid<T>
 {
