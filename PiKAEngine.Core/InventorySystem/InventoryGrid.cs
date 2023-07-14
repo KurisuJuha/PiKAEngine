@@ -51,4 +51,38 @@ public abstract class InventoryGrid<T> : IInventoryGrid<T>
 
         return true;
     }
+
+    private bool IsAddableItems(IEnumerable<T> addingItems)
+    {
+        var addingItemArray = addingItems as T[] ?? addingItems.ToArray();
+
+        // アイテム数0ならOK
+        if (addingItemArray.Length == 0) return true;
+
+        var addingItem = addingItemArray[0];
+
+        // 足して数量がマックスよりも多くなるならアウト
+        if (_items.Count + addingItemArray.Length > _inventorySettings.GetMaxItemAmount(addingItemArray[0]))
+            return false;
+        if (_items.Count + addingItemArray.Length > _gridMaxAmount)
+            return false;
+
+        // 全てのアイテムが同じ種類でないとアウト
+        if (!addingItemArray.All(item => _inventorySettings.AreSameItems(item, addingItem))) return false;
+
+        // 代表アイテムとグリッドのアイテムが同じ種類ではないならアウト
+        if (_items.Count != 0 && _inventorySettings.AreSameItems(_items[0], addingItem)) return false;
+
+        return true;
+    }
+
+    private bool TryAddItems(IEnumerable<T> addingItems)
+    {
+        var addingItemArray = addingItems as T[] ?? addingItems.ToArray();
+        if (!IsAddableItems(addingItemArray)) return false;
+
+        _items.AddRange(addingItemArray);
+
+        return true;
+    }
 }
