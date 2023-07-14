@@ -2,5 +2,5 @@
 
 public interface IInventorySettings
 {
-    public int GetMaxItemAmount { get; }
+    int GetMaxItemAmount { get; }
 }
