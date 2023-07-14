@@ -85,4 +85,24 @@ public abstract class InventoryGrid<T> : IInventoryGrid<T>
 
         return true;
     }
+
+    private bool IsSubtractableItems(int count)
+    {
+        // 引いたあとの数量が0未満ならアウト
+        if (_items.Count - count < 0) return false;
+
+        return true;
+    }
+
+    private bool TrySubtractItems(int count, out IEnumerable<T> items)
+    {
+        items = Array.Empty<T>();
+        if (!IsSubtractableItems(count)) return false;
+
+        var i = _items.Count - count;
+        items = _items.Skip(_items.Count - count);
+        _items.RemoveRange(_items.Count - count, count);
+
+        return false;
+    }
 }
