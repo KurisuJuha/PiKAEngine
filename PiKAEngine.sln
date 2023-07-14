@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiKAEngine.MultiPlay.Client
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiKAEngine.MultiPlay.Server", "PiKAEngine.Multiplay.Server\PiKAEngine.MultiPlay.Server.csproj", "{C42CA741-742E-45EB-855E-E5AD4B1023A4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiKAEngine.MultiPlay", "PiKAEngine.MultiPlay\PiKAEngine.MultiPlay.csproj", "{B6BB2CBD-13FF-424F-A6C9-49D2BCC112BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,5 +62,9 @@ Global
 		{C42CA741-742E-45EB-855E-E5AD4B1023A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C42CA741-742E-45EB-855E-E5AD4B1023A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C42CA741-742E-45EB-855E-E5AD4B1023A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6BB2CBD-13FF-424F-A6C9-49D2BCC112BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6BB2CBD-13FF-424F-A6C9-49D2BCC112BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6BB2CBD-13FF-424F-A6C9-49D2BCC112BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6BB2CBD-13FF-424F-A6C9-49D2BCC112BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

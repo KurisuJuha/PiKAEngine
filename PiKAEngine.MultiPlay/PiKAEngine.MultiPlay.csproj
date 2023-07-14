@@ -7,8 +7,4 @@
         <LangVersion>11</LangVersion>
     </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\PiKAEngine.MultiPlay\PiKAEngine.MultiPlay.csproj" />
-    </ItemGroup>
-
 </Project>
