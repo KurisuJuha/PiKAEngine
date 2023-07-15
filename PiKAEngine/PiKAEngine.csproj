@@ -12,8 +12,6 @@
       <ProjectReference Include="..\PiKAEngine.DebugSystem\PiKAEngine.DebugSystem.csproj" />
       <ProjectReference Include="..\PiKAEngine.Entities\PiKAEngine.Entities.csproj" />
       <ProjectReference Include="..\PiKAEngine.InventorySystem\PiKAEngine.InventorySystem.csproj" />
-      <ProjectReference Include="..\PiKAEngine.MultiPlay.Client\PiKAEngine.MultiPlay.Client.csproj" />
-      <ProjectReference Include="..\PiKAEngine.Multiplay.Server\PiKAEngine.MultiPlay.Server.csproj" />
     </ItemGroup>
 
 </Project>

@@ -21,9 +21,3 @@ jobs:
         run: dotnet nuget push ./PiKAEngine.Entities/bin/Release/PiKAEngine.Entities.1.0.0.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
       - name: push PiKAEngine.InventorySystem
         run: dotnet nuget push ./PiKAEngine.InventorySystem/bin/Release/PiKAEngine.InventorySystem.1.0.0.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
-      - name: push PiKAEngine.MultiPlay.Client
-        run: dotnet nuget push ./PiKAEngine.MultiPlay.Client/bin/Release/PiKAEngine.MultiPlay.Client.1.0.0.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
-      - name: push PiKAEngine.MultiPlay.Server
-        run: dotnet nuget push ./PiKAEngine.MultiPlay.Server/bin/Release/PiKAEngine.MultiPlay.Server.1.0.0.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
-      - name: push PiKAEngine.MultiPlay
-        run: dotnet nuget push ./PiKAEngine.MultiPlay/bin/Release/PiKAEngine.MultiPlay.1.0.0.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
