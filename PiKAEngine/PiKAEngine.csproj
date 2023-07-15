@@ -12,6 +12,7 @@
       <ProjectReference Include="..\PiKAEngine.DebugSystem\PiKAEngine.DebugSystem.csproj" />
       <ProjectReference Include="..\PiKAEngine.Entities\PiKAEngine.Entities.csproj" />
       <ProjectReference Include="..\PiKAEngine.InventorySystem\PiKAEngine.InventorySystem.csproj" />
+      <ProjectReference Include="..\PiKAEngine.MapSystem\PiKAEngine.MapSystem.csproj" />
     </ItemGroup>
 
 </Project>
