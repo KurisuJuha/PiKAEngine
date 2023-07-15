@@ -5,8 +5,8 @@ using PiKAEngine.DebugSystem;
 namespace PiKAEngine.Entities;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public abstract class BaseEntityManager<TEntity>
-    where TEntity : BaseEntity<TEntity>
+public abstract class EntityManagerBase<TEntity>
+    where TEntity : EntityBase<TEntity>
 {
     private readonly HashSet<TEntity> _activeEntities = new();
     private readonly List<TEntity> _addingEntities = new();
@@ -17,7 +17,7 @@ public abstract class BaseEntityManager<TEntity>
     private readonly List<TEntity> _removingEntities = new();
     public readonly Kettle Kettle;
 
-    public BaseEntityManager(Kettle kettle)
+    public EntityManagerBase(Kettle kettle)
     {
         Kettle = kettle;
     }
