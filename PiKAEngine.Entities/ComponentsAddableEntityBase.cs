@@ -20,7 +20,7 @@ public abstract class ComponentsAddableEntityBase<TEntity, TComponent> : EntityB
         return Components.OfType<T>().First();
     }
 
-    public IEnumerable<T> GetComponents<T>()
+    public IEnumerable<T> GetComponents<T>() where T : TComponent
     {
         return Components.OfType<T>();
     }
