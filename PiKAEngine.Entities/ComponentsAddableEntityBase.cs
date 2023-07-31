@@ -14,6 +14,12 @@ public abstract class ComponentsAddableEntityBase<TEntity, TComponent> : EntityB
         Components = new ReadOnlyCollection<TComponent>(CreateComponents().ToList());
     }
 
+    public T GetComponent<T>()
+        where T : TComponent
+    {
+        return Components.OfType<T>().First();
+    }
+
     protected virtual IEnumerable<TComponent> CreateComponents()
     {
         return Array.Empty<TComponent>();
