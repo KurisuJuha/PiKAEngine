@@ -20,6 +20,11 @@ public abstract class ComponentsAddableEntityBase<TEntity, TComponent> : EntityB
         return Components.OfType<T>().First();
     }
 
+    public IEnumerable<T> GetComponents<T>()
+    {
+        return Components.OfType<T>();
+    }
+
     protected virtual IEnumerable<TComponent> CreateComponents()
     {
         return Array.Empty<TComponent>();
