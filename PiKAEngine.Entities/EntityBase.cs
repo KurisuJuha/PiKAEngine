@@ -27,7 +27,7 @@ public abstract class EntityBase<TEntity> : IDisposable
         _entityManagerBase.ActivateEntity((TEntity)this);
     }
 
-    protected void Deactivate()
+    public void Deactivate()
     {
         _entityManagerBase.DeactivateEntity((TEntity)this);
     }
