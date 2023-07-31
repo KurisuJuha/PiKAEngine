@@ -25,6 +25,12 @@ public abstract class ComponentsAddableEntityBase<TEntity, TComponent> : EntityB
         return Components.OfType<T>();
     }
 
+    public bool TryGetComponent<T>(out T? component) where T : TComponent
+    {
+        component = GetComponent<T>();
+        return component != null;
+    }
+
     protected virtual IEnumerable<TComponent> CreateComponents()
     {
         return Array.Empty<TComponent>();
