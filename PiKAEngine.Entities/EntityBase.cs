@@ -18,7 +18,9 @@ public abstract class EntityBase<TEntity> : IDisposable
 
     public Kettle Kettle => _entityManagerBase.Kettle;
 
-    public abstract void Dispose();
+    public virtual void Dispose()
+    {
+    }
 
     protected void Activate()
     {
