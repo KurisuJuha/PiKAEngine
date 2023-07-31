@@ -32,7 +32,10 @@ public abstract class EntityBase<TEntity> : IDisposable
         _entityManagerBase.DeactivateEntity((TEntity)this);
     }
 
-    public abstract void Initialize();
     public abstract void Start();
     public abstract void Update();
+    public virtual void Initialize()
+    {
+    }
+
 }
