@@ -33,9 +33,11 @@ public abstract class EntityBase<TEntity> : IDisposable
     }
 
     public abstract void Start();
-    public abstract void Update();
     public virtual void Initialize()
     {
     }
 
+    public virtual void Update()
+    {
+    }
 }
