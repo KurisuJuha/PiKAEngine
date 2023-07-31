@@ -18,19 +18,29 @@ public abstract class EntityBase<TEntity> : IDisposable
 
     public Kettle Kettle => _entityManagerBase.Kettle;
 
-    public abstract void Dispose();
+    public virtual void Dispose()
+    {
+    }
 
-    protected void Activate()
+    public void Activate()
     {
         _entityManagerBase.ActivateEntity((TEntity)this);
     }
 
-    protected void Deactivate()
+    public void Deactivate()
     {
         _entityManagerBase.DeactivateEntity((TEntity)this);
     }
 
-    public abstract void Initialize();
-    public abstract void Start();
-    public abstract void Update();
+    public virtual void Initialize()
+    {
+    }
+
+    public virtual void Start()
+    {
+    }
+
+    public virtual void Update()
+    {
+    }
 }
