@@ -22,7 +22,7 @@ public abstract class EntityBase<TEntity> : IDisposable
     {
     }
 
-    protected void Activate()
+    public void Activate()
     {
         _entityManagerBase.ActivateEntity((TEntity)this);
     }
