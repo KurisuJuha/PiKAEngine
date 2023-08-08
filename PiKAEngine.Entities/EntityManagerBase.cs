@@ -5,8 +5,9 @@ using PiKAEngine.DebugSystem;
 namespace PiKAEngine.Entities;
 
 // ReSharper disable once ClassNeverInstantiated.Global
-public abstract class EntityManagerBase<TEntity>
-    where TEntity : EntityBase<TEntity>
+public abstract class EntityManagerBase<TEntity, TComponent>
+    where TEntity : EntityBase<TEntity, TComponent>
+    where TComponent : ComponentBase<TEntity, TComponent>
 {
     private readonly HashSet<TEntity> _activeEntities = new();
     private readonly List<TEntity> _addingEntities = new();
