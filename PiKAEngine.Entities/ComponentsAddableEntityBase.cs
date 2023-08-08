@@ -1,17 +1,42 @@
 ﻿using System.Collections.ObjectModel;
+using PiKAEngine.DebugSystem;
 
 namespace PiKAEngine.Entities;
 
-public abstract class ComponentsAddableEntityBase<TEntity, TComponent> : EntityBase<TEntity>
-    where TEntity : EntityBase<TEntity>
-    where TComponent : ComponentBase<TEntity>
+public abstract class EntityBase<TEntity, TComponent> : IDisposable
+    where TEntity : EntityBase<TEntity, TComponent>
+    where TComponent : ComponentBase<TEntity, TComponent>
 {
+    private readonly EntityManagerBase<TEntity, TComponent> _entityManagerBase;
     public readonly ReadOnlyCollection<TComponent> Components;
+    public readonly Guid Id;
 
-    protected ComponentsAddableEntityBase(EntityManagerBase<TEntity> entityManagerBase,
-        bool registerEntityManager = true) : base(entityManagerBase, registerEntityManager)
+    protected EntityBase(EntityManagerBase<TEntity, TComponent> entityManagerBase, bool registerEntityManager = true)
     {
+        _entityManagerBase = entityManagerBase;
+        Id = new Guid();
+
         Components = new ReadOnlyCollection<TComponent>(CreateComponents().ToList());
+
+        if (registerEntityManager) entityManagerBase.AddEntityOnNextFrame((TEntity)this);
+    }
+
+    public Kettle Kettle => _entityManagerBase.Kettle;
+
+    public void Dispose()
+    {
+        foreach (var component in Components) component.Dispose();
+        DisposeComponentsAddableEntity();
+    }
+
+    public void Activate()
+    {
+        _entityManagerBase.ActivateEntity((TEntity)this);
+    }
+
+    public void Deactivate()
+    {
+        _entityManagerBase.DeactivateEntity((TEntity)this);
     }
 
     public T GetComponent<T>() where T : TComponent
@@ -35,7 +60,7 @@ public abstract class ComponentsAddableEntityBase<TEntity, TComponent> : EntityB
         return Array.Empty<TComponent>();
     }
 
-    public override void Initialize()
+    public void Initialize()
     {
         foreach (var component in Components) component.Initialize();
         InitializeComponentsAddableEntity();
@@ -45,7 +70,7 @@ public abstract class ComponentsAddableEntityBase<TEntity, TComponent> : EntityB
     {
     }
 
-    public override void Start()
+    public void Start()
     {
         foreach (var component in Components) component.Start();
         StartComponentsAddableEntity();
@@ -55,7 +80,7 @@ public abstract class ComponentsAddableEntityBase<TEntity, TComponent> : EntityB
     {
     }
 
-    public override void Update()
+    public void Update()
     {
         foreach (var component in Components) component.Update();
         UpdateComponentsAddableEntity();
@@ -63,12 +88,6 @@ public abstract class ComponentsAddableEntityBase<TEntity, TComponent> : EntityB
 
     protected virtual void UpdateComponentsAddableEntity()
     {
-    }
-
-    public override void Dispose()
-    {
-        foreach (var component in Components) component.Dispose();
-        DisposeComponentsAddableEntity();
     }
 
     protected virtual void DisposeComponentsAddableEntity()

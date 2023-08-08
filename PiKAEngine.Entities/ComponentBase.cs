@@ -1,7 +1,8 @@
 ﻿namespace PiKAEngine.Entities;
 
-public abstract class ComponentBase<TEntity> : IDisposable
-    where TEntity : EntityBase<TEntity>
+public abstract class ComponentBase<TEntity, TComponent> : IDisposable
+    where TEntity : EntityBase<TEntity, TComponent>
+    where TComponent : ComponentBase<TEntity, TComponent>
 {
     public readonly TEntity Entity;
     public bool IsActive;
