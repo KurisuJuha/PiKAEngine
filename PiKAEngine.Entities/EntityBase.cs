@@ -47,6 +47,11 @@ public abstract class EntityBase<TEntity, TComponent> : IDisposable
         return Components.OfType<T>();
     }
 
+    public bool HasComponent<T>() where T : TComponent
+    {
+        return TryGetComponent(out T? _);
+    }
+
     public bool TryGetComponent<T>(out T? component) where T : TComponent
     {
         component = GetComponent<T>();
