@@ -1,15 +1,19 @@
-﻿namespace PiKAEngine.Entities;
+﻿using PiKAEngine.DebugSystem;
+
+namespace PiKAEngine.Entities;
 
 public abstract class ComponentBase<TEntity, TComponent> : IDisposable
     where TEntity : EntityBase<TEntity, TComponent>
     where TComponent : ComponentBase<TEntity, TComponent>
 {
     public readonly TEntity Entity;
+    public readonly Kettle Kettle;
     public bool IsActive;
 
     protected ComponentBase(TEntity entity)
     {
         Entity = entity;
+        Kettle = entity.Kettle;
     }
 
     public virtual void Dispose()
