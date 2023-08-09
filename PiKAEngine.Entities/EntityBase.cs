@@ -8,7 +8,6 @@ public abstract class EntityBase<TEntity, TComponent> : IDisposable
     where TComponent : ComponentBase<TEntity, TComponent>
 {
     private readonly EntityManagerBase<TEntity, TComponent> _entityManagerBase;
-    public readonly ReadOnlyCollection<TComponent> Components;
     public readonly Guid Id;
 
     protected EntityBase(EntityManagerBase<TEntity, TComponent> entityManagerBase, bool registerEntityManager = true)
@@ -16,11 +15,10 @@ public abstract class EntityBase<TEntity, TComponent> : IDisposable
         _entityManagerBase = entityManagerBase;
         Id = new Guid();
 
-        Components = new ReadOnlyCollection<TComponent>(CreateComponents().ToList());
-
         if (registerEntityManager) entityManagerBase.AddEntityOnNextFrame((TEntity)this);
     }
 
+    public ReadOnlyCollection<TComponent> Components { get; private set; }
     public Kettle Kettle => _entityManagerBase.Kettle;
 
     public void Dispose()
@@ -62,6 +60,7 @@ public abstract class EntityBase<TEntity, TComponent> : IDisposable
 
     public void Initialize()
     {
+        Components = new ReadOnlyCollection<TComponent>(CreateComponents().ToList());
         foreach (var component in Components) component.Initialize();
         InitializeComponentsAddableEntity();
     }
