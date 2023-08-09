@@ -37,22 +37,22 @@ public abstract class EntityBase<TEntity, TComponent> : IDisposable
         _entityManagerBase.DeactivateEntity((TEntity)this);
     }
 
-    public T GetComponent<T>() where T : TComponent
+    public T GetComponent<T>()
     {
         return Components.OfType<T>().First();
     }
 
-    public IEnumerable<T> GetComponents<T>() where T : TComponent
+    public IEnumerable<T> GetComponents<T>()
     {
         return Components.OfType<T>();
     }
 
-    public bool HasComponent<T>() where T : TComponent
+    public bool HasComponent<T>()
     {
         return TryGetComponent(out T? _);
     }
 
-    public bool TryGetComponent<T>(out T? component) where T : TComponent
+    public bool TryGetComponent<T>(out T? component)
     {
         component = GetComponent<T>();
         return component != null;
