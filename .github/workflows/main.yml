@@ -18,7 +18,7 @@ jobs:
       - name: push PiKAEngine.DebugSystem
         run: dotnet nuget push ./PiKAEngine.DebugSystem/bin/Release/PiKAEngine.DebugSystem.1.0.0.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
       - name: push PiKAEngine.Entities
-        run: dotnet nuget push ./PiKAEngine.Entities/bin/Release/PiKAEngine.Entities.4.1.0.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+        run: dotnet nuget push ./PiKAEngine.Entities/bin/Release/PiKAEngine.Entities.4.2.0.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
       - name: push PiKAEngine.InventorySystem
         run: dotnet nuget push ./PiKAEngine.InventorySystem/bin/Release/PiKAEngine.InventorySystem.1.0.0.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
       - name: push PiKAEngine.MapSystem
