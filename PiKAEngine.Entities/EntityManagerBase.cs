@@ -13,4 +13,13 @@ public abstract class EntityManagerBase<TEntity, TComponent, TEntityManager>
         _activeEntities = new List<TEntity>();
         _entities = new List<TEntity>();
     }
+
+    public void AddEntity(TEntity entity)
+    {
+        if (entity.IsRegistered)
+            throw new Exception("Entities that have already been registered cannot be registered.");
+
+        entity.EntitiesIndex = _entities.Count;
+        _entities.Add(entity);
+    }
 }
