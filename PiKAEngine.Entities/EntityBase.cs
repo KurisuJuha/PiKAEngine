@@ -7,15 +7,16 @@ public abstract class EntityBase<TEntity, TComponent, TEntityManager>
     where TComponent : ComponentBase<TEntity, TComponent, TEntityManager>
     where TEntityManager : EntityManagerBase<TEntity, TComponent, TEntityManager>
 {
-    private readonly TEntityManager _entityManager;
+    protected readonly TEntityManager EntityManager;
     public readonly Guid Id;
     internal int ActiveEntitiesIndex = 0;
     internal int EntitiesIndex = 0;
+    internal bool IsActive;
     internal bool IsRegistered = false;
 
     protected EntityBase(TEntityManager entityManager)
     {
-        _entityManager = entityManager;
+        EntityManager = entityManager;
         Id = new Guid();
     }
 
@@ -24,6 +25,16 @@ public abstract class EntityBase<TEntity, TComponent, TEntityManager>
     protected virtual IEnumerable<TComponent> CreateComponents()
     {
         return Array.Empty<TComponent>();
+    }
+
+    public void Activate()
+    {
+        EntityManager.ActivateEntity((TEntity)this);
+    }
+
+    public void Deactivate()
+    {
+        EntityManager.DeactivateEntity((TEntity)this);
     }
 
     internal void DisposeEntity()
