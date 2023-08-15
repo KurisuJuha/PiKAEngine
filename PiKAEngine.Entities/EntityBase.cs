@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using PiKAEngine.DebugSystem;
 
 namespace PiKAEngine.Entities;
 
@@ -7,8 +8,9 @@ public abstract class EntityBase<TEntity, TComponent, TEntityManager>
     where TComponent : ComponentBase<TEntity, TComponent, TEntityManager>
     where TEntityManager : EntityManagerBase<TEntity, TComponent, TEntityManager>
 {
-    protected readonly TEntityManager EntityManager;
+    public readonly TEntityManager EntityManager;
     public readonly Guid Id;
+    public readonly Kettle Kettle;
     internal int ActiveEntitiesIndex = 0;
     internal int EntitiesIndex = 0;
     internal bool IsActive;
@@ -18,6 +20,7 @@ public abstract class EntityBase<TEntity, TComponent, TEntityManager>
     {
         EntityManager = entityManager;
         Id = new Guid();
+        Kettle = entityManager.Kettle;
     }
 
     public ReadOnlyCollection<TComponent>? Components { get; private set; }

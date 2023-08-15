@@ -1,4 +1,6 @@
-﻿namespace PiKAEngine.Entities;
+﻿using PiKAEngine.DebugSystem;
+
+namespace PiKAEngine.Entities;
 
 public abstract class EntityManagerBase<TEntity, TComponent, TEntityManager>
     where TEntity : EntityBase<TEntity, TComponent, TEntityManager>
@@ -11,9 +13,9 @@ public abstract class EntityManagerBase<TEntity, TComponent, TEntityManager>
     private readonly Queue<TEntity> _deactivatingEntities;
     private readonly List<TEntity> _entities;
     private readonly Queue<TEntity> _removingEntities;
-    private List<TEntity> _cache;
+    public readonly Kettle Kettle;
 
-    protected EntityManagerBase()
+    protected EntityManagerBase(Kettle? kettle = null)
     {
         _activatingEntities = new Queue<TEntity>();
         _deactivatingEntities = new Queue<TEntity>();
@@ -21,7 +23,8 @@ public abstract class EntityManagerBase<TEntity, TComponent, TEntityManager>
         _removingEntities = new Queue<TEntity>();
         _activeEntities = new List<TEntity>();
         _entities = new List<TEntity>();
-        _cache = new List<TEntity>();
+        kettle ??= new Kettle();
+        Kettle = kettle;
     }
 
     public void RegisterEntity(TEntity entity)
