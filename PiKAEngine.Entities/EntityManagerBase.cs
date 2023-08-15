@@ -7,22 +7,16 @@ public abstract class EntityManagerBase<TEntity, TComponent, TEntityManager>
     where TComponent : ComponentBase<TEntity, TComponent, TEntityManager>
     where TEntityManager : EntityManagerBase<TEntity, TComponent, TEntityManager>
 {
-    private readonly Queue<TEntity> _activatingEntities;
-    private readonly List<TEntity> _activeEntities;
-    private readonly Queue<TEntity> _addingEntities;
-    private readonly Queue<TEntity> _deactivatingEntities;
-    private readonly List<TEntity> _entities;
-    private readonly Queue<TEntity> _removingEntities;
+    private readonly Queue<TEntity> _activatingEntities = new();
+    private readonly List<TEntity> _activeEntities = new();
+    private readonly Queue<TEntity> _addingEntities = new();
+    private readonly Queue<TEntity> _deactivatingEntities = new();
+    private readonly List<TEntity> _entities = new();
+    private readonly Queue<TEntity> _removingEntities = new();
     public readonly Kettle Kettle;
 
     protected EntityManagerBase(Kettle? kettle = null)
     {
-        _activatingEntities = new Queue<TEntity>();
-        _deactivatingEntities = new Queue<TEntity>();
-        _addingEntities = new Queue<TEntity>();
-        _removingEntities = new Queue<TEntity>();
-        _activeEntities = new List<TEntity>();
-        _entities = new List<TEntity>();
         kettle ??= new Kettle();
         Kettle = kettle;
     }
