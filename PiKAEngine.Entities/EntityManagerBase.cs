@@ -1,118 +1,117 @@
-using System.Collections.ObjectModel;
-using System.Reactive.Subjects;
+﻿using System.Reactive.Subjects;
 using PiKAEngine.DebugSystem;
 
 namespace PiKAEngine.Entities;
 
-// ReSharper disable once ClassNeverInstantiated.Global
-public abstract class EntityManagerBase<TEntity, TComponent>
-    where TEntity : EntityBase<TEntity, TComponent>
-    where TComponent : ComponentBase<TEntity, TComponent>
+public abstract class EntityManagerBase<TEntity, TComponent, TEntityManager> : IDisposable
+    where TEntity : EntityBase<TEntity, TComponent, TEntityManager>
+    where TComponent : ComponentBase<TEntity, TComponent, TEntityManager>
+    where TEntityManager : EntityManagerBase<TEntity, TComponent, TEntityManager>
 {
-    private readonly HashSet<TEntity> _activeEntities = new();
-    private readonly List<TEntity> _addingEntities = new();
-    private readonly HashSet<TEntity> _entities = new();
-    private readonly List<TEntity> _initializingEntities = new();
-    private readonly Subject<TEntity> _onEntityAdded = new();
+    private readonly Queue<TEntity> _activatingEntities = new();
+    private readonly List<TEntity> _activeEntities = new();
+    private readonly Queue<TEntity> _addingEntities = new();
+    private readonly Queue<TEntity> _deactivatingEntities = new();
+    private readonly List<TEntity> _entities = new();
+    private readonly Subject<TEntity> _onEntityRegistered = new();
     private readonly Subject<TEntity> _onEntityRemoved = new();
-    private readonly List<TEntity> _removingEntities = new();
+    private readonly Queue<TEntity> _removingEntities = new();
     public readonly Kettle Kettle;
 
-    public EntityManagerBase(Kettle kettle)
+    protected EntityManagerBase(Kettle? kettle = null)
     {
+        kettle ??= new Kettle();
         Kettle = kettle;
     }
 
-    public ReadOnlyCollection<TEntity> Entities => new(_entities.ToArray());
-    public IObservable<TEntity> OnEntityAdded => _onEntityAdded;
+    public IObservable<TEntity> OnEntityRegistered => _onEntityRegistered;
     public IObservable<TEntity> OnEntityRemoved => _onEntityRemoved;
 
-    public TFind[] FindEntities<TFind>()
+    public void Dispose()
     {
-        return _entities.Where(x => x is TFind)
-            .OfType<TFind>()
-            .ToArray();
+        _onEntityRegistered.Dispose();
+        _onEntityRemoved.Dispose();
+        foreach (var entity in _entities) entity.Dispose();
     }
 
-    public bool TryFindEntity<TFind>(out TFind? value)
+    public void RegisterEntity(TEntity entity)
     {
-        foreach (var entity in _entities)
-        {
-            if (entity is not TFind findValue) continue;
-            value = findValue;
-            return true;
-        }
-
-        value = default;
-        return false;
+        if (entity.IsRegistered)
+            throw new Exception("Entities that have already been registered cannot be registered.");
+        _addingEntities.Enqueue(entity);
     }
 
-    public void AddEntityOnNextFrame(TEntity entity)
+    public void RemoveEntity(TEntity entity)
     {
-        _addingEntities.Add(entity);
-    }
-
-    public void RemoveEntityOnNextFrame(TEntity entity)
-    {
-        _removingEntities.Add(entity);
+        if (!entity.IsRegistered) throw new Exception("Unregistered entities cannot be deleted.");
+        _removingEntities.Enqueue(entity);
     }
 
     public void ActivateEntity(TEntity entity)
     {
-        if (!_entities.Contains(entity)) AddEntityOnNextFrame(entity);
-        _activeEntities.Add(entity);
+        if (entity.IsActive) throw new Exception();
+        _activatingEntities.Enqueue(entity);
     }
 
     public void DeactivateEntity(TEntity entity)
     {
-        _activeEntities.Remove(entity);
+        if (!entity.IsActive) throw new Exception();
+        _deactivatingEntities.Enqueue(entity);
+    }
+
+    private void Register(TEntity entity)
+    {
+        _onEntityRegistered.OnNext(entity);
+
+        entity.EntitiesIndex = _entities.Count;
+        _entities.Add(entity);
+        entity.IsRegistered = true;
+    }
+
+    private void Remove(TEntity entity)
+    {
+        _onEntityRemoved.OnNext(entity);
+
+        var movingEntity = _entities[^1];
+        movingEntity.EntitiesIndex = entity.EntitiesIndex;
+        _entities[entity.EntitiesIndex] = movingEntity;
+        _entities.RemoveAt(_entities.Count - 1);
+        entity.IsRegistered = false;
+    }
+
+    private void Activate(TEntity entity)
+    {
+        entity.ActiveEntitiesIndex = _activeEntities.Count;
+        _activeEntities.Add(entity);
+        entity.IsActive = true;
+    }
+
+    private void Deactivate(TEntity entity)
+    {
+        var movingEntity = _activeEntities[^1];
+        movingEntity.ActiveEntitiesIndex = entity.ActiveEntitiesIndex;
+        _activeEntities[entity.ActiveEntitiesIndex] = movingEntity;
+        _entities.RemoveAt(_entities.Count - 1);
+        entity.IsActive = false;
     }
 
     public void Update()
     {
-        // エンティティの追加処理
-        var addingEntitiesCache = new List<TEntity>(_addingEntities);
-        _addingEntities.Clear();
-        foreach (var entity in addingEntitiesCache)
+        while (_activatingEntities.TryDequeue(out var entity)) Activate(entity);
+        while (_deactivatingEntities.TryDequeue(out var entity)) Deactivate(entity);
+        while (_removingEntities.TryDequeue(out var entity)) Remove(entity);
+        while (_addingEntities.TryDequeue(out var entity))
         {
-            _entities.Add(entity);
-            _initializingEntities.Add(entity);
-        }
+            Register(entity);
 
-        // エンティティの削除処理
-        var removingEntitiesCache = new List<TEntity>(_removingEntities);
-        _removingEntities.Clear();
-        foreach (var entity in removingEntitiesCache)
-        {
-            _onEntityRemoved.OnNext(entity);
-            entity.Dispose();
-            _entities.Remove(entity);
-            _activeEntities.Remove(entity);
-            _initializingEntities.Remove(entity);
-        }
-
-        // エンティティのinitialize処理
-        var initializingEntitiesCache = new List<TEntity>(_initializingEntities);
-        _initializingEntities.Clear();
-        foreach (var entity in initializingEntitiesCache)
-        {
             entity.Initialize();
-            _onEntityAdded.OnNext(entity);
+            entity.Start();
         }
 
-        // エンティティのstart処理
-        foreach (var entity in initializingEntitiesCache)
-            entity.Start();
-
-        // エンティティのupdate処理
-        foreach (var entity in _activeEntities)
+        for (var index = 0; index < _activeEntities.Count; index++)
+        {
+            var entity = _activeEntities[index];
             entity.Update();
-    }
-
-    public void Dispose()
-    {
-        foreach (var entity in _entities) entity.Dispose();
-        _onEntityAdded.Dispose();
-        _onEntityRemoved.Dispose();
+        }
     }
 }

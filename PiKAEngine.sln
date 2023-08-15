@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiKAEngine", "PiKAEngine\Pi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiKAEngine.MapSystem", "PiKAEngine.MapSystem\PiKAEngine.MapSystem.csproj", "{909D06E3-9867-4D4D-9888-1357839DE44D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiKAEngine.Entities.Sample", "PiKAEngine.Entities.Sample\PiKAEngine.Entities.Sample.csproj", "{7C1DF94A-B9BF-4302-8528-359755D96A5D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiKAEngine.Entities.Sample", "PiKAEngine.Entities.Sample\PiKAEngine.Entities.Sample.csproj", "{76DC107F-2F63-4274-89F4-5C2337F853CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,9 +56,9 @@ Global
 		{909D06E3-9867-4D4D-9888-1357839DE44D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{909D06E3-9867-4D4D-9888-1357839DE44D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{909D06E3-9867-4D4D-9888-1357839DE44D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7C1DF94A-B9BF-4302-8528-359755D96A5D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7C1DF94A-B9BF-4302-8528-359755D96A5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7C1DF94A-B9BF-4302-8528-359755D96A5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7C1DF94A-B9BF-4302-8528-359755D96A5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76DC107F-2F63-4274-89F4-5C2337F853CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76DC107F-2F63-4274-89F4-5C2337F853CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76DC107F-2F63-4274-89F4-5C2337F853CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76DC107F-2F63-4274-89F4-5C2337F853CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

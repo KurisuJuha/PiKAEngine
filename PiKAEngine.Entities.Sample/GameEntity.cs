@@ -1,9 +1,8 @@
 ﻿namespace PiKAEngine.Entities.Sample;
 
-public abstract class GameEntity : EntityBase<GameEntity, GameComponent>
+public abstract class GameEntity : EntityBase<GameEntity, GameComponent, GameEntityManager>
 {
-    protected GameEntity(EntityManagerBase<GameEntity, GameComponent> entityManagerBase,
-        bool registerEntityManager = true) : base(entityManagerBase, registerEntityManager)
+    protected GameEntity(GameEntityManager entityManager) : base(entityManager)
     {
     }
 }

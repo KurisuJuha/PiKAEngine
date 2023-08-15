@@ -2,37 +2,25 @@
 
 public class TestGameEntity : GameEntity
 {
-    private readonly TestComponent _testComponent;
-
-    public TestGameEntity(EntityManagerBase<GameEntity, GameComponent> entityManagerBase,
-        bool registerEntityManager = true) : base(entityManagerBase, registerEntityManager)
+    public TestGameEntity(GameEntityManager entityManager) : base(entityManager)
     {
-        Kettle.Log("Hoge");
-
-        _testComponent = new TestComponent(this);
     }
 
-    protected override IEnumerable<GameComponent> CreateComponents()
+    protected override void InitializeEntity()
     {
-        return new GameComponent[]
-        {
-            _testComponent
-        };
+        Console.WriteLine("Initialize");
     }
 
-    protected override void InitializeComponentsAddableEntity()
+    protected override void StartEntity()
     {
-        Kettle.Log("Initialize");
-    }
+        Console.WriteLine("Start");
 
-    protected override void StartComponentsAddableEntity()
-    {
-        Kettle.Log("Start");
         Activate();
+        Console.WriteLine("Activate!!!!!!!!!!!!!");
     }
 
-    protected override void UpdateComponentsAddableEntity()
+    protected override void UpdateEntity()
     {
-        Kettle.Log("Update");
+        Console.WriteLine("Update");
     }
 }

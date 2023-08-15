@@ -1,54 +1,43 @@
-﻿using PiKAEngine.DebugSystem;
+﻿namespace PiKAEngine.Entities;
 
-namespace PiKAEngine.Entities;
-
-public abstract class ComponentBase<TEntity, TComponent> : IDisposable
-    where TEntity : EntityBase<TEntity, TComponent>
-    where TComponent : ComponentBase<TEntity, TComponent>
+public abstract class ComponentBase<TEntity, TComponent, TEntityManager>
+    where TEntity : EntityBase<TEntity, TComponent, TEntityManager>
+    where TComponent : ComponentBase<TEntity, TComponent, TEntityManager>
+    where TEntityManager : EntityManagerBase<TEntity, TComponent, TEntityManager>
 {
-    public readonly TEntity Entity;
-    public readonly Kettle Kettle;
-    public bool IsActive;
-
-    protected ComponentBase(TEntity entity)
+    internal void Dispose()
     {
-        Entity = entity;
-        Kettle = entity.Kettle;
+        DisposeComponent();
     }
 
-    public virtual void Dispose()
+    protected virtual void DisposeComponent()
     {
     }
 
-    public void Activate()
+    internal void Initialize()
     {
-        IsActive = true;
+        InitializeComponent();
     }
 
-    public void Deactivate()
-    {
-        IsActive = false;
-    }
-
-    public void ActivateEntity()
-    {
-        Entity.Activate();
-    }
-
-    public void DeactivateEntity()
-    {
-        Entity.Deactivate();
-    }
-
-    public virtual void Initialize()
+    protected virtual void InitializeComponent()
     {
     }
 
-    public virtual void Start()
+    internal void Start()
+    {
+        StartComponent();
+    }
+
+    protected virtual void StartComponent()
     {
     }
 
-    public virtual void Update()
+    internal void Update()
+    {
+        UpdateComponent();
+    }
+
+    protected virtual void UpdateComponent()
     {
     }
 }

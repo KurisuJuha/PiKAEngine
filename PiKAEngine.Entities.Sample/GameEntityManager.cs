@@ -1,10 +1,5 @@
-﻿using PiKAEngine.DebugSystem;
+﻿namespace PiKAEngine.Entities.Sample;
 
-namespace PiKAEngine.Entities.Sample;
-
-public class GameEntityManager : EntityManagerBase<GameEntity, GameComponent>
+public class GameEntityManager : EntityManagerBase<GameEntity, GameComponent, GameEntityManager>
 {
-    public GameEntityManager(Kettle kettle) : base(kettle)
-    {
-    }
 }

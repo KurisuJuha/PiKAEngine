@@ -3,98 +3,105 @@ using PiKAEngine.DebugSystem;
 
 namespace PiKAEngine.Entities;
 
-public abstract class EntityBase<TEntity, TComponent> : IDisposable
-    where TEntity : EntityBase<TEntity, TComponent>
-    where TComponent : ComponentBase<TEntity, TComponent>
+public abstract class EntityBase<TEntity, TComponent, TEntityManager>
+    where TEntity : EntityBase<TEntity, TComponent, TEntityManager>
+    where TComponent : ComponentBase<TEntity, TComponent, TEntityManager>
+    where TEntityManager : EntityManagerBase<TEntity, TComponent, TEntityManager>
 {
-    private readonly EntityManagerBase<TEntity, TComponent> _entityManagerBase;
-    public readonly Guid Id;
+    private readonly TEntityManager _entityManager;
+    public readonly Guid Id = new();
+    public readonly Kettle Kettle;
+    internal int ActiveEntitiesIndex = 0;
+    internal int EntitiesIndex = 0;
+    internal bool IsActive;
+    internal bool IsRegistered = false;
 
-    protected EntityBase(EntityManagerBase<TEntity, TComponent> entityManagerBase, bool registerEntityManager = true)
+    protected EntityBase(TEntityManager entityManager)
     {
-        _entityManagerBase = entityManagerBase;
-        Id = new Guid();
-
-        if (registerEntityManager) entityManagerBase.AddEntityOnNextFrame((TEntity)this);
+        _entityManager = entityManager;
+        Kettle = entityManager.Kettle;
     }
 
-    public ReadOnlyCollection<TComponent> Components { get; private set; }
-    public Kettle Kettle => _entityManagerBase.Kettle;
-
-    public void Dispose()
-    {
-        foreach (var component in Components) component.Dispose();
-        DisposeComponentsAddableEntity();
-    }
-
-    public void Activate()
-    {
-        _entityManagerBase.ActivateEntity((TEntity)this);
-    }
-
-    public void Deactivate()
-    {
-        _entityManagerBase.DeactivateEntity((TEntity)this);
-    }
-
-    public T GetComponent<T>()
-    {
-        return Components.OfType<T>().First();
-    }
-
-    public IEnumerable<T> GetComponents<T>()
-    {
-        return Components.OfType<T>();
-    }
-
-    public bool HasComponent<T>()
-    {
-        return TryGetComponent(out T? _);
-    }
-
-    public bool TryGetComponent<T>(out T? component)
-    {
-        component = GetComponent<T>();
-        return component != null;
-    }
+    public ReadOnlyCollection<TComponent>? Components { get; private set; }
 
     protected virtual IEnumerable<TComponent> CreateComponents()
     {
         return Array.Empty<TComponent>();
     }
 
-    public void Initialize()
+    public void Activate()
     {
-        Components = new ReadOnlyCollection<TComponent>(CreateComponents().ToList());
-        foreach (var component in Components) component.Initialize();
-        InitializeComponentsAddableEntity();
+        _entityManager.ActivateEntity((TEntity)this);
     }
 
-    protected virtual void InitializeComponentsAddableEntity()
+    public void Deactivate()
     {
+        _entityManager.DeactivateEntity((TEntity)this);
     }
 
-    public void Start()
+    internal void Dispose()
     {
-        foreach (var component in Components) component.Start();
-        StartComponentsAddableEntity();
+        if (Components is not null)
+            for (var index = 0; index < Components.Count; index++)
+            {
+                var component = Components[index];
+                component.Dispose();
+            }
+
+        DisposeEntity();
     }
 
-    protected virtual void StartComponentsAddableEntity()
-    {
-    }
-
-    public void Update()
-    {
-        foreach (var component in Components) component.Update();
-        UpdateComponentsAddableEntity();
-    }
-
-    protected virtual void UpdateComponentsAddableEntity()
+    protected virtual void DisposeEntity()
     {
     }
 
-    protected virtual void DisposeComponentsAddableEntity()
+    internal void Initialize()
+    {
+        Components = CreateComponents().ToList().AsReadOnly();
+
+        if (Components is not null)
+            for (var index = 0; index < Components.Count; index++)
+            {
+                var component = Components[index];
+                component.Initialize();
+            }
+
+        InitializeEntity();
+    }
+
+    protected virtual void InitializeEntity()
+    {
+    }
+
+    internal void Start()
+    {
+        if (Components is not null)
+            for (var index = 0; index < Components.Count; index++)
+            {
+                var component = Components[index];
+                component.Start();
+            }
+
+        StartEntity();
+    }
+
+    protected virtual void StartEntity()
+    {
+    }
+
+    internal void Update()
+    {
+        if (Components is not null)
+            for (var index = 0; index < Components.Count; index++)
+            {
+                var component = Components[index];
+                component.Update();
+            }
+
+        UpdateEntity();
+    }
+
+    protected virtual void UpdateEntity()
     {
     }
 }
