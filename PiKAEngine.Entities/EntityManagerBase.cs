@@ -1,4 +1,5 @@
-﻿using PiKAEngine.DebugSystem;
+﻿using System.Reactive.Subjects;
+using PiKAEngine.DebugSystem;
 
 namespace PiKAEngine.Entities;
 
@@ -12,6 +13,8 @@ public abstract class EntityManagerBase<TEntity, TComponent, TEntityManager>
     private readonly Queue<TEntity> _addingEntities = new();
     private readonly Queue<TEntity> _deactivatingEntities = new();
     private readonly List<TEntity> _entities = new();
+    private readonly Subject<TEntity> _onEntityRegistered = new();
+    private readonly Subject<TEntity> _onEntityRemoved = new();
     private readonly Queue<TEntity> _removingEntities = new();
     public readonly Kettle Kettle;
 
@@ -20,6 +23,9 @@ public abstract class EntityManagerBase<TEntity, TComponent, TEntityManager>
         kettle ??= new Kettle();
         Kettle = kettle;
     }
+
+    public IObservable<TEntity> OnEntityRegistered => _onEntityRegistered;
+    public IObservable<TEntity> OnEntityRemoved => _onEntityRemoved;
 
     public void RegisterEntity(TEntity entity)
     {
@@ -48,6 +54,8 @@ public abstract class EntityManagerBase<TEntity, TComponent, TEntityManager>
 
     private void Register(TEntity entity)
     {
+        _onEntityRegistered.OnNext(entity);
+
         entity.EntitiesIndex = _entities.Count;
         _entities.Add(entity);
         entity.IsRegistered = true;
@@ -55,6 +63,8 @@ public abstract class EntityManagerBase<TEntity, TComponent, TEntityManager>
 
     private void Remove(TEntity entity)
     {
+        _onEntityRemoved.OnNext(entity);
+
         var movingEntity = _entities[^1];
         movingEntity.EntitiesIndex = entity.EntitiesIndex;
         _entities[entity.EntitiesIndex] = movingEntity;
