@@ -3,7 +3,7 @@ using PiKAEngine.DebugSystem;
 
 namespace PiKAEngine.Entities;
 
-public abstract class EntityManagerBase<TEntity, TComponent, TEntityManager>
+public abstract class EntityManagerBase<TEntity, TComponent, TEntityManager> : IDisposable
     where TEntity : EntityBase<TEntity, TComponent, TEntityManager>
     where TComponent : ComponentBase<TEntity, TComponent, TEntityManager>
     where TEntityManager : EntityManagerBase<TEntity, TComponent, TEntityManager>
@@ -26,6 +26,12 @@ public abstract class EntityManagerBase<TEntity, TComponent, TEntityManager>
 
     public IObservable<TEntity> OnEntityRegistered => _onEntityRegistered;
     public IObservable<TEntity> OnEntityRemoved => _onEntityRemoved;
+
+    public void Dispose()
+    {
+        _onEntityRegistered.Dispose();
+        _onEntityRemoved.Dispose();
+    }
 
     public void RegisterEntity(TEntity entity)
     {
