@@ -31,6 +31,7 @@ public abstract class EntityManagerBase<TEntity, TComponent, TEntityManager> : I
     {
         _onEntityRegistered.Dispose();
         _onEntityRemoved.Dispose();
+        foreach (var entity in _entities) entity.DisposeEntity();
     }
 
     public void RegisterEntity(TEntity entity)
