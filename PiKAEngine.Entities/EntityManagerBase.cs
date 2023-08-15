@@ -31,7 +31,7 @@ public abstract class EntityManagerBase<TEntity, TComponent, TEntityManager> : I
     {
         _onEntityRegistered.Dispose();
         _onEntityRemoved.Dispose();
-        foreach (var entity in _entities) entity.DisposeEntity();
+        foreach (var entity in _entities) entity.Dispose();
     }
 
     public void RegisterEntity(TEntity entity)
@@ -104,14 +104,14 @@ public abstract class EntityManagerBase<TEntity, TComponent, TEntityManager> : I
         {
             Register(entity);
 
-            entity.InitializeEntity();
-            entity.StartEntity();
+            entity.Initialize();
+            entity.Start();
         }
 
         for (var index = 0; index < _activeEntities.Count; index++)
         {
             var entity = _activeEntities[index];
-            entity.UpdateEntity();
+            entity.Update();
         }
     }
 }

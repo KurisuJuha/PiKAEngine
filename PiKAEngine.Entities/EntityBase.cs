@@ -39,7 +39,7 @@ public abstract class EntityBase<TEntity, TComponent, TEntityManager>
         _entityManager.DeactivateEntity((TEntity)this);
     }
 
-    internal void DisposeEntity()
+    internal void Dispose()
     {
         if (Components is not null)
             for (var index = 0; index < Components.Count; index++)
@@ -48,14 +48,14 @@ public abstract class EntityBase<TEntity, TComponent, TEntityManager>
                 component.Dispose();
             }
 
-        Dispose();
+        DisposeEntity();
     }
 
-    protected virtual void Dispose()
+    protected virtual void DisposeEntity()
     {
     }
 
-    internal void InitializeEntity()
+    internal void Initialize()
     {
         Components = CreateComponents().ToList().AsReadOnly();
 
@@ -66,14 +66,14 @@ public abstract class EntityBase<TEntity, TComponent, TEntityManager>
                 component.Initialize();
             }
 
-        Initialize();
+        InitializeEntity();
     }
 
-    protected virtual void Initialize()
+    protected virtual void InitializeEntity()
     {
     }
 
-    internal void StartEntity()
+    internal void Start()
     {
         if (Components is not null)
             for (var index = 0; index < Components.Count; index++)
@@ -82,14 +82,14 @@ public abstract class EntityBase<TEntity, TComponent, TEntityManager>
                 component.Start();
             }
 
-        Start();
+        StartEntity();
     }
 
-    protected virtual void Start()
+    protected virtual void StartEntity()
     {
     }
 
-    internal void UpdateEntity()
+    internal void Update()
     {
         if (Components is not null)
             for (var index = 0; index < Components.Count; index++)
@@ -98,10 +98,10 @@ public abstract class EntityBase<TEntity, TComponent, TEntityManager>
                 component.Update();
             }
 
-        Update();
+        UpdateEntity();
     }
 
-    protected virtual void Update()
+    protected virtual void UpdateEntity()
     {
     }
 }

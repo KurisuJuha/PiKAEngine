@@ -6,12 +6,12 @@ public class TestGameEntity : GameEntity
     {
     }
 
-    protected override void Initialize()
+    protected override void InitializeEntity()
     {
         Console.WriteLine("Initialize");
     }
 
-    protected override void Start()
+    protected override void StartEntity()
     {
         Console.WriteLine("Start");
 
@@ -19,7 +19,7 @@ public class TestGameEntity : GameEntity
         Console.WriteLine("Activate!!!!!!!!!!!!!");
     }
 
-    protected override void Update()
+    protected override void UpdateEntity()
     {
         Console.WriteLine("Update");
     }
