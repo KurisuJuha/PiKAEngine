@@ -1,8 +1,11 @@
-﻿using PiKAEngine.Entities.Sample;
+﻿using PiKAEngine.DebugSystem;
+using PiKAEngine.Entities.Sample;
 
 Console.WriteLine("Hello, World!");
 
-var gameEntityManager = new GameEntityManager();
+var kettle = new Kettle();
+kettle.OnLogged.Subscribe(Console.WriteLine);
+var gameEntityManager = new GameEntityManager(kettle);
 var testGameEntity = new TestGameEntity(gameEntityManager);
 
 gameEntityManager.RegisterEntity(testGameEntity);

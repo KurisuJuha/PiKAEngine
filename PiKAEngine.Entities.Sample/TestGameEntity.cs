@@ -6,6 +6,14 @@ public class TestGameEntity : GameEntity
     {
     }
 
+    protected override IEnumerable<GameComponent> CreateComponents()
+    {
+        return new GameComponent[]
+        {
+            new TestGameComponent(this)
+        };
+    }
+
     protected override void InitializeEntity()
     {
         Console.WriteLine("Initialize");
