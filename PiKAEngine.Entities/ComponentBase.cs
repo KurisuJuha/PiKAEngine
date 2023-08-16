@@ -1,4 +1,6 @@
-﻿namespace PiKAEngine.Entities;
+﻿using PiKAEngine.DebugSystem;
+
+namespace PiKAEngine.Entities;
 
 public abstract class ComponentBase<TEntity, TComponent, TEntityManager>
     where TEntity : EntityBase<TEntity, TComponent, TEntityManager>
@@ -6,10 +8,12 @@ public abstract class ComponentBase<TEntity, TComponent, TEntityManager>
     where TEntityManager : EntityManagerBase<TEntity, TComponent, TEntityManager>
 {
     public readonly TEntity Entity;
+    public readonly Kettle Kettle;
 
     protected ComponentBase(TEntity entity)
     {
         Entity = entity;
+        Kettle = Entity.Kettle;
     }
 
     internal void Dispose()
