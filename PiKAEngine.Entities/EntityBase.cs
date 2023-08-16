@@ -55,6 +55,10 @@ public abstract class EntityBase<TEntity, TComponent, TEntityManager>
         return Components.OfType<T>();
     }
 
+    public bool HasComponent<T>()
+    {
+        return TryGetComponent<T>(out _);
+    }
 
     public bool TryGetComponent<T>(out T? component)
     {
