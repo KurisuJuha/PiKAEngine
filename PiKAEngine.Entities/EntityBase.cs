@@ -50,6 +50,11 @@ public abstract class EntityBase<TEntity, TComponent, TEntityManager>
         return default;
     }
 
+    public IEnumerable<T> GetComponents<T>()
+    {
+        return Components.OfType<T>();
+    }
+
     internal void Dispose()
     {
         if (Components is not null)
