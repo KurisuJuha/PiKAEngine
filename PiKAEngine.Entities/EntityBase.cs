@@ -55,6 +55,13 @@ public abstract class EntityBase<TEntity, TComponent, TEntityManager>
         return Components.OfType<T>();
     }
 
+
+    public bool TryGetComponent<T>(out T? component)
+    {
+        component = GetComponent<T>();
+        return component != null;
+    }
+
     internal void Dispose()
     {
         if (Components is not null)
