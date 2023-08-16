@@ -41,6 +41,15 @@ public abstract class EntityBase<TEntity, TComponent, TEntityManager>
         _entityManager.DeactivateEntity((TEntity)this);
     }
 
+    public T GetComponent<T>()
+    {
+        for (var i = 0; i < Components.Count; i++)
+            if (Components[i] is T component)
+                return component;
+
+        return default;
+    }
+
     internal void Dispose()
     {
         if (Components is not null)
