@@ -1,8 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using PiKAEngine.DebugSystem;
 
-#pragma warning disable CS8618
-
 namespace PiKAEngine.Entities;
 
 public abstract class EntityBase<TEntity, TComponent, TEntityManager>
@@ -43,6 +41,8 @@ public abstract class EntityBase<TEntity, TComponent, TEntityManager>
 
     public T GetComponent<T>()
     {
+        if (Components is null) return default;
+
         for (var i = 0; i < Components.Count; i++)
             if (Components[i] is T component)
                 return component;
@@ -52,6 +52,8 @@ public abstract class EntityBase<TEntity, TComponent, TEntityManager>
 
     public IEnumerable<T> GetComponents<T>()
     {
+        if (Components is null) return Array.Empty<T>();
+
         return Components.OfType<T>();
     }
 
