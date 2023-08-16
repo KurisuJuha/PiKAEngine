@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using PiKAEngine.DebugSystem;
 
+#pragma warning disable CS8618
+
 namespace PiKAEngine.Entities;
 
 public abstract class EntityBase<TEntity, TComponent, TEntityManager>
@@ -22,7 +24,7 @@ public abstract class EntityBase<TEntity, TComponent, TEntityManager>
         Kettle = entityManager.Kettle;
     }
 
-    public ReadOnlyCollection<TComponent>? Components { get; private set; }
+    public ReadOnlyCollection<TComponent> Components { get; private set; }
 
     protected virtual IEnumerable<TComponent> CreateComponents()
     {
