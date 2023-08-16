@@ -5,6 +5,13 @@ public abstract class ComponentBase<TEntity, TComponent, TEntityManager>
     where TComponent : ComponentBase<TEntity, TComponent, TEntityManager>
     where TEntityManager : EntityManagerBase<TEntity, TComponent, TEntityManager>
 {
+    public readonly TEntity Entity;
+
+    protected ComponentBase(TEntity entity)
+    {
+        Entity = entity;
+    }
+
     internal void Dispose()
     {
         DisposeComponent();

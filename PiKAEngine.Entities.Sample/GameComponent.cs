@@ -2,4 +2,7 @@
 
 public abstract class GameComponent : ComponentBase<GameEntity, GameComponent, GameEntityManager>
 {
+    protected GameComponent(GameEntity entity) : base(entity)
+    {
+    }
 }
