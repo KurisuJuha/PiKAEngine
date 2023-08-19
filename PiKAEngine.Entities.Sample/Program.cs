@@ -8,6 +8,8 @@ kettle.OnLogged.Subscribe(Console.WriteLine);
 var gameEntityManager = new GameEntityManager(kettle);
 var testGameEntity = new TestGameEntity(gameEntityManager);
 
+gameEntityManager.OnEntityRegistered.Subscribe(_ => { Console.WriteLine("OnEntityRegistered"); });
+
 gameEntityManager.RegisterEntity(testGameEntity);
 
 while (true)

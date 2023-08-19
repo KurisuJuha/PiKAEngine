@@ -61,11 +61,11 @@ public abstract class EntityManagerBase<TEntity, TComponent, TEntityManager> : I
 
     private void Register(TEntity entity)
     {
-        _onEntityRegistered.OnNext(entity);
-
         entity.EntitiesIndex = _entities.Count;
         _entities.Add(entity);
         entity.IsRegistered = true;
+
+        _onEntityRegistered.OnNext(entity);
     }
 
     private void Remove(TEntity entity)
@@ -102,9 +102,10 @@ public abstract class EntityManagerBase<TEntity, TComponent, TEntityManager> : I
         while (_removingEntities.TryDequeue(out var entity)) Remove(entity);
         while (_addingEntities.TryDequeue(out var entity))
         {
+            entity.Initialize();
+
             Register(entity);
 
-            entity.Initialize();
             entity.Start();
         }
 
