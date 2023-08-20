@@ -34,17 +34,20 @@ public abstract class EntityManagerBase<TEntity, TComponent, TEntityManager> : I
         foreach (var entity in _entities) entity.Dispose();
     }
 
-    public void RegisterEntity(TEntity entity)
+    public bool RegisterEntity(TEntity entity)
     {
-        if (entity.IsRegistered)
-            throw new Exception("Entities that have already been registered cannot be registered.");
+        if (entity.IsRegistered) return false;
         _addingEntities.Enqueue(entity);
+
+        return true;
     }
 
-    public void RemoveEntity(TEntity entity)
+    public bool RemoveEntity(TEntity entity)
     {
-        if (!entity.IsRegistered) throw new Exception("Unregistered entities cannot be deleted.");
+        if (!entity.IsRegistered) return false;
         _removingEntities.Enqueue(entity);
+
+        return true;
     }
 
     public void ActivateEntity(TEntity entity)
