@@ -52,7 +52,7 @@ public abstract class EntityManagerBase<TEntity, TComponent, TEntityManager> : I
 
     public bool ActivateEntity(TEntity entity)
     {
-        if (entity.IsActive) return false;
+        if (entity.IsActive || !entity.IsRegistered) return false;
         _activatingEntities.Enqueue(entity);
 
         return true;
@@ -60,7 +60,7 @@ public abstract class EntityManagerBase<TEntity, TComponent, TEntityManager> : I
 
     public bool DeactivateEntity(TEntity entity)
     {
-        if (!entity.IsActive) return false;
+        if (!entity.IsActive || !entity.IsRegistered) return false;
         _deactivatingEntities.Enqueue(entity);
 
         return true;
