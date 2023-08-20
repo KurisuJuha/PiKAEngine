@@ -8,7 +8,7 @@ public abstract class EntityBase<TEntity, TComponent, TEntityManager>
     where TComponent : ComponentBase<TEntity, TComponent, TEntityManager>
     where TEntityManager : EntityManagerBase<TEntity, TComponent, TEntityManager>
 {
-    private readonly TEntityManager _entityManager;
+    public readonly TEntityManager EntityManager;
     public readonly Guid Id = new();
     public readonly Kettle Kettle;
     internal int ActiveEntitiesIndex = 0;
@@ -16,7 +16,7 @@ public abstract class EntityBase<TEntity, TComponent, TEntityManager>
 
     protected EntityBase(TEntityManager entityManager)
     {
-        _entityManager = entityManager;
+        EntityManager = entityManager;
         Kettle = entityManager.Kettle;
     }
 
@@ -32,12 +32,12 @@ public abstract class EntityBase<TEntity, TComponent, TEntityManager>
 
     public void Activate()
     {
-        _entityManager.ActivateEntity((TEntity)this);
+        EntityManager.ActivateEntity((TEntity)this);
     }
 
     public void Deactivate()
     {
-        _entityManager.DeactivateEntity((TEntity)this);
+        EntityManager.DeactivateEntity((TEntity)this);
     }
 
     public T GetComponent<T>()
