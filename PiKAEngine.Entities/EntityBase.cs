@@ -13,14 +13,15 @@ public abstract class EntityBase<TEntity, TComponent, TEntityManager>
     public readonly Kettle Kettle;
     internal int ActiveEntitiesIndex = 0;
     internal int EntitiesIndex = 0;
-    internal bool IsActive;
-    internal bool IsRegistered = false;
 
     protected EntityBase(TEntityManager entityManager)
     {
         _entityManager = entityManager;
         Kettle = entityManager.Kettle;
     }
+
+    public bool IsActive { get; internal set; }
+    public bool IsRegistered { get; internal set; }
 
     public ReadOnlyCollection<TComponent> Components { get; private set; }
 

@@ -2,8 +2,12 @@
 
 public class TestGameEntity : GameEntity
 {
+    private readonly GameEntityManager _entityManager;
+    private int _elapsedTime;
+
     public TestGameEntity(GameEntityManager entityManager) : base(entityManager)
     {
+        _entityManager = entityManager;
     }
 
     protected override IEnumerable<GameComponent> CreateComponents()
@@ -29,6 +33,9 @@ public class TestGameEntity : GameEntity
 
     protected override void UpdateEntity()
     {
-        Console.WriteLine("Update");
+        Console.WriteLine($"Update {IsRegistered}");
+        if (_elapsedTime > 10) _entityManager.RemoveEntity(this);
+
+        _elapsedTime++;
     }
 }
