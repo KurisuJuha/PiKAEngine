@@ -14,7 +14,10 @@ public abstract class ComponentBase<TEntity, TComponent, TEntityManager>
     {
         Entity = entity;
         Kettle = Entity.Kettle;
+        EntityManager = Entity.EntityManager;
     }
+
+    public TEntityManager EntityManager { get; }
 
     internal void Dispose()
     {
