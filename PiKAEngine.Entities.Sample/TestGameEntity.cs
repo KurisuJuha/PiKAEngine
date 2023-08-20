@@ -34,7 +34,7 @@ public class TestGameEntity : GameEntity
     protected override void UpdateEntity()
     {
         Console.WriteLine($"Update {IsRegistered}");
-        if (_elapsedTime > 10) _entityManager.RemoveEntity(this);
+        if (_elapsedTime >= 1) _entityManager.RemoveEntity(this);
 
         _elapsedTime++;
     }

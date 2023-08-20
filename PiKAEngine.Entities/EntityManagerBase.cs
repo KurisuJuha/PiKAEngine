@@ -77,6 +77,8 @@ public abstract class EntityManagerBase<TEntity, TComponent, TEntityManager> : I
 
     private void Remove(TEntity entity)
     {
+        if (entity.IsActive) Deactivate(entity);
+
         _onEntityRemoved.OnNext(entity);
 
         var movingEntity = _entities[^1];
@@ -98,7 +100,7 @@ public abstract class EntityManagerBase<TEntity, TComponent, TEntityManager> : I
         var movingEntity = _activeEntities[^1];
         movingEntity.ActiveEntitiesIndex = entity.ActiveEntitiesIndex;
         _activeEntities[entity.ActiveEntitiesIndex] = movingEntity;
-        _entities.RemoveAt(_entities.Count - 1);
+        _activeEntities.RemoveAt(_entities.Count - 1);
         entity.IsActive = false;
     }
 
