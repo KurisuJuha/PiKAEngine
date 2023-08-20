@@ -50,16 +50,20 @@ public abstract class EntityManagerBase<TEntity, TComponent, TEntityManager> : I
         return true;
     }
 
-    public void ActivateEntity(TEntity entity)
+    public bool ActivateEntity(TEntity entity)
     {
-        if (entity.IsActive) throw new Exception();
+        if (entity.IsActive) return false;
         _activatingEntities.Enqueue(entity);
+
+        return true;
     }
 
-    public void DeactivateEntity(TEntity entity)
+    public bool DeactivateEntity(TEntity entity)
     {
-        if (!entity.IsActive) throw new Exception();
+        if (!entity.IsActive) return false;
         _deactivatingEntities.Enqueue(entity);
+
+        return true;
     }
 
     private void Register(TEntity entity)
