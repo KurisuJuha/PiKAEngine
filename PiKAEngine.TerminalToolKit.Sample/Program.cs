@@ -3,6 +3,9 @@
 using PiKAEngine.TerminalToolKit;
 using PiKAEngine.TerminalToolKit.Widgets.TestWidgets;
 
+var sw = new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = false };
+Console.Clear();
+Console.SetOut(sw);
 var texture = new Texture(new Size((ushort)Console.WindowWidth, (ushort)Console.WindowHeight));
 
 while (true)
@@ -15,6 +18,7 @@ while (true)
     renderObject.Draw(new Position(0, 0), new Size((ushort)Console.WindowWidth, (ushort)Console.WindowHeight), texture);
 
     Console.SetCursorPosition(0, 0);
-    Console.Write(string.Join("", texture.Pixels));
+    foreach (var pixel in texture.Pixels) Console.Write(pixel);
+    Console.Out.Flush();
     Console.ReadKey(true);
 }
