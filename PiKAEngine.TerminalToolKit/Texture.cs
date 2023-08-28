@@ -25,4 +25,16 @@ public class Texture
 
         Array.Resize(ref Pixels, Size.Height * Size.Width);
     }
+
+    public void Clear()
+    {
+        for (var i = 0; i < Pixels.Length; i++) Pixels[i] = ' ';
+    }
+
+    public bool TrySetPixel(int index, char pixel)
+    {
+        if (Pixels.Length <= index) return false;
+        Pixels[index] = pixel;
+        return true;
+    }
 }

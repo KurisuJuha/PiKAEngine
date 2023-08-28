@@ -2,6 +2,13 @@ namespace PiKAEngine.TerminalToolKit.Widgets.TestWidgets;
 
 public class TestWidget : Widget
 {
+    private readonly string _renderString;
+
+    public TestWidget(string renderString)
+    {
+        _renderString = renderString;
+    }
+
     public override Constraint GetConstraint(Constraint constraint)
     {
         return constraint;
@@ -9,6 +16,6 @@ public class TestWidget : Widget
 
     public override RenderObject CreateRenderObjectTree()
     {
-        return new TestRenderObject();
+        return new TestRenderObject(_renderString);
     }
 }
