@@ -24,4 +24,4 @@ jobs:
       - name: push PiKAEngine.MapSystem
         run: dotnet nuget push ./PiKAEngine.MapSystem/bin/Release/PiKAEngine.MapSystem.1.0.0.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate  
       - name: push PiKAEngine.TerminalToolKit
-        run: dotnet nuget push ./PiKAEngine.MapSystem/bin/Release/PiKAEngine.TerminalToolKit.1.0.0.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate  
+        run: dotnet nuget push ./PiKAEngine.TerminalToolKit/bin/Release/PiKAEngine.TerminalToolKit.1.0.0.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate  
