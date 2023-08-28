@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiKAEngine.Entities.Sample"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiKAEngine.RandomKit", "PiKAEngine.RandomKit\PiKAEngine.RandomKit.csproj", "{EC61ADF7-528A-4FB5-A5C2-7DEE1D6961A9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiKAEngine.TerminalToolKit", "PiKAEngine.TerminalToolKit\PiKAEngine.TerminalToolKit.csproj", "{CA15F106-17DD-479F-AC9D-F6E4417A8BD0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -66,5 +68,9 @@ Global
 		{EC61ADF7-528A-4FB5-A5C2-7DEE1D6961A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC61ADF7-528A-4FB5-A5C2-7DEE1D6961A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC61ADF7-528A-4FB5-A5C2-7DEE1D6961A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CA15F106-17DD-479F-AC9D-F6E4417A8BD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA15F106-17DD-479F-AC9D-F6E4417A8BD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA15F106-17DD-479F-AC9D-F6E4417A8BD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA15F106-17DD-479F-AC9D-F6E4417A8BD0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
