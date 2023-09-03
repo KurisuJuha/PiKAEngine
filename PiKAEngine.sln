@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiKAEngine.TerminalToolKit"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiKAEngine.TerminalToolKit.Sample", "PiKAEngine.TerminalToolKit.Sample\PiKAEngine.TerminalToolKit.Sample.csproj", "{D70EB674-F2FE-45B2-827E-34BD99CC57EE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiKAEngine.RandomKit.Sample", "PiKAEngine.RandomKit.Sample\PiKAEngine.RandomKit.Sample.csproj", "{B8E348DC-CD7A-4D2D-9440-713812B3F3E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -78,5 +80,9 @@ Global
 		{D70EB674-F2FE-45B2-827E-34BD99CC57EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D70EB674-F2FE-45B2-827E-34BD99CC57EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D70EB674-F2FE-45B2-827E-34BD99CC57EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8E348DC-CD7A-4D2D-9440-713812B3F3E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8E348DC-CD7A-4D2D-9440-713812B3F3E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8E348DC-CD7A-4D2D-9440-713812B3F3E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8E348DC-CD7A-4D2D-9440-713812B3F3E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
