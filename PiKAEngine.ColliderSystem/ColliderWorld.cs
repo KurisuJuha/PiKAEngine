@@ -1,16 +1,20 @@
-﻿namespace PiKAEngine.ColliderSystem;
+﻿using PiKAEngine.Mathematics;
+
+namespace PiKAEngine.ColliderSystem;
 
 public sealed class ColliderWorld<T>
 {
     private readonly ColliderCell<T>[] _colliderCells;
     private readonly List<RectCollider<T>> _collisionDetectionTargetColliders;
     public readonly List<(RectCollider<T>, RectCollider<T>)> ContactingColliders;
+    public readonly List<RectCollider<T>> RayCastContactingColliders;
     public readonly WorldTransform WorldTransform;
 
     public ColliderWorld(WorldTransform transform)
     {
         var length = ((int)Math.Pow(4, transform.Level + 1) - 1) / 3;
         ContactingColliders = new List<(RectCollider<T>, RectCollider<T>)>();
+        RayCastContactingColliders = new List<RectCollider<T>>();
         _collisionDetectionTargetColliders = new List<RectCollider<T>>();
         _colliderCells = new ColliderCell<T>[length];
         WorldTransform = transform;
@@ -87,7 +91,7 @@ public sealed class ColliderWorld<T>
 
     private void Check(uint level, int index)
     {
-        var cell = _colliderCells[MortonOrder.GetStartIndex(level) + index];
+        var cell = _colliderCells[MortonOrder.GetLevelStartIndex(level) + index];
 
         // 当たり判定を処理する
         if (!cell.HasChild) return;
@@ -122,5 +126,30 @@ public sealed class ColliderWorld<T>
         // 全ての巡回が終わったら現在のセルのコライダーたちをPop
         for (var i = 0; i < cell.Colliders?.Count; i++)
             _collisionDetectionTargetColliders.RemoveAt(_collisionDetectionTargetColliders.Count - 1);
+    }
+
+    public List<RectCollider<T>> PointCast(FixVector2 position, bool targetingInactiveCollider = false)
+    {
+        RayCastContactingColliders.Clear();
+
+        var scaledPosition = position;
+        scaledPosition -= WorldTransform.LeftBottomPosition;
+        scaledPosition *= WorldTransform.Scale;
+
+        var cellIndex = MortonOrder.GetLevelStartIndex(WorldTransform.Level) +
+                        MortonOrder.GetMortonNumber((ushort)scaledPosition.X, (ushort)scaledPosition.Y);
+
+        for (var i = cellIndex; i > 0; i = (i - 1) / 4)
+        {
+            var cell = _colliderCells[i];
+            if (cell.Colliders is null) continue;
+            foreach (var collider in cell.Colliders)
+            {
+                if (!targetingInactiveCollider && !collider.IsActive) continue;
+                if (collider.Detect(position)) RayCastContactingColliders.Add(collider);
+            }
+        }
+
+        return RayCastContactingColliders;
     }
 }

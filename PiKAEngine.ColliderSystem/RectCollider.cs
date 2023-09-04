@@ -7,7 +7,7 @@ public class RectCollider<T>
 {
     private readonly ColliderWorld<T> _world;
     private AABB _aabb;
-    internal int CellIndex;
+    public int CellIndex;
     public T Entity;
     internal int Index;
     internal RectColliderTransform InternalTransform;
@@ -69,7 +69,7 @@ public class RectCollider<T>
         return false;
     }
 
-    private bool Detect(FixVector2 point)
+    public bool Detect(FixVector2 point)
     {
         return IsRight(InternalTransform.LeftBottomPosition, InternalTransform.LeftTopPosition, point) &&
                IsRight(InternalTransform.LeftTopPosition, InternalTransform.RightTopPosition, point) &&

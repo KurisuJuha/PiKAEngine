@@ -83,10 +83,8 @@ public readonly struct AABB : IEquatable<AABB>
 
     public readonly AABB Rescale(WorldTransform worldTransform)
     {
-        var defaultSize = new Fix64(1 << (int)worldTransform.Level);
-        var scale = new FixVector2(worldTransform.Size.X / defaultSize, worldTransform.Size.Y / defaultSize);
-        return new AABB((LeftTopPosition - worldTransform.LeftBottomPosition) / scale,
-            (RightBottomPosition - worldTransform.LeftBottomPosition) / scale);
+        return new AABB((LeftTopPosition - worldTransform.LeftBottomPosition) * worldTransform.Scale,
+            (RightBottomPosition - worldTransform.LeftBottomPosition) * worldTransform.Scale);
     }
 
     public bool Equals(AABB other)

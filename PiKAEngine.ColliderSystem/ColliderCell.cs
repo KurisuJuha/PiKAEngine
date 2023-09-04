@@ -2,7 +2,7 @@
 
 public struct ColliderCell<T> : IEquatable<ColliderCell<T>>
 {
-    public List<RectCollider<T>> Colliders { get; private set; }
+    public List<RectCollider<T>>? Colliders { get; private set; }
     public bool HasChild;
 
     public void Init()

@@ -28,23 +28,23 @@ public static class MortonOrder
         }
 
         var space = a >> (highLevel * 2);
-        var startIndex = (uint)GetStartIndex(level - highLevel);
+        var startIndex = (uint)GetLevelStartIndex(level - highLevel);
 
         return space + startIndex;
     }
 
-    public static int GetStartIndex(long n)
+    public static int GetLevelStartIndex(long level)
     {
-        return ((int)Math.Pow(4, n) - 1) / 3;
+        return ((int)Math.Pow(4, level) - 1) / 3;
     }
 
     public static long GetIndex(AABB aabb, WorldTransform worldTransform)
     {
-        var rescaledAABB = aabb.Rescale(worldTransform);
-        var leftTopMortonNumber = GetMortonNumber((ushort)rescaledAABB.LeftTopPosition.X,
-            (ushort)rescaledAABB.LeftTopPosition.Y);
-        var rightBottomMortonNumber = GetMortonNumber((ushort)rescaledAABB.RightBottomPosition.X,
-            (ushort)rescaledAABB.RightBottomPosition.Y);
+        var rescaledAabb = aabb.Rescale(worldTransform);
+        var leftTopMortonNumber = GetMortonNumber((ushort)rescaledAabb.LeftTopPosition.X,
+            (ushort)rescaledAabb.LeftTopPosition.Y);
+        var rightBottomMortonNumber = GetMortonNumber((ushort)rescaledAabb.RightBottomPosition.X,
+            (ushort)rescaledAabb.RightBottomPosition.Y);
 
         return GetIndex(leftTopMortonNumber, rightBottomMortonNumber,
             worldTransform.Level);
