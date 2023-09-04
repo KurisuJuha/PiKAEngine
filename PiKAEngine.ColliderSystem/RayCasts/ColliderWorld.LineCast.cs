@@ -24,7 +24,10 @@ public partial class ColliderWorld<T>
             foreach (var collider in cell.Colliders)
             {
                 if (!targetingInactiveCollider && !collider.IsActive) continue;
-                if (collider.Detect(startPosition, endPosition)) RayCastContactingColliders.Add(collider);
+                if (!collider.Detect(startPosition, endPosition)) continue;
+                if (!collider.Detect(startPosition)) continue;
+                if (!collider.Detect(endPosition)) continue;
+                RayCastContactingColliders.Add(collider);
             }
         }
 
