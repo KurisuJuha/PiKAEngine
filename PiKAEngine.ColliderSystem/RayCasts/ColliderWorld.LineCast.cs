@@ -8,7 +8,7 @@ public partial class ColliderWorld<T>
         bool targetingInactiveCollider = false)
     {
         var scaledStartPosition = (startPosition - WorldTransform.LeftBottomPosition) * WorldTransform.Scale;
-        var scaledEndPosition = (startPosition - WorldTransform.LeftBottomPosition) * WorldTransform.Scale;
+        var scaledEndPosition = (endPosition - WorldTransform.LeftBottomPosition) * WorldTransform.Scale;
 
         var aabbPosition = (scaledStartPosition + scaledEndPosition) / new Fix64(2);
         var aabbSize = new FixVector2(Fix64.Abs(scaledStartPosition.X - scaledEndPosition.X),
@@ -24,7 +24,7 @@ public partial class ColliderWorld<T>
             foreach (var collider in cell.Colliders)
             {
                 if (!targetingInactiveCollider && !collider.IsActive) continue;
-                if (collider.Detect(scaledStartPosition, scaledEndPosition)) RayCastContactingColliders.Add(collider);
+                if (collider.Detect(startPosition, endPosition)) RayCastContactingColliders.Add(collider);
             }
         }
 

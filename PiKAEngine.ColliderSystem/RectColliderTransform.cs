@@ -40,6 +40,69 @@ public readonly struct RectColliderTransform : IEquatable<RectColliderTransform>
         RightBottomPosition += Position;
     }
 
+    public bool Detect(RectColliderTransform transform)
+    {
+        if (Detect(transform.LeftBottomPosition)) return true;
+        if (Detect(transform.LeftTopPosition)) return true;
+        if (Detect(transform.RightTopPosition)) return true;
+        if (Detect(transform.RightBottomPosition)) return true;
+
+        if (transform.Detect(LeftBottomPosition)) return true;
+        if (transform.Detect(LeftTopPosition)) return true;
+        if (transform.Detect(RightTopPosition)) return true;
+        if (transform.Detect(RightBottomPosition)) return true;
+
+        if (Detect(transform.LeftBottomPosition, transform.LeftTopPosition))
+            return true;
+        if (Detect(transform.LeftTopPosition, transform.RightTopPosition))
+            return true;
+        if (Detect(transform.RightTopPosition, transform.RightBottomPosition))
+            return true;
+        if (Detect(transform.RightBottomPosition, transform.LeftBottomPosition))
+            return true;
+
+        return false;
+    }
+
+    public bool Detect(FixVector2 startPosition, FixVector2 endPosition)
+    {
+        return IsLineCrossing(startPosition, endPosition, LeftBottomPosition, LeftTopPosition) ||
+               IsLineCrossing(startPosition, endPosition, LeftTopPosition, RightTopPosition) ||
+               IsLineCrossing(startPosition, endPosition, RightTopPosition, RightBottomPosition) ||
+               IsLineCrossing(startPosition, endPosition, RightBottomPosition, LeftBottomPosition);
+    }
+
+    private static bool IsLineCrossing(FixVector2 aStartPosition, FixVector2 aEndPosition, FixVector2 bStartPosition,
+        FixVector2 bEndPosition)
+    {
+        var vector0 = aEndPosition - aStartPosition;
+        var vector1 = bEndPosition - bStartPosition;
+
+        return Cross(vector0, bStartPosition - aStartPosition) * Cross(vector0, bEndPosition - aEndPosition) <
+               new Fix64(0) &&
+               Cross(vector1, aStartPosition - bStartPosition) * Cross(vector1, aEndPosition - bEndPosition) <
+               new Fix64(0);
+    }
+
+    private static Fix64 Cross(FixVector2 vector0, FixVector2 vector1)
+    {
+        return vector0.X * vector1.Y - vector0.Y * vector1.X;
+    }
+
+    public bool Detect(FixVector2 point)
+    {
+        return IsRight(LeftBottomPosition, LeftTopPosition, point) &&
+               IsRight(LeftTopPosition, RightTopPosition, point) &&
+               IsRight(RightTopPosition, RightBottomPosition, point) &&
+               IsRight(RightBottomPosition, LeftBottomPosition, point);
+    }
+
+    private static bool IsRight(FixVector2 a, FixVector2 b, FixVector2 point)
+    {
+        var f = (b.X - a.X) * (point.Y - a.Y) - (point.X - a.X) * (b.Y - a.Y);
+        return f <= Fix64.Zero;
+    }
+
     public bool Equals(RectColliderTransform other)
     {
         return Position.Equals(other.Position) && Size.Equals(other.Size) && Angle.Equals(other.Angle);
