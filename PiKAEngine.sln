@@ -27,6 +27,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiKAEngine.TerminalToolKit.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiKAEngine.RandomKit.Sample", "PiKAEngine.RandomKit.Sample\PiKAEngine.RandomKit.Sample.csproj", "{B8E348DC-CD7A-4D2D-9440-713812B3F3E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiKAEngine.ColliderSystem", "PiKAEngine.ColliderSystem\PiKAEngine.ColliderSystem.csproj", "{193D916C-ED1E-472D-80A0-DB674BCF56A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PiKAEngine.Mathematics", "PiKAEngine.Mathematics\PiKAEngine.Mathematics.csproj", "{23252D3C-C15C-430B-BAED-9C01B15E3914}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,5 +88,13 @@ Global
 		{B8E348DC-CD7A-4D2D-9440-713812B3F3E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B8E348DC-CD7A-4D2D-9440-713812B3F3E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B8E348DC-CD7A-4D2D-9440-713812B3F3E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{193D916C-ED1E-472D-80A0-DB674BCF56A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{193D916C-ED1E-472D-80A0-DB674BCF56A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{193D916C-ED1E-472D-80A0-DB674BCF56A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{193D916C-ED1E-472D-80A0-DB674BCF56A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23252D3C-C15C-430B-BAED-9C01B15E3914}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23252D3C-C15C-430B-BAED-9C01B15E3914}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23252D3C-C15C-430B-BAED-9C01B15E3914}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23252D3C-C15C-430B-BAED-9C01B15E3914}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
