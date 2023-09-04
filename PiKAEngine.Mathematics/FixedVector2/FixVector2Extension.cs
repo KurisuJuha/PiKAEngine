@@ -14,8 +14,8 @@ public static class FixVector2Extension
         var sin = Fix64.Sin(radAngle);
 
         return new FixVector2(
-            self.x * cos - self.y * sin,
-            self.x * sin + self.y * cos
+            self.X * cos - self.Y * sin,
+            self.X * sin + self.Y * cos
         );
     }
 }
