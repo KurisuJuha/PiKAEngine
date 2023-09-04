@@ -66,6 +66,15 @@ public class RectCollider<T>
         if (otherCollider.Detect(InternalTransform.RightTopPosition)) return true;
         if (otherCollider.Detect(InternalTransform.RightBottomPosition)) return true;
 
+        if (Detect(otherCollider.InternalTransform.LeftBottomPosition, InternalTransform.LeftTopPosition))
+            return true;
+        if (Detect(otherCollider.InternalTransform.LeftTopPosition, InternalTransform.RightTopPosition))
+            return true;
+        if (Detect(otherCollider.InternalTransform.RightTopPosition, InternalTransform.RightBottomPosition))
+            return true;
+        if (Detect(otherCollider.InternalTransform.RightBottomPosition, InternalTransform.LeftBottomPosition))
+            return true;
+
         return false;
     }
 
@@ -75,6 +84,18 @@ public class RectCollider<T>
                IsRight(InternalTransform.LeftTopPosition, InternalTransform.RightTopPosition, point) &&
                IsRight(InternalTransform.RightTopPosition, InternalTransform.RightBottomPosition, point) &&
                IsRight(InternalTransform.RightBottomPosition, InternalTransform.LeftBottomPosition, point);
+    }
+
+    public bool Detect(FixVector2 startPosition, FixVector2 endPosition)
+    {
+        return IsLineCrossing(startPosition, endPosition, InternalTransform.LeftBottomPosition,
+                   InternalTransform.LeftTopPosition) ||
+               IsLineCrossing(startPosition, endPosition, InternalTransform.LeftTopPosition,
+                   InternalTransform.RightTopPosition) ||
+               IsLineCrossing(startPosition, endPosition, InternalTransform.RightTopPosition,
+                   InternalTransform.RightBottomPosition) ||
+               IsLineCrossing(startPosition, endPosition, InternalTransform.RightBottomPosition,
+                   InternalTransform.LeftBottomPosition);
     }
 
     private static bool IsLineCrossing(FixVector2 aStartPosition, FixVector2 aEndPosition, FixVector2 bStartPosition,
