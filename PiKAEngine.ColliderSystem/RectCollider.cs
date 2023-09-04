@@ -77,6 +77,23 @@ public class RectCollider<T>
                IsRight(InternalTransform.RightBottomPosition, InternalTransform.LeftBottomPosition, point);
     }
 
+    private static bool IsLineCrossing(FixVector2 aStartPosition, FixVector2 aEndPosition, FixVector2 bStartPosition,
+        FixVector2 bEndPosition)
+    {
+        var vector0 = aEndPosition - aStartPosition;
+        var vector1 = bEndPosition - bStartPosition;
+
+        return Cross(vector0, bStartPosition - aStartPosition) * Cross(vector0, bEndPosition - aEndPosition) <
+               new Fix64(0) &&
+               Cross(vector1, aStartPosition - bStartPosition) * Cross(vector1, aEndPosition - bEndPosition) <
+               new Fix64(0);
+    }
+
+    private static Fix64 Cross(FixVector2 vector0, FixVector2 vector1)
+    {
+        return vector0.X * vector1.Y - vector0.Y * vector1.X;
+    }
+
     private static bool IsRight(FixVector2 a, FixVector2 b, FixVector2 point)
     {
         var f = (b.X - a.X) * (point.Y - a.Y) - (point.X - a.X) * (b.Y - a.Y);
