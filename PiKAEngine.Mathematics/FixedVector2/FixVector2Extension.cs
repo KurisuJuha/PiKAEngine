@@ -9,7 +9,7 @@ public static class FixVector2Extension
 
     public static FixVector2 RotatePoint(this FixVector2 self, Fix64 angle)
     {
-        var radAngle = Fix64.deg2Rad * angle;
+        var radAngle = Fix64.Deg2Rad * angle;
         var cos = Fix64.Cos(radAngle);
         var sin = Fix64.Sin(radAngle);
 

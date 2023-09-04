@@ -5,48 +5,48 @@ namespace PiKAEngine.Mathematics;
 /// <summary>
 ///     Represents a Q31.32 fixed-point number.
 /// </summary>
-public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
+public readonly partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
 {
     // Precision of this type is 2^-32, that is 2,3283064365386962890625E-10
-    public static readonly decimal precision = (decimal)new Fix64(1L); //0.00000000023283064365386962890625m;
-    public static readonly Fix64 maxValue = new(MAX_VALUE);
-    public static readonly Fix64 minValue = new(MIN_VALUE);
-    public static readonly Fix64 one = new(ONE);
-    public static readonly Fix64 two = one + one;
-    public static readonly Fix64 half = one / two;
-    public static readonly Fix64 zero = new();
-    public static readonly Fix64 oneTurn = new(360);
-    public static readonly Fix64 halfTurn = new(180);
-    public static readonly Fix64 quarterTurn = new(90);
+    public static readonly decimal Precision = (decimal)new Fix64(1L); //0.00000000023283064365386962890625m;
+    public static readonly Fix64 MaxValue = new(LongMaxValue);
+    public static readonly Fix64 MinValue = new(LongMinValue);
+    public static readonly Fix64 One = new(LongOne);
+    public static readonly Fix64 Two = One + One;
+    public static readonly Fix64 Half = One / Two;
+    public static readonly Fix64 Zero = new();
+    public static readonly Fix64 OneTurn = new(360);
+    public static readonly Fix64 HalfTurn = new(180);
+    public static readonly Fix64 QuarterTurn = new(90);
 
     /// <summary>
     ///     The value of Pi
     /// </summary>
-    public static readonly Fix64 pi = new(PI);
+    public static readonly Fix64 Pi = new(LongPi);
 
-    public static readonly Fix64 piOver2 = new(PI_OVER_2);
-    public static readonly Fix64 piTimes2 = new(PI_TIMES_2);
-    public static readonly Fix64 piInv = (Fix64)0.3183098861837906715377675267M;
-    public static readonly Fix64 piOver2Inv = (Fix64)0.6366197723675813430755350535M;
-    public static readonly Fix64 rad2Deg = new Fix64(360) / (pi * new Fix64(2));
-    public static readonly Fix64 deg2Rad = pi * new Fix64(2) / new Fix64(360);
-    private static readonly Fix64 log2Max = new(LOG2MAX);
-    private static readonly Fix64 log2Min = new(LOG2MIN);
-    private static readonly Fix64 ln2 = new(LN2);
+    public static readonly Fix64 PiOver2 = new(LongPiOver2);
+    public static readonly Fix64 PiTimes2 = new(LongPiTimes2);
+    public static readonly Fix64 PiInv = (Fix64)0.3183098861837906715377675267M;
+    public static readonly Fix64 PiOver2Inv = (Fix64)0.6366197723675813430755350535M;
+    public static readonly Fix64 Rad2Deg = new Fix64(360) / (Pi * new Fix64(2));
+    public static readonly Fix64 Deg2Rad = Pi * new Fix64(2) / new Fix64(360);
+    private static readonly Fix64 Log2Max = new(LongLog2Max);
+    private static readonly Fix64 Log2Min = new(LongLog2Min);
+    private static readonly Fix64 Ln2 = new(LongLn2);
 
-    private static readonly Fix64 lutInterval = (Fix64)(LUT_SIZE - 1) / piOver2;
-    private const long MAX_VALUE = long.MaxValue;
-    private const long MIN_VALUE = long.MinValue;
-    private const int NUM_BITS = 64;
-    private const int FRACTIONAL_PLACES = 32;
-    private const long ONE = 1L << FRACTIONAL_PLACES;
-    private const long PI_TIMES_2 = 0x6487ED511;
-    private const long PI = 0x3243F6A88;
-    private const long PI_OVER_2 = 0x1921FB544;
-    private const long LN2 = 0xB17217F7;
-    private const long LOG2MAX = 0x1F00000000;
-    private const long LOG2MIN = -0x2000000000;
-    private const int LUT_SIZE = (int)(PI_OVER_2 >> 15);
+    private static readonly Fix64 LutInterval = (Fix64)(LutSize - 1) / PiOver2;
+    private const long LongMaxValue = long.MaxValue;
+    private const long LongMinValue = long.MinValue;
+    private const int NumBits = 64;
+    private const int FractionalPlaces = 32;
+    private const long LongOne = 1L << FractionalPlaces;
+    private const long LongPiTimes2 = 0x6487ED511;
+    private const long LongPi = 0x3243F6A88;
+    private const long LongPiOver2 = 0x1921FB544;
+    private const long LongLn2 = 0xB17217F7;
+    private const long LongLog2Max = 0x1F00000000;
+    private const long LongLog2Min = -0x2000000000;
+    private const int LutSize = (int)(LongPiOver2 >> 15);
 
     /// <summary>
     ///     Returns a number indicating the sign of a Fix64 number.
@@ -76,7 +76,7 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
     /// </summary>
     public static Fix64 Abs(Fix64 value)
     {
-        if (value.RawValue == MIN_VALUE) return maxValue;
+        if (value.RawValue == LongMinValue) return MaxValue;
 
         // branchless implementation, see http://www.strchr.com/optimized_abs_function
         var mask = value.RawValue >> 63;
@@ -115,7 +115,7 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
     public static Fix64 Ceiling(Fix64 value)
     {
         var hasFractionalPart = (value.RawValue & 0x00000000FFFFFFFF) != 0;
-        return hasFractionalPart ? Floor(value) + one : value;
+        return hasFractionalPart ? Floor(value) + One : value;
     }
 
     /// <summary>
@@ -127,12 +127,12 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
         var fractionalPart = value.RawValue & 0x00000000FFFFFFFF;
         var integralPart = Floor(value);
         if (fractionalPart < 0x80000000) return integralPart;
-        if (fractionalPart > 0x80000000) return integralPart + one;
+        if (fractionalPart > 0x80000000) return integralPart + One;
         // if number is halfway between two values, round to the nearest even number
         // this is the method used by System.Math.Round().
-        return (integralPart.RawValue & ONE) == 0
+        return (integralPart.RawValue & LongOne) == 0
             ? integralPart
-            : integralPart + one;
+            : integralPart + One;
     }
 
     /// <summary>
@@ -145,7 +145,7 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
         var yl = y.RawValue;
         var sum = xl + yl;
         // if signs of operands are equal and signs of sum and x are different
-        if ((~(xl ^ yl) & (xl ^ sum) & MIN_VALUE) != 0) sum = xl > 0 ? MAX_VALUE : MIN_VALUE;
+        if ((~(xl ^ yl) & (xl ^ sum) & LongMinValue) != 0) sum = xl > 0 ? LongMaxValue : LongMinValue;
         return new Fix64(sum);
     }
 
@@ -167,7 +167,7 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
         var yl = y.RawValue;
         var diff = xl - yl;
         // if signs of operands are different and signs of sum and x are different
-        if (((xl ^ yl) & (xl ^ diff) & MIN_VALUE) != 0) diff = xl < 0 ? MIN_VALUE : MAX_VALUE;
+        if (((xl ^ yl) & (xl ^ diff) & LongMinValue) != 0) diff = xl < 0 ? LongMinValue : LongMaxValue;
         return new Fix64(diff);
     }
 
@@ -183,7 +183,7 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
     {
         var sum = x + y;
         // x + y overflows if sign(x) ^ sign(y) != sign(sum)
-        overflow |= ((x ^ y ^ sum) & MIN_VALUE) != 0;
+        overflow |= ((x ^ y ^ sum) & LongMinValue) != 0;
         return sum;
     }
 
@@ -193,43 +193,43 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
         var yl = y.RawValue;
 
         var xlo = (ulong)(xl & 0x00000000FFFFFFFF);
-        var xhi = xl >> FRACTIONAL_PLACES;
+        var xhi = xl >> FractionalPlaces;
         var ylo = (ulong)(yl & 0x00000000FFFFFFFF);
-        var yhi = yl >> FRACTIONAL_PLACES;
+        var yhi = yl >> FractionalPlaces;
 
         var lolo = xlo * ylo;
         var lohi = (long)xlo * yhi;
         var hilo = xhi * (long)ylo;
         var hihi = xhi * yhi;
 
-        var loResult = lolo >> FRACTIONAL_PLACES;
+        var loResult = lolo >> FractionalPlaces;
         var midResult1 = lohi;
         var midResult2 = hilo;
-        var hiResult = hihi << FRACTIONAL_PLACES;
+        var hiResult = hihi << FractionalPlaces;
 
         var overflow = false;
         var sum = AddOverflowHelper((long)loResult, midResult1, ref overflow);
         sum = AddOverflowHelper(sum, midResult2, ref overflow);
         sum = AddOverflowHelper(sum, hiResult, ref overflow);
 
-        var opSignsEqual = ((xl ^ yl) & MIN_VALUE) == 0;
+        var opSignsEqual = ((xl ^ yl) & LongMinValue) == 0;
 
         // if signs of operands are equal and sign of result is negative,
         // then multiplication overflowed positively
         // the reverse is also true
         if (opSignsEqual)
         {
-            if (sum < 0 || (overflow && xl > 0)) return maxValue;
+            if (sum < 0 || (overflow && xl > 0)) return MaxValue;
         }
         else
         {
-            if (sum > 0) return minValue;
+            if (sum > 0) return MinValue;
         }
 
         // if the top 32 bits of hihi (unused in the result) are neither all 0s or 1s,
         // then this means the result overflowed.
-        var topCarry = hihi >> FRACTIONAL_PLACES;
-        if (topCarry != 0 && topCarry != -1 /*&& xl != -17 && yl != -17*/) return opSignsEqual ? maxValue : minValue;
+        var topCarry = hihi >> FractionalPlaces;
+        if (topCarry != 0 && topCarry != -1 /*&& xl != -17 && yl != -17*/) return opSignsEqual ? MaxValue : MinValue;
 
         // If signs differ, both operands' magnitudes are greater than 1,
         // and the result is greater than the negative operand, then there was negative overflow.
@@ -247,7 +247,7 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
                 negOp = xl;
             }
 
-            if (sum > negOp && negOp < -ONE && posOp > ONE) return minValue;
+            if (sum > negOp && negOp < -LongOne && posOp > LongOne) return MinValue;
         }
 
         return new Fix64(sum);
@@ -263,19 +263,19 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
         var yl = y.RawValue;
 
         var xlo = (ulong)(xl & 0x00000000FFFFFFFF);
-        var xhi = xl >> FRACTIONAL_PLACES;
+        var xhi = xl >> FractionalPlaces;
         var ylo = (ulong)(yl & 0x00000000FFFFFFFF);
-        var yhi = yl >> FRACTIONAL_PLACES;
+        var yhi = yl >> FractionalPlaces;
 
         var lolo = xlo * ylo;
         var lohi = (long)xlo * yhi;
         var hilo = xhi * (long)ylo;
         var hihi = xhi * yhi;
 
-        var loResult = lolo >> FRACTIONAL_PLACES;
+        var loResult = lolo >> FractionalPlaces;
         var midResult1 = lohi;
         var midResult2 = hilo;
-        var hiResult = hihi << FRACTIONAL_PLACES;
+        var hiResult = hihi << FractionalPlaces;
 
         var sum = (long)loResult + midResult1 + midResult2 + hiResult;
         return new Fix64(sum);
@@ -310,7 +310,7 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
         var remainder = (ulong)(xl >= 0 ? xl : -xl);
         var divider = (ulong)(yl >= 0 ? yl : -yl);
         var quotient = 0UL;
-        var bitPos = NUM_BITS / 2 + 1;
+        var bitPos = NumBits / 2 + 1;
 
 
         // If the divider is divisible by 2^n, take advantage of it.
@@ -332,7 +332,8 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
             quotient += div << bitPos;
 
             // Detect overflow
-            if ((div & ~(0xFFFFFFFFFFFFFFFF >> bitPos)) != 0) return ((xl ^ yl) & MIN_VALUE) == 0 ? maxValue : minValue;
+            if ((div & ~(0xFFFFFFFFFFFFFFFF >> bitPos)) != 0)
+                return ((xl ^ yl) & LongMinValue) == 0 ? MaxValue : MinValue;
 
             remainder <<= 1;
             --bitPos;
@@ -341,7 +342,7 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
         // rounding
         ++quotient;
         var result = (long)(quotient >> 1);
-        if (((xl ^ yl) & MIN_VALUE) != 0) result = -result;
+        if (((xl ^ yl) & LongMinValue) != 0) result = -result;
 
         return new Fix64(result);
     }
@@ -349,7 +350,7 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
     public static Fix64 operator %(Fix64 x, Fix64 y)
     {
         return new Fix64(
-            (x.RawValue == MIN_VALUE) & (y.RawValue == -1) ? 0 : x.RawValue % y.RawValue);
+            (x.RawValue == LongMinValue) & (y.RawValue == -1) ? 0 : x.RawValue % y.RawValue);
     }
 
     /// <summary>
@@ -363,7 +364,7 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
 
     public static Fix64 operator -(Fix64 x)
     {
-        return x.RawValue == MIN_VALUE ? maxValue : new Fix64(-x.RawValue);
+        return x.RawValue == LongMinValue ? MaxValue : new Fix64(-x.RawValue);
     }
 
     public static Fix64 operator +(Fix64 x)
@@ -405,17 +406,17 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
     ///     Returns 2 raised to the specified power.
     ///     Provides at least 6 decimals of accuracy.
     /// </summary>
-    internal static Fix64 Pow2(Fix64 x)
+    private static Fix64 Pow2(Fix64 x)
     {
-        if (x.RawValue == 0) return one;
+        if (x.RawValue == 0) return One;
 
         // Avoid negative arguments by exploiting that exp(-x) = 1/exp(x).
         var neg = x.RawValue < 0;
         if (neg) x = -x;
 
-        if (x == one) return neg ? one / (Fix64)2 : (Fix64)2;
-        if (x >= log2Max) return neg ? one / maxValue : maxValue;
-        if (x <= log2Min) return neg ? maxValue : zero;
+        if (x == One) return neg ? One / (Fix64)2 : (Fix64)2;
+        if (x >= Log2Max) return neg ? One / MaxValue : MaxValue;
+        if (x <= Log2Min) return neg ? MaxValue : Zero;
 
         /* The algorithm is based on the power series for exp(x):
          * http://en.wikipedia.org/wiki/Exponential_function#Formal_definition
@@ -428,18 +429,18 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
         // Take fractional part of exponent
         x = new Fix64(x.RawValue & 0x00000000FFFFFFFF);
 
-        var result = one;
-        var term = one;
+        var result = One;
+        var term = One;
         var i = 1;
         while (term.RawValue != 0)
         {
-            term = FastMul(FastMul(x, term), ln2) / (Fix64)i;
+            term = FastMul(FastMul(x, term), Ln2) / (Fix64)i;
             result += term;
             i++;
         }
 
         result = FromRaw(result.RawValue << integerPart);
-        if (neg) result = one / result;
+        if (neg) result = One / result;
 
         return result;
     }
@@ -460,28 +461,28 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
         // algorithm (C. S. Turner,  "A Fast Binary Logarithm Algorithm", IEEE Signal
         //     Processing Mag., pp. 124,140, Sep. 2010.)
 
-        long b = 1U << (FRACTIONAL_PLACES - 1);
+        long b = 1U << (FractionalPlaces - 1);
         long y = 0;
 
         var rawX = x.RawValue;
-        while (rawX < ONE)
+        while (rawX < LongOne)
         {
             rawX <<= 1;
-            y -= ONE;
+            y -= LongOne;
         }
 
-        while (rawX >= ONE << 1)
+        while (rawX >= LongOne << 1)
         {
             rawX >>= 1;
-            y += ONE;
+            y += LongOne;
         }
 
         var z = new Fix64(rawX);
 
-        for (var i = 0; i < FRACTIONAL_PLACES; i++)
+        for (var i = 0; i < FractionalPlaces; i++)
         {
             z = FastMul(z, z);
-            if (z.RawValue >= ONE << 1)
+            if (z.RawValue >= LongOne << 1)
             {
                 z = new Fix64(z.RawValue >> 1);
                 y += b;
@@ -502,7 +503,7 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
     /// </exception>
     public static Fix64 Ln(Fix64 x)
     {
-        return FastMul(Log2(x), ln2);
+        return FastMul(Log2(x), Ln2);
     }
 
     /// <summary>
@@ -517,12 +518,12 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
     /// </exception>
     public static Fix64 Pow(Fix64 b, Fix64 exp)
     {
-        if (b == one) return one;
-        if (exp.RawValue == 0) return one;
+        if (b == One) return One;
+        if (exp.RawValue == 0) return One;
         if (b.RawValue == 0)
         {
             if (exp.RawValue < 0) throw new DivideByZeroException();
-            return zero;
+            return Zero;
         }
 
         var log2 = Log2(b);
@@ -547,7 +548,7 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
         var result = 0UL;
 
         // second-to-top bit
-        var bit = 1UL << (NUM_BITS - 2);
+        var bit = 1UL << (NumBits - 2);
 
         while (bit > num) bit >>= 2;
 
@@ -574,7 +575,7 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
             if (i == 0)
             {
                 // Then process it again to get the lowest 16 bits.
-                if (num > (1UL << (NUM_BITS / 2)) - 1)
+                if (num > (1UL << (NumBits / 2)) - 1)
                 {
                     // The remainder 'num' is too large to be shifted left
                     // by 32, so we have to add 1 to result manually and
@@ -583,16 +584,16 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
                     //       = num + result^2 - (result + 0.5)^2
                     //       = num - result - 0.5
                     num -= result;
-                    num = (num << (NUM_BITS / 2)) - 0x80000000UL;
-                    result = (result << (NUM_BITS / 2)) + 0x80000000UL;
+                    num = (num << (NumBits / 2)) - 0x80000000UL;
+                    result = (result << (NumBits / 2)) + 0x80000000UL;
                 }
                 else
                 {
-                    num <<= NUM_BITS / 2;
-                    result <<= NUM_BITS / 2;
+                    num <<= NumBits / 2;
+                    result <<= NumBits / 2;
                 }
 
-                bit = 1UL << (NUM_BITS / 2 - 2);
+                bit = 1UL << (NumBits / 2 - 2);
             }
         }
 
@@ -612,7 +613,7 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
 
         // Find the two closest values in the LUT and perform linear interpolation
         // This is what kills the performance of this function on x86 - x64 is fine though
-        var rawIndex = FastMul(clamped, lutInterval);
+        var rawIndex = FastMul(clamped, LutInterval);
         var roundedIndex = Round(rawIndex);
         var indexError = FastSub(rawIndex, roundedIndex);
 
@@ -642,7 +643,7 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
         // Here we use the fact that the SinLut table has a number of entries
         // equal to (PI_OVER_2 >> 15) to use the angle to index directly into it
         var rawIndex = (uint)(clampedL >> 15);
-        if (rawIndex >= LUT_SIZE) rawIndex = LUT_SIZE - 1;
+        if (rawIndex >= LutSize) rawIndex = LutSize - 1;
         var nearestValue = SinLut[flipHorizontal ? SinLut.Length - 1 - (int)rawIndex : (int)rawIndex];
         return new Fix64(flipVertical ? -nearestValue : nearestValue);
     }
@@ -650,7 +651,7 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
 
     private static long ClampSinValue(long angle, out bool flipHorizontal, out bool flipVertical)
     {
-        var largePI = 7244019458077122842;
+        const long largePi = 7244019458077122842;
         // Obtained from ((Fix64)1686629713.065252369824872831112M).m_rawValue
         // This is (2^29)*PI, where 29 is the largest N such that (2^N)*PI < MaxValue.
         // The idea is that this number contains way more precision than PI_TIMES_2,
@@ -659,19 +660,19 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
         // Whereas simply doing x % PI_TIMES_2 is the 2e-3 range.
 
         var clamped2Pi = angle;
-        for (var i = 0; i < 29; ++i) clamped2Pi %= largePI >> i;
-        if (angle < 0) clamped2Pi += PI_TIMES_2;
+        for (var i = 0; i < 29; ++i) clamped2Pi %= largePi >> i;
+        if (angle < 0) clamped2Pi += LongPiTimes2;
 
         // The LUT contains values for 0 - PiOver2; every other value must be obtained by
         // vertical or horizontal mirroring
-        flipVertical = clamped2Pi >= PI;
+        flipVertical = clamped2Pi >= LongPi;
         // obtain (angle % PI) from (angle % 2PI) - much faster than doing another modulo
         var clampedPi = clamped2Pi;
-        while (clampedPi >= PI) clampedPi -= PI;
-        flipHorizontal = clampedPi >= PI_OVER_2;
+        while (clampedPi >= LongPi) clampedPi -= LongPi;
+        flipHorizontal = clampedPi >= LongPiOver2;
         // obtain (angle % PI_OVER_2) from (angle % PI) - much faster than doing another modulo
         var clampedPiOver2 = clampedPi;
-        if (clampedPiOver2 >= PI_OVER_2) clampedPiOver2 -= PI_OVER_2;
+        if (clampedPiOver2 >= LongPiOver2) clampedPiOver2 -= LongPiOver2;
         return clampedPiOver2;
     }
 
@@ -682,7 +683,7 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
     public static Fix64 Cos(Fix64 x)
     {
         var xl = x.RawValue;
-        var rawAngle = xl + (xl > 0 ? -PI - PI_OVER_2 : PI_OVER_2);
+        var rawAngle = xl + (xl > 0 ? -LongPi - LongPiOver2 : LongPiOver2);
         return Sin(new Fix64(rawAngle));
     }
 
@@ -693,7 +694,7 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
     public static Fix64 FastCos(Fix64 x)
     {
         var xl = x.RawValue;
-        var rawAngle = xl + (xl > 0 ? -PI - PI_OVER_2 : PI_OVER_2);
+        var rawAngle = xl + (xl > 0 ? -LongPi - LongPiOver2 : LongPiOver2);
         return FastSin(new Fix64(rawAngle));
     }
 
@@ -705,7 +706,7 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
     /// </remarks>
     public static Fix64 Tan(Fix64 x)
     {
-        var clampedPi = x.RawValue % PI;
+        var clampedPi = x.RawValue % LongPi;
         var flip = false;
         if (clampedPi < 0)
         {
@@ -713,16 +714,16 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
             flip = true;
         }
 
-        if (clampedPi > PI_OVER_2)
+        if (clampedPi > LongPiOver2)
         {
             flip = !flip;
-            clampedPi = PI_OVER_2 - (clampedPi - PI_OVER_2);
+            clampedPi = LongPiOver2 - (clampedPi - LongPiOver2);
         }
 
         var clamped = new Fix64(clampedPi);
 
         // Find the two closest values in the LUT and perform linear interpolation
-        var rawIndex = FastMul(clamped, lutInterval);
+        var rawIndex = FastMul(clamped, LutInterval);
         var roundedIndex = Round(rawIndex);
         var indexError = FastSub(rawIndex, roundedIndex);
 
@@ -741,12 +742,12 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
     /// </summary>
     public static Fix64 Acos(Fix64 x)
     {
-        if (x < -one || x > one) throw new ArgumentOutOfRangeException(nameof(x));
+        if (x < -One || x > One) throw new ArgumentOutOfRangeException(nameof(x));
 
-        if (x.RawValue == 0) return piOver2;
+        if (x.RawValue == 0) return PiOver2;
 
-        var result = Atan(Sqrt(one - x * x) / x);
-        return x.RawValue < 0 ? result + pi : result;
+        var result = Atan(Sqrt(One - x * x) / x);
+        return x.RawValue < 0 ? result + Pi : result;
     }
 
     /// <summary>
@@ -755,26 +756,25 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
     /// </summary>
     public static Fix64 Atan(Fix64 z)
     {
-        if (z.RawValue == 0) return zero;
+        if (z.RawValue == 0) return Zero;
 
         // Force positive values for argument
         // Atan(-z) = -Atan(z).
         var neg = z.RawValue < 0;
         if (neg) z = -z;
 
-        Fix64 result;
         var two = (Fix64)2;
         var three = (Fix64)3;
 
-        var invert = z > one;
-        if (invert) z = one / z;
+        var invert = z > One;
+        if (invert) z = One / z;
 
-        result = one;
-        var term = one;
+        var result = One;
+        var term = One;
 
         var zSq = z * z;
         var zSq2 = zSq * two;
-        var zSqPlusOne = zSq + one;
+        var zSqPlusOne = zSq + One;
         var zSq12 = zSqPlusOne * two;
         var dividend = zSq2;
         var divisor = zSqPlusOne * three;
@@ -792,7 +792,7 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
 
         result = result * z / zSqPlusOne;
 
-        if (invert) result = piOver2 - result;
+        if (invert) result = PiOver2 - result;
 
         if (neg) result = -result;
         return result;
@@ -804,30 +804,30 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
         var xl = x.RawValue;
         if (xl == 0)
         {
-            if (yl > 0) return piOver2;
-            if (yl == 0) return zero;
-            return -piOver2;
+            if (yl > 0) return PiOver2;
+            if (yl == 0) return Zero;
+            return -PiOver2;
         }
 
         Fix64 atan;
         var z = y / x;
 
         // Deal with overflow
-        if (one + (Fix64)0.28M * z * z == maxValue) return y < zero ? -piOver2 : piOver2;
+        if (One + (Fix64)0.28M * z * z == MaxValue) return y < Zero ? -PiOver2 : PiOver2;
 
-        if (Abs(z) < one)
+        if (Abs(z) < One)
         {
-            atan = z / (one + (Fix64)0.28M * z * z);
+            atan = z / (One + (Fix64)0.28M * z * z);
             if (xl < 0)
             {
-                if (yl < 0) return atan - pi;
-                return atan + pi;
+                if (yl < 0) return atan - Pi;
+                return atan + Pi;
             }
         }
         else
         {
-            atan = piOver2 - z / (z * z + (Fix64)0.28M);
-            if (yl < 0) return atan - pi;
+            atan = PiOver2 - z / (z * z + (Fix64)0.28M);
+            if (yl < 0) return atan - Pi;
         }
 
         return atan;
@@ -842,53 +842,53 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
 
     public static Fix64 Clamp01(Fix64 value)
     {
-        return Clamp(value, zero, one);
+        return Clamp(value, Zero, One);
     }
 
 
     public static explicit operator Fix64(long value)
     {
-        return new Fix64(value * ONE);
+        return new Fix64(value * LongOne);
     }
 
     public static explicit operator long(Fix64 value)
     {
-        return value.RawValue >> FRACTIONAL_PLACES;
+        return value.RawValue >> FractionalPlaces;
     }
 
     public static explicit operator Fix64(float value)
     {
-        return new Fix64((long)(value * ONE));
+        return new Fix64((long)(value * LongOne));
     }
 
     public static explicit operator float(Fix64 value)
     {
-        return (float)value.RawValue / ONE;
+        return (float)value.RawValue / LongOne;
     }
 
     public static explicit operator Fix64(double value)
     {
-        return new Fix64((long)(value * ONE));
+        return new Fix64((long)(value * LongOne));
     }
 
     public static explicit operator double(Fix64 value)
     {
-        return (double)value.RawValue / ONE;
+        return (double)value.RawValue / LongOne;
     }
 
     public static explicit operator Fix64(decimal value)
     {
-        return new Fix64((long)(value * ONE));
+        return new Fix64((long)(value * LongOne));
     }
 
     public static explicit operator decimal(Fix64 value)
     {
-        return (decimal)value.RawValue / ONE;
+        return (decimal)value.RawValue / LongOne;
     }
 
     public override bool Equals(object obj)
     {
-        return obj is Fix64 && ((Fix64)obj).RawValue == RawValue;
+        return obj is Fix64 fix64 && fix64.RawValue == RawValue;
     }
 
     public override int GetHashCode()
@@ -918,71 +918,67 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
 
     internal static void GenerateSinLut()
     {
-        using (var writer = new StreamWriter("Fix64SinLut.cs"))
-        {
-            writer.Write(
-                @"namespace FixMath.NET 
+        using var writer = new StreamWriter("Fix64SinLut.cs");
+        writer.Write(
+            @"namespace FixMath.NET 
 {
     partial struct Fix64 
     {
         public static readonly long[] SinLut = new[] 
         {");
-            var lineCounter = 0;
-            for (var i = 0; i < LUT_SIZE; ++i)
+        var lineCounter = 0;
+        for (var i = 0; i < LutSize; ++i)
+        {
+            var angle = i * Math.PI * 0.5 / (LutSize - 1);
+            if (lineCounter++ % 8 == 0)
             {
-                var angle = i * Math.PI * 0.5 / (LUT_SIZE - 1);
-                if (lineCounter++ % 8 == 0)
-                {
-                    writer.WriteLine();
-                    writer.Write("            ");
-                }
-
-                var sin = Math.Sin(angle);
-                var rawValue = ((Fix64)sin).RawValue;
-                writer.Write("0x{0:X}L, ", rawValue);
+                writer.WriteLine();
+                writer.Write("            ");
             }
 
-            writer.Write(
-                @"
+            var sin = Math.Sin(angle);
+            var rawValue = ((Fix64)sin).RawValue;
+            writer.Write("0x{0:X}L, ", rawValue);
+        }
+
+        writer.Write(
+            @"
         };
     }
 }");
-        }
     }
 
     internal static void GenerateTanLut()
     {
-        using (var writer = new StreamWriter("Fix64TanLut.cs"))
-        {
-            writer.Write(
-                @"namespace FixMath.NET 
+        using var writer = new StreamWriter("Fix64TanLut.cs");
+        writer.Write(
+            @"namespace FixMath.NET 
 {
     partial struct Fix64 
     {
         public static readonly long[] TanLut = new[] 
         {");
-            var lineCounter = 0;
-            for (var i = 0; i < LUT_SIZE; ++i)
+        var lineCounter = 0;
+        for (var i = 0; i < LutSize; ++i)
+        {
+            var angle = i * Math.PI * 0.5 / (LutSize - 1);
+            if (lineCounter++ % 8 == 0)
             {
-                var angle = i * Math.PI * 0.5 / (LUT_SIZE - 1);
-                if (lineCounter++ % 8 == 0)
-                {
-                    writer.WriteLine();
-                    writer.Write("            ");
-                }
-
-                var tan = Math.Tan(angle);
-                if (tan > (double)maxValue || tan < 0.0) tan = (double)maxValue;
-                var rawValue = ((decimal)tan > (decimal)maxValue || tan < 0.0 ? maxValue : (Fix64)tan).RawValue;
-                writer.Write("0x{0:X}L, ", rawValue);
+                writer.WriteLine();
+                writer.Write("            ");
             }
 
-            writer.Write(
-                @"
+            var tan = Math.Tan(angle);
+            if (tan > (double)MaxValue || tan < 0.0) tan = (double)MaxValue;
+            var rawValue = ((decimal)tan > (decimal)MaxValue || tan < 0.0 ? MaxValue : (Fix64)tan).RawValue;
+            writer.Write("0x{0:X}L, ", rawValue);
+        }
+
+        writer.Write(
+            @"
         };
     }
 }");
-        }
     }
 
     // turn into a Console Application and use this to generate the look-up tables
@@ -1008,6 +1004,6 @@ public partial struct Fix64 : IEquatable<Fix64>, IComparable<Fix64>
 
     public Fix64(int value)
     {
-        RawValue = value * ONE;
+        RawValue = value * LongOne;
     }
 }

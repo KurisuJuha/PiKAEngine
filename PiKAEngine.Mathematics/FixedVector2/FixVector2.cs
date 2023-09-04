@@ -46,7 +46,7 @@ public readonly struct FixVector2 : IEquatable<FixVector2>
     public FixVector2(int x)
     {
         this.x = new Fix64(x);
-        y = Fix64.zero;
+        y = Fix64.Zero;
     }
 
     public FixVector2(Fix64 x, Fix64 y)
@@ -58,7 +58,7 @@ public readonly struct FixVector2 : IEquatable<FixVector2>
     public FixVector2(Fix64 x)
     {
         this.x = x;
-        y = Fix64.zero;
+        y = Fix64.Zero;
     }
 
     public Fix64 magnitude => Fix64.Sqrt(x * x + y * y);
@@ -112,7 +112,7 @@ public readonly struct FixVector2 : IEquatable<FixVector2>
 
         var sqDist = toVectorX * toVectorY + toVectorY * toVectorY;
 
-        if (sqDist == Fix64.zero || (maxDistanceDelta >= Fix64.zero && sqDist <= maxDistanceDelta * maxDistanceDelta))
+        if (sqDist == Fix64.Zero || (maxDistanceDelta >= Fix64.Zero && sqDist <= maxDistanceDelta * maxDistanceDelta))
             return target;
 
         var dist = Fix64.Sqrt(sqDist);
@@ -131,7 +131,7 @@ public readonly struct FixVector2 : IEquatable<FixVector2>
     public static FixVector2 Normalize(FixVector2 value)
     {
         var mag = value.magnitude;
-        if (mag == Fix64.zero)
+        if (mag == Fix64.Zero)
             return zero;
         return value / mag;
     }
@@ -155,10 +155,10 @@ public readonly struct FixVector2 : IEquatable<FixVector2>
     public static Fix64 Angle(FixVector2 from, FixVector2 to)
     {
         var denominatior = Fix64.Sqrt(from.sqrMagnitude * to.sqrMagnitude);
-        if (denominatior == Fix64.zero) return new Fix64(0);
+        if (denominatior == Fix64.Zero) return new Fix64(0);
 
         var dot = Fix64.Clamp(Dot(from, to) / denominatior, new Fix64(-1), new Fix64(1));
-        return Fix64.Acos(dot) * Fix64.rad2Deg;
+        return Fix64.Acos(dot) * Fix64.Rad2Deg;
     }
 
     public static Fix64 SignedAngle(FixVector2 from, FixVector2 to)

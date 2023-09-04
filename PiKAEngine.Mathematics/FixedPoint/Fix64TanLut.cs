@@ -1,6 +1,6 @@
 ﻿namespace PiKAEngine.Mathematics;
 
-public partial struct Fix64
+public readonly partial struct Fix64
 {
     public static readonly long[] TanLut =
     {
