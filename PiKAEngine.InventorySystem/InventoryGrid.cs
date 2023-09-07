@@ -1,13 +1,18 @@
-﻿namespace PiKAEngine.InventorySystem;
+﻿using System.Collections.ObjectModel;
+
+namespace PiKAEngine.InventorySystem;
 
 public sealed class InventoryGrid<T> : IInventoryGrid<T>
 {
     private readonly int _gridMaxAmount;
     private readonly IInventorySettings<T> _inventorySettings;
-    private readonly List<T> _items = new();
+    private readonly List<T> _items;
+    public readonly ReadOnlyCollection<T> Items;
 
     public InventoryGrid(IInventorySettings<T> inventorySettings, int gridMaxAmount)
     {
+        _items = new List<T>();
+        Items = _items.AsReadOnly();
         _inventorySettings = inventorySettings;
         _gridMaxAmount = gridMaxAmount;
     }
@@ -15,53 +20,100 @@ public sealed class InventoryGrid<T> : IInventoryGrid<T>
     public bool IsAddableItem(T item)
     {
         // 足した場合の最大数のチェック
-        if (!CheckMaxAmount(_items.Count + 1)) return false;
+        if (!CheckAmount(_items.Count + 1)) return false;
 
-        // アイテム数が0なら種類判別無しで許可
-        if (_items.Count == 0) return true;
-
-        // 同じアイテムの種類ではないなら許可しない
-        if (!_inventorySettings.AreSameItems(_items[0], item)) return false;
+        // アイテム数が0ではないなら種類の判別をする
+        if (_items.Count != 0)
+            // 同じアイテムの種類ではないなら許可しない
+            if (!_inventorySettings.AreSameItems(_items[0], item))
+                return false;
 
         return true;
     }
 
-    public bool IsAddableItems(ReadOnlySpan<T> items)
+    public bool IsAddableItems(T[] items)
     {
-        throw new NotImplementedException();
+        // 足した場合の最大数のチェック
+        if (!CheckAmount(_items.Count + items.Length)) return false;
+
+        // アイテム数が0ではないなら種類の判別をする
+        if (items.Length != 0)
+        {
+            // 足そうとしている全てのItemがグリッドのアイテムと同じ種類でないならfalseを返す
+            var existDifferentTypeItem = false;
+
+            foreach (var item in items)
+                if (!_inventorySettings.AreSameItems(_items[0], item))
+                    existDifferentTypeItem = true;
+
+            if (existDifferentTypeItem) return false;
+        }
+
+        return true;
     }
 
-    public bool IsSubtractableItem(T item)
+    public bool TryAddItem(T item)
     {
-        throw new NotImplementedException();
+        if (!IsAddableItem(item)) return false;
+
+        _items.Add(item);
+
+        return true;
     }
 
-    public bool IsSubtractableItems(ReadOnlySpan<T> items)
+    public bool TryAddItems(T[] items)
     {
-        throw new NotImplementedException();
+        if (!IsAddableItems(items)) return false;
+
+        _items.AddRange(items);
+        return true;
     }
 
-    public bool AddItem(T item)
+    public bool IsSubtractableItems(int count)
     {
-        throw new NotImplementedException();
+        // 引いた場合の最小数のチェック
+        return CheckAmount(_items.Count - count);
     }
 
-    public bool AddItems(ReadOnlySpan<T> item)
+    public bool IsSubtractableItem()
     {
-        throw new NotImplementedException();
+        // 引いた場合の最小数のチェック
+        return CheckAmount(_items.Count - 1);
     }
 
-    public bool SubtractItem(T item)
+    public bool TrySubtractItem(out T? item)
     {
-        throw new NotImplementedException();
+        if (!IsSubtractableItem())
+        {
+            item = default;
+            return false;
+        }
+
+        item = _items[^1];
+        _items.RemoveAt(_items.Count - 1);
+
+        return true;
     }
 
-    public bool SubtractItems(ReadOnlySpan<T> items)
+    public bool TrySubtractItems(int count, out T[] items)
     {
-        throw new NotImplementedException();
+        if (!IsSubtractableItems(count))
+        {
+            items = Array.Empty<T>();
+            return false;
+        }
+
+        items = new T[count];
+        for (var i = count - 1; i >= 0; i--)
+        {
+            items[i] = _items[^1];
+            _items.RemoveAt(_items.Count - 1);
+        }
+
+        return true;
     }
 
-    private bool CheckMaxAmount(int amount)
+    private bool CheckAmount(int amount)
     {
         // アイテムを足した結果リストのcountがmaxAmount以上になっているなら許可しない
         if (amount >= _gridMaxAmount) return false;
