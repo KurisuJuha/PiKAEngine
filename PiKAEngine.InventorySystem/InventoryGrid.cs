@@ -1,108 +1,74 @@
 ﻿namespace PiKAEngine.InventorySystem;
 
-public abstract class InventoryGrid<T> : IInventoryGrid<T>
+public sealed class InventoryGrid<T> : IInventoryGrid<T>
 {
     private readonly int _gridMaxAmount;
     private readonly IInventorySettings<T> _inventorySettings;
     private readonly List<T> _items = new();
 
-    protected InventoryGrid(IInventorySettings<T> inventorySettings, int gridMaxAmount)
+    public InventoryGrid(IInventorySettings<T> inventorySettings, int gridMaxAmount)
     {
         _inventorySettings = inventorySettings;
         _gridMaxAmount = gridMaxAmount;
     }
 
-    private bool IsAddableItem(T addingItem)
+    public bool IsAddableItem(T item)
     {
-        // 数量がそもそもマックスならアウト
-        if (_items.Count >= _inventorySettings.GetMaxItemAmount(addingItem)) return false;
-        if (_items.Count >= _gridMaxAmount) return false;
+        // 足した場合の最大数のチェック
+        if (!CheckMaxAmount(_items.Count + 1)) return false;
 
-        // 数量が1以上かつ、一つ目のアイテムと同じ種類ではないならアウト
-        if (_items.Count != 0 && !_inventorySettings.AreSameItems(_items[0], addingItem)) return false;
+        // アイテム数が0なら種類判別無しで許可
+        if (_items.Count == 0) return true;
+
+        // 同じアイテムの種類ではないなら許可しない
+        if (!_inventorySettings.AreSameItems(_items[0], item)) return false;
 
         return true;
     }
 
-    public bool TryAddItem(T addingItem)
+    public bool IsAddableItems(ReadOnlySpan<T> items)
     {
-        if (!IsAddableItem(addingItem)) return false;
-
-        _items.Add(addingItem);
-
-        return true;
+        throw new NotImplementedException();
     }
 
-    private bool IsSubtractable()
+    public bool IsSubtractableItem(T item)
     {
-        // 数量が0ならアウト
-        if (_items.Count == 0) return false;
-
-        return true;
+        throw new NotImplementedException();
     }
 
-    public bool TrySubtract(out T? item)
+    public bool IsSubtractableItems(ReadOnlySpan<T> items)
     {
-        item = default;
-        if (!IsSubtractable()) return false;
-
-        item = _items.Last();
-        _items.RemoveAt(_items.Count - 1);
-
-        return true;
+        throw new NotImplementedException();
     }
 
-    private bool IsAddableItems(IEnumerable<T> addingItems)
+    public bool AddItem(T item)
     {
-        var addingItemArray = addingItems as T[] ?? addingItems.ToArray();
-
-        // アイテム数0ならOK
-        if (addingItemArray.Length == 0) return true;
-
-        var addingItem = addingItemArray[0];
-
-        // 足して数量がマックスよりも多くなるならアウト
-        if (_items.Count + addingItemArray.Length > _inventorySettings.GetMaxItemAmount(addingItemArray[0]))
-            return false;
-        if (_items.Count + addingItemArray.Length > _gridMaxAmount)
-            return false;
-
-        // 全てのアイテムが同じ種類でないとアウト
-        if (!addingItemArray.All(item => _inventorySettings.AreSameItems(item, addingItem))) return false;
-
-        // 代表アイテムとグリッドのアイテムが同じ種類ではないならアウト
-        if (_items.Count != 0 && _inventorySettings.AreSameItems(_items[0], addingItem)) return false;
-
-        return true;
+        throw new NotImplementedException();
     }
 
-    private bool TryAddItems(IEnumerable<T> addingItems)
+    public bool AddItems(ReadOnlySpan<T> item)
     {
-        var addingItemArray = addingItems as T[] ?? addingItems.ToArray();
-        if (!IsAddableItems(addingItemArray)) return false;
-
-        _items.AddRange(addingItemArray);
-
-        return true;
+        throw new NotImplementedException();
     }
 
-    private bool IsSubtractableItems(int count)
+    public bool SubtractItem(T item)
     {
-        // 引いたあとの数量が0未満ならアウト
-        if (_items.Count - count < 0) return false;
-
-        return true;
+        throw new NotImplementedException();
     }
 
-    private bool TrySubtractItems(int count, out IEnumerable<T> items)
+    public bool SubtractItems(ReadOnlySpan<T> items)
     {
-        items = Array.Empty<T>();
-        if (!IsSubtractableItems(count)) return false;
+        throw new NotImplementedException();
+    }
 
-        var i = _items.Count - count;
-        items = _items.Skip(_items.Count - count);
-        _items.RemoveRange(_items.Count - count, count);
+    private bool CheckMaxAmount(int amount)
+    {
+        // アイテムを足した結果リストのcountがmaxAmount以上になっているなら許可しない
+        if (amount >= _gridMaxAmount) return false;
 
-        return false;
+        // 引いて0未満なら許可しない
+        if (amount < 0) return false;
+
+        return true;
     }
 }
