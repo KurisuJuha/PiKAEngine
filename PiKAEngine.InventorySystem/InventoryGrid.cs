@@ -37,7 +37,7 @@ public sealed class InventoryGrid<T> : IInventoryGrid<T>
         if (!CheckAmount(_items.Count + items.Length)) return false;
 
         // アイテム数が0ではないなら種類の判別をする
-        if (items.Length != 0)
+        if (_items.Count != 0)
         {
             // 足そうとしている全てのItemがグリッドのアイテムと同じ種類でないならfalseを返す
             var existDifferentTypeItem = false;
