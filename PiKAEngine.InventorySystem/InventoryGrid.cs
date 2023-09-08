@@ -1,21 +1,24 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Buffers;
+using System.Collections.ObjectModel;
 
 namespace PiKAEngine.InventorySystem;
 
-public sealed class InventoryGrid<T> : IInventoryGrid<T>
+public sealed class InventoryGrid<T>
 {
-    private readonly int _gridMaxAmount;
     private readonly IInventorySettings<T> _inventorySettings;
     private readonly List<T> _items;
-    public readonly ReadOnlyCollection<T> Items;
 
     public InventoryGrid(IInventorySettings<T> inventorySettings, int gridMaxAmount)
     {
         _items = new List<T>();
         Items = _items.AsReadOnly();
         _inventorySettings = inventorySettings;
-        _gridMaxAmount = gridMaxAmount;
+        GridMaxAmount = gridMaxAmount;
     }
+
+    public int GridMaxAmount { get; }
+
+    public ReadOnlyCollection<T> Items { get; }
 
     public bool IsAddableItem(T item)
     {
@@ -113,10 +116,33 @@ public sealed class InventoryGrid<T> : IInventoryGrid<T>
         return true;
     }
 
+    public bool TryExchange(InventoryGrid<T> other)
+    {
+        if (!CheckAmount(other.Items.Count)) return false;
+        if (!other.CheckAmount(_items.Count)) return false;
+
+        var otherItemCount = other.Items.Count;
+        var buffer = ArrayPool<T>.Shared.Rent(otherItemCount);
+
+        // otherからbufferに移動
+        for (var i = 0; i < otherItemCount; i++) buffer[i] = other.Items[i];
+
+        // thisからotherに移動
+        other._items.Clear();
+        for (var i = 0; i < _items.Count; i++) other._items.Add(_items[i]);
+
+        // bufferからthisに移動
+        _items.Clear();
+        for (var i = 0; i < otherItemCount; i++) _items.Add(buffer[i]);
+
+        ArrayPool<T>.Shared.Return(buffer);
+        return true;
+    }
+
     private bool CheckAmount(int amount)
     {
         // アイテムを足した結果リストのcountがmaxAmount以上になっているなら許可しない
-        if (amount >= _gridMaxAmount) return false;
+        if (amount >= GridMaxAmount) return false;
 
         // 引いて0未満なら許可しない
         if (amount < 0) return false;
