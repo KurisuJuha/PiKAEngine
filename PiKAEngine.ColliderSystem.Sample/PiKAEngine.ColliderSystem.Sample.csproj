@@ -11,4 +11,8 @@
       <ProjectReference Include="..\PiKAEngine.ColliderSystem\PiKAEngine.ColliderSystem.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="BenchmarkDotNet" Version="0.13.8" />
+    </ItemGroup>
+
 </Project>
