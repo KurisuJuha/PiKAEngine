@@ -10,7 +10,7 @@ public partial class ColliderWorld<T>
 
         var cellIndex = MortonOrder.GetIndex(new AABB(transform), WorldTransform);
 
-        for (var i = cellIndex; i > 0; i = (i - 1) / 4)
+        for (var i = cellIndex;; i = (i - 1) / 4)
         {
             var cell = _colliderCells[i];
             if (cell.Colliders is null) continue;
@@ -19,6 +19,8 @@ public partial class ColliderWorld<T>
                 if (!targetingInactiveCollider && !collider.IsActive) continue;
                 if (collider.Detect(transform)) RayCastContactingColliders.Add(collider);
             }
+
+            if (i == 0) break;
         }
 
         return RayCastContactingColliders;

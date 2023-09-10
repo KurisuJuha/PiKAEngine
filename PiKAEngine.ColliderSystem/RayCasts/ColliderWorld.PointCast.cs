@@ -15,15 +15,17 @@ public partial class ColliderWorld<T>
         var cellIndex = MortonOrder.GetLevelStartIndex(WorldTransform.Level) +
                         MortonOrder.GetMortonNumber((ushort)scaledPosition.X, (ushort)scaledPosition.Y);
 
-        for (var i = cellIndex; i > 0; i = (i - 1) / 4)
+        for (var i = cellIndex;; i = (i - 1) / 4)
         {
+            Console.WriteLine($"cellIndex {i}");
             var cell = _colliderCells[i];
             if (cell.Colliders is null) continue;
             foreach (var collider in cell.Colliders)
-            {
-                if (!targetingInactiveCollider && !collider.IsActive) continue;
-                if (collider.Detect(position)) RayCastContactingColliders.Add(collider);
-            }
+                if (targetingInactiveCollider || collider.IsActive)
+                    if (collider.Detect(position))
+                        RayCastContactingColliders.Add(collider);
+
+            if (i == 0) break;
         }
 
         return RayCastContactingColliders;
