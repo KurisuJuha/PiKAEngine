@@ -7,7 +7,7 @@ public class RectCollider<T>
 {
     private readonly ColliderWorld<T> _world;
     private AABB _aabb;
-    public int CellIndex;
+    internal int CellIndex;
     public T Entity;
     internal int Index;
     internal RectColliderTransform InternalTransform;
