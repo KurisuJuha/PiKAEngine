@@ -17,22 +17,40 @@ public partial class ColliderWorld<T>
         var cellIndex = MortonOrder.GetIndex(new AABB(new RectColliderTransform(aabbPosition, aabbSize, Fix64.Zero)),
             WorldTransform);
 
+        // 自分よりも高いレベルとの当たり判定
+        for (var i = 0; i < 4; i++) _indexStack.Push(cellIndex * 4 + 1 + i);
+        while (_indexStack.TryPop(out var currentCellIndex))
+        {
+            LineCastInCell(currentCellIndex, startPosition, endPosition, targetingInactiveCollider);
+
+            // 上限までいったならさらに深い部分まで行かずに次に行く
+            if (_colliderCells.Length <= currentCellIndex) continue;
+            for (var i = 0; i < 4; i++)
+                _indexStack.Push(currentCellIndex * 4 + 1 + i);
+        }
+
+        // 自分と同レベルか自分よりも低いレベルとの当たり判定
         for (var i = cellIndex;; i = (i - 1) / 4)
         {
-            var cell = _colliderCells[i];
-            if (cell.Colliders is null) continue;
-            foreach (var collider in cell.Colliders)
-            {
-                if (!targetingInactiveCollider && !collider.IsActive) continue;
-                if (!collider.Detect(startPosition, endPosition)) continue;
-                if (!collider.Detect(startPosition)) continue;
-                if (!collider.Detect(endPosition)) continue;
-                RayCastContactingColliders.Add(collider);
-            }
-
+            LineCastInCell(i, startPosition, endPosition, targetingInactiveCollider);
             if (i == 0) break;
         }
 
         return RayCastContactingColliders;
+    }
+
+    private void LineCastInCell(long cellIndex, FixVector2 startPosition, FixVector2 endPosition,
+        bool targetingInactiveCollider)
+    {
+        var cell = _colliderCells[cellIndex];
+        if (cell.Colliders is null) return;
+        foreach (var collider in cell.Colliders)
+        {
+            if (!targetingInactiveCollider && !collider.IsActive) continue;
+            if (!collider.Detect(startPosition, endPosition)) continue;
+            if (!collider.Detect(startPosition)) continue;
+            if (!collider.Detect(endPosition)) continue;
+            RayCastContactingColliders.Add(collider);
+        }
     }
 }
