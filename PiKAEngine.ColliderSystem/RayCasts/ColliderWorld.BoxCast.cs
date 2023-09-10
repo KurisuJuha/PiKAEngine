@@ -17,12 +17,14 @@ public partial class ColliderWorld<T>
         for (var i = 0; i < 4; i++) _indexStack.Push(cellIndex * 4 + 1 + i);
         while (_indexStack.TryPop(out var currentCellIndex))
         {
+            Console.WriteLine(currentCellIndex);
             BoxCastInCell(currentCellIndex, transform, targetingInactiveCollider);
 
             // 上限までいったならさらに深い部分まで行かずに次に行く
-            if (_colliderCells.Length <= currentCellIndex) continue;
+            var nextRootIndex = currentCellIndex * 4 + 1;
+            if (_colliderCells.Length <= nextRootIndex) continue;
             for (var i = 0; i < 4; i++)
-                _indexStack.Push(currentCellIndex * 4 + 1 + i);
+                _indexStack.Push(nextRootIndex + i);
         }
 
         // 自分と同レベルか自分よりも低いレベルとの当たり判定
