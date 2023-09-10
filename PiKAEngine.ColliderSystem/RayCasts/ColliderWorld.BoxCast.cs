@@ -1,4 +1,5 @@
-﻿using PiKAEngine.Mathematics;
+﻿using System.Runtime.CompilerServices;
+using PiKAEngine.Mathematics;
 
 namespace PiKAEngine.ColliderSystem;
 
@@ -38,6 +39,7 @@ public partial class ColliderWorld<T>
         return RayCastContactingColliders;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void BoxCastInCell(long cellIndex, RectColliderTransform transform, bool targetingInactiveCollider)
     {
         var cell = _colliderCells[cellIndex];
