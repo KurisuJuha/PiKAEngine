@@ -17,6 +17,7 @@ public partial class ColliderWorld<T>
         for (var i = 0; i < 4; i++) _indexStack.Push(cellIndex * 4 + 1 + i);
         while (_indexStack.TryPop(out var currentCellIndex))
         {
+            if (!_colliderCells[currentCellIndex].HasChild) continue;
             BoxCastInCell(currentCellIndex, transform, targetingInactiveCollider);
 
             // 上限までいったならさらに深い部分まで行かずに次に行く
