@@ -1,4 +1,5 @@
-﻿using PiKAEngine.Mathematics;
+﻿using System.Runtime.CompilerServices;
+using PiKAEngine.Mathematics;
 
 namespace PiKAEngine.ColliderSystem;
 
@@ -40,6 +41,7 @@ public readonly struct RectColliderTransform : IEquatable<RectColliderTransform>
         RightBottomPosition += Position;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Detect(RectColliderTransform transform)
     {
         if (Detect(transform.LeftBottomPosition)) return true;
@@ -64,6 +66,7 @@ public readonly struct RectColliderTransform : IEquatable<RectColliderTransform>
         return false;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Detect(FixVector2 startPosition, FixVector2 endPosition)
     {
         return IsLineCrossing(startPosition, endPosition, LeftBottomPosition, LeftTopPosition) ||
@@ -72,6 +75,7 @@ public readonly struct RectColliderTransform : IEquatable<RectColliderTransform>
                IsLineCrossing(startPosition, endPosition, RightBottomPosition, LeftBottomPosition);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static bool IsLineCrossing(FixVector2 aStartPosition, FixVector2 aEndPosition, FixVector2 bStartPosition,
         FixVector2 bEndPosition)
     {
@@ -84,11 +88,13 @@ public readonly struct RectColliderTransform : IEquatable<RectColliderTransform>
                new Fix64(0);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static Fix64 Cross(FixVector2 vector0, FixVector2 vector1)
     {
         return vector0.X * vector1.Y - vector0.Y * vector1.X;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Detect(FixVector2 point)
     {
         return IsRight(LeftBottomPosition, LeftTopPosition, point) &&
@@ -97,6 +103,7 @@ public readonly struct RectColliderTransform : IEquatable<RectColliderTransform>
                IsRight(RightBottomPosition, LeftBottomPosition, point);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static bool IsRight(FixVector2 a, FixVector2 b, FixVector2 point)
     {
         var f = (b.X - a.X) * (point.Y - a.Y) - (point.X - a.X) * (b.Y - a.Y);
