@@ -54,25 +54,21 @@ public class RectCollider<T>
         _world.Register(this);
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Detect(RectCollider<T> otherCollider)
     {
         return InternalTransform.Detect(otherCollider.Transform);
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Detect(FixVector2 startPosition, FixVector2 endPosition)
     {
         return InternalTransform.Detect(startPosition, endPosition);
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Detect(FixVector2 point)
     {
         return InternalTransform.Detect(point);
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool Detect(RectColliderTransform transform)
     {
         return InternalTransform.Detect(transform);
