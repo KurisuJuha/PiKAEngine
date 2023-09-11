@@ -47,6 +47,10 @@ public class Test
 |---------- |---------:|--------:|--------:|
 | BenchMark | 149.1 ns | 0.52 ns | 0.49 ns |
 
+| Method    | Mean     | Error   | StdDev  |
+|---------- |---------:|--------:|--------:|
+| BenchMark | 224.0 ns | 1.61 ns | 1.51 ns |
+
 
      */
 }

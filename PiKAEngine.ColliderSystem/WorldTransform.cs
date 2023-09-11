@@ -2,7 +2,7 @@
 
 namespace PiKAEngine.ColliderSystem;
 
-public struct WorldTransform : IEquatable<WorldTransform>
+public readonly struct WorldTransform : IEquatable<WorldTransform>
 {
     public readonly uint Level;
     public readonly FixVector2 LeftTopPosition;

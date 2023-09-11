@@ -81,7 +81,7 @@ public readonly struct AABB : IEquatable<AABB>
         );
     }
 
-    public readonly AABB Rescale(WorldTransform worldTransform)
+    public AABB Rescale(WorldTransform worldTransform)
     {
         return new AABB((LeftTopPosition - worldTransform.LeftBottomPosition) * worldTransform.Scale,
             (RightBottomPosition - worldTransform.LeftBottomPosition) * worldTransform.Scale);

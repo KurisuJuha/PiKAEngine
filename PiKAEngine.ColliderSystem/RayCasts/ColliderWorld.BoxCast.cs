@@ -13,8 +13,8 @@ public partial class ColliderWorld<T>
 
         var cellIndex = MortonOrder.GetIndex(new AABB(transform), WorldTransform);
 
-        // 自分よりも高いレベルとの当たり判定
-        for (var i = 0; i < 4; i++) _indexStack.Push(cellIndex * 4 + 1 + i);
+        // 自分以上のレベルとの当たり判定
+        _indexStack.Push(cellIndex);
         while (_indexStack.TryPop(out var currentCellIndex))
         {
             if (!_colliderCells[currentCellIndex].HasChild) continue;
@@ -27,8 +27,8 @@ public partial class ColliderWorld<T>
                 _indexStack.Push(nextRootIndex + i);
         }
 
-        // 自分と同レベルか自分よりも低いレベルとの当たり判定
-        for (var i = cellIndex;; i = (i - 1) / 4)
+        // 自分よりも低いレベルとの当たり判定
+        for (var i = (cellIndex - 1) / 4;; i = (i - 1) / 4)
         {
             BoxCastInCell(i, transform, targetingInactiveCollider);
 
