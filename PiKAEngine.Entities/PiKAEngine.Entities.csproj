@@ -7,10 +7,12 @@
         <LangVersion>11</LangVersion>
         <Version>10.0.0</Version>
         <PackageId>PiKAEngine.Entities</PackageId>
+        <Authors>JuhaKurisu</Authors>
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\PiKAEngine.DebugSystem\PiKAEngine.DebugSystem.csproj" />
+        <ProjectReference Include="..\PiKAEngine.DebugSystem\PiKAEngine.DebugSystem.csproj"/>
     </ItemGroup>
+
 
 </Project>
