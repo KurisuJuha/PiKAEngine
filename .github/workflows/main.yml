@@ -30,4 +30,4 @@ jobs:
       - name: push PiKAEngine.ColliderSystem
         run: dotnet nuget push ./PiKAEngine.ColliderSystem/bin/Release/PiKAEngine.ColliderSystem.8.0.0.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate  
       - name: push PiKAEngine.ObjectPoolingSystem
-        run: dotnet nuget push ./PiKAEngine.ObjectPoolingSystem/bin/Release/PiKAEngine.ObjectPoolingSystem.0.0.0.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate  
+        run: dotnet nuget push ./PiKAEngine.ObjectPoolingSystem/bin/Release/PiKAEngine.ObjectPoolingSystem.1.0.0.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate  
